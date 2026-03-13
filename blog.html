@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Blog — Tushar Neje</title>
+  <meta name="description" content="Articles and thoughts by Tushar Neje on AI, full-stack development, and engineering." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: ['attribute', '[data-theme="dark"]'],
+      theme: { extend: { fontFamily: { display: ['Syne','sans-serif'], body: ['DM Sans','sans-serif'] } } }
+    };
+  </script>
+  <style>
+    :root { --bg:#0c0c0d; --surface:#141415; --surface2:#1c1c1e; --border:rgba(255,255,255,0.07); --text:#f0ede8; --muted:#8a8a8e; --accent:#f59e0b; }
+    [data-theme="light"] { --bg:#fafaf9; --surface:#f3f3f1; --surface2:#e8e8e5; --border:rgba(0,0,0,0.08); --text:#1a1a1a; --muted:#6b6b6b; --accent:#d97706; }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    html{scroll-behavior:smooth;}
+    body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);line-height:1.6;overflow-x:hidden;transition:background 0.3s,color 0.3s;}
+    .dot-grid{background-image:radial-gradient(circle,rgba(255,255,255,0.06) 1px,transparent 1px);background-size:28px 28px;}
+    [data-theme="light"] .dot-grid{background-image:radial-gradient(circle,rgba(0,0,0,0.06) 1px,transparent 1px);}
+    #navbar{position:fixed;top:0;left:0;right:0;z-index:100;transition:background 0.3s,backdrop-filter 0.3s;}
+    #navbar.scrolled{background:rgba(12,12,13,0.80);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);}
+    [data-theme="light"] #navbar.scrolled{background:rgba(250,250,249,0.80);}
+    .skeleton{background:linear-gradient(90deg,var(--surface) 25%,var(--surface2) 50%,var(--surface) 75%);background-size:200% 100%;animation:shimmer 1.5s infinite;border-radius:6px;}
+    @keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+    .ham-line{display:block;width:22px;height:2px;background:var(--text);transition:transform 0.3s,opacity 0.3s;transform-origin:center;}
+    .ham-open .ham-line:nth-child(1){transform:translateY(6px) rotate(45deg);}
+    .ham-open .ham-line:nth-child(2){opacity:0;}
+    .ham-open .ham-line:nth-child(3){transform:translateY(-6px) rotate(-45deg);}
+    #mobile-nav{display:none;position:fixed;inset:0;z-index:99;background:var(--bg);padding:5rem 2rem 2rem;flex-direction:column;gap:0.5rem;}
+    #mobile-nav.open{display:flex;}
+    ::-webkit-scrollbar{width:5px;}
+    ::-webkit-scrollbar-track{background:var(--bg);}
+    ::-webkit-scrollbar-thumb{background:var(--surface2);border-radius:99px;}
+  </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav id="navbar">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+    <a href="index.html#hero" class="font-display font-bold text-lg tracking-tight" style="color:var(--text)">Tushar<span style="color:var(--accent)">.</span></a>
+    <div class="hidden md:flex items-center gap-1">
+      <a href="index.html#about"      class="nav-link px-3 py-1.5 rounded-md text-sm font-medium" style="color:var(--muted)">About</a>
+      <a href="blog.html"             class="nav-link px-3 py-1.5 rounded-md text-sm font-medium" style="color:var(--accent)">Blog</a>
+      <a href="index.html#experience" class="nav-link px-3 py-1.5 rounded-md text-sm font-medium" style="color:var(--muted)">Experience</a>
+      <a href="index.html#skills"     class="nav-link px-3 py-1.5 rounded-md text-sm font-medium" style="color:var(--muted)">Skills</a>
+      <a href="index.html#projects"   class="nav-link px-3 py-1.5 rounded-md text-sm font-medium" style="color:var(--muted)">Projects</a>
+      <a href="index.html#research"   class="nav-link px-3 py-1.5 rounded-md text-sm font-medium" style="color:var(--muted)">Research</a>
+      <a href="index.html#contact"    class="nav-link px-3 py-1.5 rounded-md text-sm font-medium" style="color:var(--muted)">Contact</a>
+    </div>
+    <div class="flex items-center gap-2">
+      <button id="theme-toggle" aria-label="Toggle theme" class="w-9 h-9 rounded-full flex items-center justify-center" style="background:var(--surface);border:1px solid var(--border)">
+        <svg id="icon-sun" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--muted)"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+        <svg id="icon-moon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--muted);display:none"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      </button>
+      <button id="ham-btn" aria-label="Toggle menu" class="md:hidden w-9 h-9 rounded-full flex flex-col items-center justify-center gap-[5px]" style="background:var(--surface);border:1px solid var(--border)">
+        <span class="ham-line"></span><span class="ham-line"></span><span class="ham-line"></span>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<div id="mobile-nav" role="dialog">
+  <a href="index.html#about"      class="mobile-nav-link text-2xl font-display font-semibold py-3 border-b" style="color:var(--text);border-color:var(--border)">About</a>
+  <a href="blog.html"             class="mobile-nav-link text-2xl font-display font-semibold py-3 border-b" style="color:var(--accent);border-color:var(--border)">Blog</a>
+  <a href="index.html#experience" class="mobile-nav-link text-2xl font-display font-semibold py-3 border-b" style="color:var(--text);border-color:var(--border)">Experience</a>
+  <a href="index.html#skills"     class="mobile-nav-link text-2xl font-display font-semibold py-3 border-b" style="color:var(--text);border-color:var(--border)">Skills</a>
+  <a href="index.html#projects"   class="mobile-nav-link text-2xl font-display font-semibold py-3 border-b" style="color:var(--text);border-color:var(--border)">Projects</a>
+  <a href="index.html#research"   class="mobile-nav-link text-2xl font-display font-semibold py-3 border-b" style="color:var(--text);border-color:var(--border)">Research</a>
+  <a href="index.html#contact"    class="mobile-nav-link text-2xl font-display font-semibold py-3"          style="color:var(--text)">Contact</a>
+</div>
+
+<main class="pt-16">
+  <!-- Header -->
+  <section class="dot-grid py-20 md:py-28">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-xs font-display font-semibold tracking-widest uppercase mb-3" style="color:var(--accent)">Blog</p>
+      <h1 class="font-display font-extrabold mb-4" style="font-size:clamp(2rem,6vw,3.5rem);color:var(--text);line-height:1.1">
+        Thoughts &amp; <span style="color:var(--accent)">Articles</span>
+      </h1>
+      <p class="text-base md:text-lg" style="color:var(--muted)">Writing on AI, full-stack development, systems design, and engineering craft.</p>
+    </div>
+  </section>
+
+  <!-- Blog content (dynamic) -->
+  <section class="py-16">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div id="blog-skeleton" class="grid gap-6">
+        <div class="skeleton h-36 rounded-xl"></div>
+        <div class="skeleton h-36 rounded-xl"></div>
+        <div class="skeleton h-36 rounded-xl"></div>
+      </div>
+      <div id="blog-list" class="hidden"></div>
+      <div id="blog-empty" class="hidden flex flex-col items-center justify-center py-24 text-center">
+        <div style="width:72px;height:72px;border-radius:50%;background:var(--surface);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;margin-bottom:20px;margin-left:auto;margin-right:auto">
+          <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="color:var(--accent)"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><line x1="10" y1="9" x2="8" y2="9"/></svg>
+        </div>
+        <h2 class="font-display font-bold text-xl mb-2" style="color:var(--text)">Coming Soon</h2>
+        <p class="text-sm max-w-xs" style="color:var(--muted)">Articles are being drafted. Check back soon for writing on AI, systems, and engineering.</p>
+        <a href="index.html" class="mt-6 inline-flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-semibold font-display" style="background:var(--accent);color:#000">
+          Back to Portfolio
+        </a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="py-8" style="border-top:1px solid var(--border)">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-3">
+    <p class="text-sm" style="color:var(--muted)">© 2026 Tushar Neje.</p>
+    <a href="index.html" class="text-sm font-display font-semibold" style="color:var(--accent)">← Back to Portfolio</a>
+  </div>
+</footer>
+
+<script>
+  // Theme
+  const html = document.documentElement;
+  function applyTheme(t) {
+    html.setAttribute('data-theme', t);
+    localStorage.setItem('theme', t);
+    document.getElementById('icon-sun').style.display = t === 'dark' ? '' : 'none';
+    document.getElementById('icon-moon').style.display = t === 'dark' ? 'none' : '';
+  }
+  applyTheme(localStorage.getItem('theme') || 'dark');
+  document.getElementById('theme-toggle').addEventListener('click', () => {
+    applyTheme(html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
+  });
+
+  // Navbar scroll
+  const navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', () => navbar.classList.toggle('scrolled', window.scrollY > 20), { passive: true });
+
+  // Hamburger
+  const hamBtn = document.getElementById('ham-btn');
+  const mobileNav = document.getElementById('mobile-nav');
+  hamBtn.addEventListener('click', () => {
+    const open = mobileNav.classList.toggle('open');
+    hamBtn.classList.toggle('ham-open', open);
+    document.body.style.overflow = open ? 'hidden' : '';
+  });
+  document.querySelectorAll('.mobile-nav-link').forEach(l => l.addEventListener('click', () => {
+    mobileNav.classList.remove('open'); hamBtn.classList.remove('ham-open'); document.body.style.overflow = '';
+  }));
+
+  // Nav hover
+  document.querySelectorAll('.nav-link').forEach(l => {
+    l.addEventListener('mouseenter', () => l.style.color = 'var(--text)');
+    l.addEventListener('mouseleave', () => l.style.color = 'var(--muted)');
+  });
+
+  // Blog data
+  fetch('data/blogs.json')
+    .then(r => r.json())
+    .then(blogs => {
+      document.getElementById('blog-skeleton').style.display = 'none';
+      if (!blogs || blogs.length === 0) {
+        document.getElementById('blog-empty').classList.remove('hidden');
+        document.getElementById('blog-empty').style.display = 'flex';
+        return;
+      }
+      const list = document.getElementById('blog-list');
+      list.classList.remove('hidden');
+      list.innerHTML = blogs.map(b => `
+        <a href="blog-template.html?id=${b.id}" class="block rounded-xl p-6 transition-colors group" style="background:var(--surface);border:1px solid var(--border);text-decoration:none;">
+          <div class="flex items-start justify-between gap-4 mb-2">
+            <h2 class="font-display font-bold text-lg" style="color:var(--text)">${b.title}</h2>
+            <span class="text-xs shrink-0" style="color:var(--muted)">${b.date}</span>
+          </div>
+          <p class="text-sm mb-3 line-clamp-2" style="color:var(--muted)">${b.excerpt}</p>
+          <div class="flex flex-wrap gap-2">${(b.tags||[]).map(t=>`<span style="padding:2px 8px;border-radius:99px;font-size:0.7rem;background:var(--surface2);color:var(--muted);border:1px solid var(--border)">${t}</span>`).join('')}</div>
+        </a>`).join('');
+    })
+    .catch(() => {
+      document.getElementById('blog-skeleton').style.display = 'none';
+      document.getElementById('blog-empty').classList.remove('hidden');
+      document.getElementById('blog-empty').style.display = 'flex';
+    });
+</script>
+</body>
+</html>

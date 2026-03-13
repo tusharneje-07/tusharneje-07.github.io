@@ -1,0 +1,1044 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tushar Neje — Full-Stack Developer & AI Builder</title>
+  <meta name="description" content="Portfolio of Tushar Neje — Full-Stack Developer and AI Builder from Pune, India." />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: ['attribute', '[data-theme="dark"]'],
+      theme: {
+        extend: {
+          fontFamily: {
+            display: ['Syne', 'sans-serif'],
+            body: ['DM Sans', 'sans-serif'],
+          },
+          colors: {
+            amber: {
+              400: '#fbbf24',
+              500: '#f59e0b',
+              600: '#d97706',
+            },
+          },
+        },
+      },
+    };
+  </script>
+
+  <style>
+    /* ── CSS Variables ── */
+    :root {
+      --bg:        #0c0c0d;
+      --surface:   #141415;
+      --surface2:  #1c1c1e;
+      --border:    rgba(255,255,255,0.07);
+      --text:      #f0ede8;
+      --muted:     #8a8a8e;
+      --accent:    #f59e0b;
+      --accent-dim:#7c4f07;
+    }
+    [data-theme="light"] {
+      --bg:        #fafaf9;
+      --surface:   #f3f3f1;
+      --surface2:  #e8e8e5;
+      --border:    rgba(0,0,0,0.08);
+      --text:      #1a1a1a;
+      --muted:     #6b6b6b;
+      --accent:    #d97706;
+      --accent-dim:#fef3c7;
+    }
+
+    /* ── Base ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      transition: background 0.3s, color 0.3s;
+      overflow-x: hidden;
+    }
+
+    /* ── Dot-grid hero texture ── */
+    .dot-grid {
+      background-image: radial-gradient(circle, rgba(255,255,255,0.06) 1px, transparent 1px);
+      background-size: 28px 28px;
+    }
+    [data-theme="light"] .dot-grid {
+      background-image: radial-gradient(circle, rgba(0,0,0,0.06) 1px, transparent 1px);
+    }
+
+    /* ── Navbar ── */
+    #navbar {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      transition: background 0.3s, backdrop-filter 0.3s, border-color 0.3s, box-shadow 0.3s;
+    }
+    #navbar.scrolled {
+      background: rgba(12,12,13,0.80);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+      box-shadow: 0 2px 24px rgba(0,0,0,0.25);
+    }
+    [data-theme="light"] #navbar.scrolled {
+      background: rgba(250,250,249,0.80);
+    }
+
+    /* ── Scroll reveal ── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: none;
+    }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+    .reveal-delay-4 { transition-delay: 0.4s; }
+
+    /* ── Section heading accent line ── */
+    .section-label {
+      font-family: 'Syne', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+    .section-title {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(1.75rem, 4vw, 2.75rem);
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.15;
+    }
+
+    /* ── Skeleton loader ── */
+    .skeleton {
+      background: linear-gradient(90deg, var(--surface) 25%, var(--surface2) 50%, var(--surface) 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.5s infinite;
+      border-radius: 6px;
+    }
+    @keyframes shimmer {
+      0%   { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
+    }
+
+    /* ── Scrollbar ── */
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--surface2); border-radius: 99px; }
+
+    /* ── Mobile nav overlay ── */
+    #mobile-nav {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 99;
+      background: var(--bg);
+      padding: 5rem 2rem 2rem;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    #mobile-nav.open { display: flex; }
+
+    /* ── Hamburger ── */
+    .ham-line {
+      display: block;
+      width: 22px;
+      height: 2px;
+      background: var(--text);
+      transition: transform 0.3s, opacity 0.3s;
+      transform-origin: center;
+    }
+    .ham-open .ham-line:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+    .ham-open .ham-line:nth-child(2) { opacity: 0; }
+    .ham-open .ham-line:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+  </style>
+</head>
+<body>
+
+<!-- ══════════════ NAVBAR ══════════════ -->
+<nav id="navbar" aria-label="Main navigation">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+
+    <!-- Logo -->
+    <a href="#hero" class="font-display font-bold text-lg tracking-tight" style="color:var(--text)">
+      Tushar<span style="color:var(--accent)">.</span>
+    </a>
+
+    <!-- Desktop links -->
+    <div class="hidden md:flex items-center gap-1">
+      <a href="#about"      class="nav-link px-3 py-1.5 rounded-md text-sm font-medium transition-colors" style="color:var(--muted)">About</a>
+      <a href="blog.html"   class="nav-link px-3 py-1.5 rounded-md text-sm font-medium transition-colors" style="color:var(--muted)">Blog</a>
+      <a href="#experience" class="nav-link px-3 py-1.5 rounded-md text-sm font-medium transition-colors" style="color:var(--muted)">Experience</a>
+      <a href="#skills"     class="nav-link px-3 py-1.5 rounded-md text-sm font-medium transition-colors" style="color:var(--muted)">Skills</a>
+      <a href="#projects"   class="nav-link px-3 py-1.5 rounded-md text-sm font-medium transition-colors" style="color:var(--muted)">Projects</a>
+      <a href="#research"   class="nav-link px-3 py-1.5 rounded-md text-sm font-medium transition-colors" style="color:var(--muted)">Research</a>
+      <a href="#contact"    class="nav-link px-3 py-1.5 rounded-md text-sm font-medium transition-colors" style="color:var(--muted)">Contact</a>
+    </div>
+
+    <!-- Right controls -->
+    <div class="flex items-center gap-2">
+      <!-- Theme toggle -->
+      <button id="theme-toggle" aria-label="Toggle theme"
+        class="w-9 h-9 rounded-full flex items-center justify-center transition-colors"
+        style="background:var(--surface); border:1px solid var(--border)">
+        <!-- Sun icon (shown in dark mode) -->
+        <svg id="icon-sun" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--muted)">
+          <circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>
+        </svg>
+        <!-- Moon icon (shown in light mode) -->
+        <svg id="icon-moon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--muted); display:none">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>
+      </button>
+
+      <!-- Hamburger (mobile) -->
+      <button id="ham-btn" aria-label="Toggle menu" aria-expanded="false"
+        class="md:hidden w-9 h-9 rounded-full flex flex-col items-center justify-center gap-[5px]"
+        style="background:var(--surface); border:1px solid var(--border)">
+        <span class="ham-line"></span>
+        <span class="ham-line"></span>
+        <span class="ham-line"></span>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- Mobile nav overlay -->
+<div id="mobile-nav" role="dialog" aria-label="Mobile navigation">
+  <a href="#about"      class="mobile-nav-link text-2xl font-display font-semibold py-3 border-b" style="color:var(--text); border-color:var(--border)">About</a>
+  <a href="blog.html"   class="mobile-nav-link text-2xl font-display font-semibold py-3 border-b" style="color:var(--text); border-color:var(--border)">Blog</a>
+  <a href="#experience" class="mobile-nav-link text-2xl font-display font-semibold py-3 border-b" style="color:var(--text); border-color:var(--border)">Experience</a>
+  <a href="#skills"     class="mobile-nav-link text-2xl font-display font-semibold py-3 border-b" style="color:var(--text); border-color:var(--border)">Skills</a>
+  <a href="#projects"   class="mobile-nav-link text-2xl font-display font-semibold py-3 border-b" style="color:var(--text); border-color:var(--border)">Projects</a>
+  <a href="#research"   class="mobile-nav-link text-2xl font-display font-semibold py-3 border-b" style="color:var(--text); border-color:var(--border)">Research</a>
+  <a href="#contact"    class="mobile-nav-link text-2xl font-display font-semibold py-3"          style="color:var(--text)">Contact</a>
+</div>
+
+<!-- ══════════════ MAIN CONTENT ══════════════ -->
+<main>
+
+  <!-- ══════════════ HERO ══════════════ -->
+  <section id="hero" class="dot-grid relative min-h-screen flex items-center pt-16 overflow-hidden">
+    <!-- Ambient glow -->
+    <div aria-hidden="true" style="pointer-events:none; position:absolute; top:-10%; left:50%; transform:translateX(-50%); width:700px; height:500px; background:radial-gradient(ellipse at center, rgba(245,158,11,0.10) 0%, transparent 70%);"></div>
+
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 w-full py-20 md:py-32">
+      <div class="flex flex-col lg:flex-row items-center lg:items-start gap-12 lg:gap-20">
+
+        <!-- Text -->
+        <div class="flex-1 text-center lg:text-left">
+          <!-- Eyebrow -->
+          <div class="reveal inline-flex items-center gap-2 mb-6">
+            <span style="display:inline-block; width:28px; height:2px; background:var(--accent);"></span>
+            <span class="section-label">Full-Stack Developer & AI Builder</span>
+          </div>
+
+          <!-- Name -->
+          <h1 class="reveal reveal-delay-1 font-display font-extrabold leading-none mb-4" style="font-size:clamp(3rem,8vw,5.5rem); color:var(--text); letter-spacing:-0.02em;">
+            Tushar<br><span style="color:var(--accent)">Neje</span>
+          </h1>
+
+          <!-- Tagline -->
+          <p class="reveal reveal-delay-2 text-base md:text-lg mb-8 tracking-widest uppercase font-display font-medium" style="color:var(--muted); letter-spacing:0.18em;">
+            Diligent &nbsp;•&nbsp; Committed &nbsp;•&nbsp; Consistent
+          </p>
+
+          <!-- Bio -->
+          <p class="reveal reveal-delay-3 text-base md:text-lg leading-relaxed mb-10 max-w-xl mx-auto lg:mx-0" style="color:var(--muted)">
+            Computer Engineering student at VIIT Pune — building AI-powered systems and full-stack platforms that solve real problems. From ERP to legal AI to lung disease detection.
+          </p>
+
+          <!-- CTAs -->
+          <div class="reveal reveal-delay-4 flex flex-wrap items-center gap-3 justify-center lg:justify-start">
+            <a href="#projects"
+              class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-semibold font-display transition-all duration-200"
+              style="background:var(--accent); color:#000;">
+              View Projects
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </a>
+            <a href="assets/resume.pdf" target="_blank" rel="noopener"
+              class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-semibold font-display transition-all duration-200"
+              style="background:var(--surface); color:var(--text); border:1px solid var(--border);">
+              <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+              Download CV
+            </a>
+            <a href="#contact"
+              class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-semibold font-display transition-all duration-200"
+              style="background:transparent; color:var(--text); border:1px solid var(--border);">
+              Get in Touch
+            </a>
+          </div>
+
+          <!-- Social links -->
+          <div class="reveal mt-10 flex items-center gap-3 justify-center lg:justify-start flex-wrap" id="hero-social"></div>
+        </div>
+
+        <!-- Photo -->
+        <div class="reveal reveal-delay-2 shrink-0 flex flex-col items-center gap-4">
+          <div class="relative" style="width:220px; height:220px; md:width:270px; md:height:270px;">
+            <!-- Amber ring -->
+            <div style="position:absolute; inset:-6px; border-radius:50%; background:conic-gradient(var(--accent) 0deg, transparent 200deg); opacity:0.5;"></div>
+            <img src="assets/me.webp" alt="Tushar Neje"
+              class="relative w-full h-full object-cover rounded-full"
+              style="border:3px solid var(--bg);"
+              loading="eager" />
+          </div>
+          <!-- Location badge -->
+          <div class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium"
+            style="background:var(--surface); border:1px solid var(--border); color:var(--muted);">
+            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+            Pune, India
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Scroll indicator -->
+    <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2" style="opacity:0.4;">
+      <span class="text-xs font-display tracking-widest uppercase" style="color:var(--muted); font-size:0.65rem;">Scroll</span>
+      <div style="width:1px; height:36px; background:linear-gradient(to bottom, var(--accent), transparent);"></div>
+    </div>
+  </section>
+
+</main>
+
+  <!-- ══════════════ ABOUT ══════════════ -->
+  <section id="about" class="py-20 md:py-32">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-col lg:flex-row gap-16 items-start">
+
+        <!-- Left: heading + bio -->
+        <div class="flex-1">
+          <p class="reveal section-label mb-3">About Me</p>
+          <h2 class="reveal reveal-delay-1 section-title mb-6">Building things that<br><span style="color:var(--accent)">actually matter.</span></h2>
+          <p id="about-bio" class="reveal reveal-delay-2 text-base md:text-lg leading-relaxed mb-6" style="color:var(--muted)"></p>
+          <p id="about-bio-ext" class="reveal reveal-delay-3 text-sm md:text-base leading-relaxed" style="color:var(--muted); opacity:0.8;"></p>
+
+          <!-- Languages -->
+          <div class="reveal reveal-delay-4 mt-8 flex flex-wrap items-center gap-2">
+            <span class="text-xs font-display font-semibold tracking-widest uppercase mr-2" style="color:var(--muted)">Languages</span>
+            <span id="about-langs" class="flex gap-2 flex-wrap"></span>
+          </div>
+        </div>
+
+        <!-- Right: quick stats -->
+        <div class="reveal reveal-delay-2 lg:w-80 shrink-0 grid grid-cols-2 gap-3">
+          <div class="stat-card col-span-2 rounded-xl p-5" style="background:var(--surface); border:1px solid var(--border);">
+            <div class="text-3xl font-display font-extrabold mb-1" style="color:var(--accent)">94<span class="text-lg">%</span></div>
+            <div class="text-xs font-display font-semibold uppercase tracking-widest" style="color:var(--muted)">Polytechnic Aggregate</div>
+            <div class="text-xs mt-0.5" style="color:var(--muted)">DKTE, Ichalkaranji</div>
+          </div>
+          <div class="stat-card rounded-xl p-5" style="background:var(--surface); border:1px solid var(--border);">
+            <div class="text-3xl font-display font-extrabold mb-1" style="color:var(--text)">12<span class="text-lg" style="color:var(--muted)">+</span></div>
+            <div class="text-xs font-display font-semibold uppercase tracking-widest" style="color:var(--muted)">Projects</div>
+          </div>
+          <div class="stat-card rounded-xl p-5" style="background:var(--surface); border:1px solid var(--border);">
+            <div class="text-3xl font-display font-extrabold mb-1" style="color:var(--text)">4</div>
+            <div class="text-xs font-display font-semibold uppercase tracking-widest" style="color:var(--muted)">Research Papers</div>
+          </div>
+          <div class="stat-card rounded-xl p-5" style="background:var(--surface); border:1px solid var(--border);">
+            <div class="text-3xl font-display font-extrabold mb-1" style="color:var(--text)">32<span class="text-lg" style="color:var(--muted)">+</span></div>
+            <div class="text-xs font-display font-semibold uppercase tracking-widest" style="color:var(--muted)">Certificates</div>
+          </div>
+          <div class="stat-card rounded-xl p-5" style="background:var(--surface); border:1px solid var(--border);">
+            <div class="text-3xl font-display font-extrabold mb-1" style="color:var(--text)">12<span class="text-lg" style="color:var(--muted)">+</span></div>
+            <div class="text-xs font-display font-semibold uppercase tracking-widest" style="color:var(--muted)">Hackathons</div>
+          </div>
+
+          <!-- Location link -->
+          <a id="about-location" href="#" target="_blank" rel="noopener"
+            class="col-span-2 rounded-xl p-5 flex items-center gap-3 transition-colors group"
+            style="background:var(--surface); border:1px solid var(--border);">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="color:var(--accent); shrink:0"><path d="M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+            <div>
+              <div class="text-sm font-semibold" style="color:var(--text)">Pune, India</div>
+              <div class="text-xs" style="color:var(--muted)">Open to remote & relocation</div>
+            </div>
+            <svg class="ml-auto" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--muted)"><path d="M7 7h10v10M7 17 17 7"/></svg>
+          </a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════ EXPERIENCE ══════════════ -->
+  <section id="experience" class="py-20 md:py-32" style="background:var(--surface);">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="reveal section-label mb-3">Experience</p>
+      <h2 class="reveal reveal-delay-1 section-title mb-12">Education &amp; <span style="color:var(--accent)">Work</span></h2>
+
+      <!-- Tabs -->
+      <div class="reveal reveal-delay-2 flex flex-wrap gap-2 mb-10" id="exp-tabs">
+        <button data-tab="education"    class="exp-tab active-tab px-4 py-2 rounded-lg text-sm font-display font-semibold transition-all">Education</button>
+        <button data-tab="professional" class="exp-tab px-4 py-2 rounded-lg text-sm font-display font-semibold transition-all">Professional</button>
+        <button data-tab="leadership"   class="exp-tab px-4 py-2 rounded-lg text-sm font-display font-semibold transition-all">Leadership</button>
+        <button data-tab="awards"       class="exp-tab px-4 py-2 rounded-lg text-sm font-display font-semibold transition-all">Awards</button>
+      </div>
+
+      <!-- Tab panels -->
+      <div id="exp-panel" class="min-h-[280px]">
+        <div class="skeleton h-40 mb-4"></div>
+        <div class="skeleton h-40"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════ SKILLS ══════════════ -->
+  <section id="skills" class="py-20 md:py-32">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="reveal section-label mb-3">Skills &amp; Tools</p>
+      <h2 class="reveal reveal-delay-1 section-title mb-12">What I <span style="color:var(--accent)">Work With</span></h2>
+
+      <!-- Category tabs -->
+      <div class="reveal reveal-delay-2 flex flex-wrap gap-2 mb-10" id="skills-tabs"></div>
+
+      <!-- Skills grid -->
+      <div id="skills-panel" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+        <div class="skeleton h-14"></div>
+        <div class="skeleton h-14"></div>
+        <div class="skeleton h-14"></div>
+        <div class="skeleton h-14"></div>
+        <div class="skeleton h-14"></div>
+        <div class="skeleton h-14"></div>
+      </div>
+
+      <!-- Competitive coding -->
+      <div class="reveal mt-12 pt-8" style="border-top:1px solid var(--border)">
+        <p class="section-label mb-4">Competitive Coding</p>
+        <div id="coding-links" class="flex flex-wrap gap-3"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════ PROJECTS ══════════════ -->
+  <section id="projects" class="py-20 md:py-32" style="background:var(--surface);">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="reveal section-label mb-3">Projects</p>
+      <h2 class="reveal reveal-delay-1 section-title mb-4">Things I've <span style="color:var(--accent)">Built</span></h2>
+      <p class="reveal reveal-delay-2 text-sm mb-10" style="color:var(--muted)">Click a card to explore screenshots and details.</p>
+
+      <!-- Filter tabs -->
+      <div class="reveal reveal-delay-3 flex flex-wrap gap-2 mb-10" id="project-filters">
+        <button data-filter="all"   class="proj-filter active-proj px-4 py-2 rounded-lg text-sm font-display font-semibold">All</button>
+        <button data-filter="ai"    class="proj-filter px-4 py-2 rounded-lg text-sm font-display font-semibold">AI / ML</button>
+        <button data-filter="web"   class="proj-filter px-4 py-2 rounded-lg text-sm font-display font-semibold">Web</button>
+        <button data-filter="tools" class="proj-filter px-4 py-2 rounded-lg text-sm font-display font-semibold">Tools</button>
+      </div>
+
+      <!-- Grid — filled by JS -->
+      <div id="projects-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+        <!-- skeleton loaders -->
+        <div class="skeleton rounded-xl h-56"></div>
+        <div class="skeleton rounded-xl h-56"></div>
+        <div class="skeleton rounded-xl h-56"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Project modal -->
+  <div id="proj-modal" role="dialog" aria-modal="true" aria-label="Project details"
+    style="display:none; position:fixed; inset:0; z-index:200; background:rgba(0,0,0,0.85); backdrop-filter:blur(8px); overflow-y:auto;">
+    <div id="proj-modal-inner" class="max-w-3xl mx-auto my-8 mx-4 rounded-2xl overflow-hidden" style="background:var(--bg); border:1px solid var(--border);">
+      <!-- closed by JS -->
+    </div>
+  </div>
+
+  <!-- ══════════════ RESEARCH ══════════════ -->
+  <section id="research" class="py-20 md:py-32">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="reveal section-label mb-3">Research</p>
+      <h2 class="reveal reveal-delay-1 section-title mb-12">Publications &amp; <span style="color:var(--accent)">Papers</span></h2>
+      <div id="research-grid" class="grid grid-cols-1 md:grid-cols-2 gap-5">
+        <div class="skeleton rounded-xl h-48"></div>
+        <div class="skeleton rounded-xl h-48"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Research viewer modal -->
+  <div id="research-modal" role="dialog" aria-modal="true"
+    style="display:none;position:fixed;inset:0;z-index:200;background:rgba(0,0,0,0.88);backdrop-filter:blur(10px);overflow-y:auto">
+    <div id="research-modal-inner" class="max-w-2xl mx-auto my-10 mx-4 rounded-2xl overflow-hidden" style="background:var(--bg);border:1px solid var(--border)"></div>
+  </div>
+
+  <!-- ══════════════ CONTACT ══════════════ -->
+  <section id="contact" class="py-20 md:py-32 dot-grid" style="background:var(--surface);">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <p class="reveal section-label mb-3">Contact</p>
+      <h2 class="reveal reveal-delay-1 section-title mb-4">Let's <span style="color:var(--accent)">Work Together</span></h2>
+      <p class="reveal reveal-delay-2 text-base md:text-lg mb-12 max-w-xl mx-auto" style="color:var(--muted)">
+        Open to internships, freelance projects, research collaborations, and full-time opportunities.
+      </p>
+
+      <!-- Contact cards -->
+      <div id="contact-cards" class="reveal reveal-delay-3 grid grid-cols-1 sm:grid-cols-3 gap-4 mb-10 text-left"></div>
+
+      <!-- WhatsApp CTA -->
+      <div class="reveal reveal-delay-4 flex flex-wrap justify-center gap-3">
+        <a id="whatsapp-link" href="#" target="_blank" rel="noopener"
+          class="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-semibold font-display transition-all"
+          style="background:#25d366; color:#fff;">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg>
+          Message on WhatsApp
+        </a>
+        <a id="email-link" href="#"
+          class="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-semibold font-display transition-all"
+          style="background:var(--bg); color:var(--text); border:1px solid var(--border);">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+          Send Email
+        </a>
+      </div>
+
+      <!-- Social row -->
+      <div id="contact-social" class="reveal mt-10 flex justify-center flex-wrap gap-3"></div>
+    </div>
+  </section>
+
+  <!-- ══════════════ FOOTER ══════════════ -->
+  <footer class="py-8" style="border-top:1px solid var(--border);">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-3">
+      <p class="text-sm" style="color:var(--muted)">© 2026 Tushar Neje. Built with HTML, Tailwind &amp; care.</p>
+      <a href="#hero" class="text-sm font-display font-semibold" style="color:var(--accent)">Back to top ↑</a>
+    </div>
+  </footer>
+
+</main>
+
+<!-- ══════════════ SCRIPTS ══════════════ -->
+<script>
+  // ── Theme ──
+  const html = document.documentElement;
+  const themeToggle = document.getElementById('theme-toggle');
+  const iconSun = document.getElementById('icon-sun');
+  const iconMoon = document.getElementById('icon-moon');
+
+  function applyTheme(theme) {
+    html.setAttribute('data-theme', theme);
+    localStorage.setItem('theme', theme);
+    if (theme === 'dark') {
+      iconSun.style.display  = '';
+      iconMoon.style.display = 'none';
+    } else {
+      iconSun.style.display  = 'none';
+      iconMoon.style.display = '';
+    }
+  }
+
+  applyTheme(localStorage.getItem('theme') || 'dark');
+  themeToggle.addEventListener('click', () => {
+    applyTheme(html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
+  });
+
+  // ── Navbar scroll glass ──
+  const navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    navbar.classList.toggle('scrolled', window.scrollY > 20);
+  }, { passive: true });
+
+  // ── Hamburger ──
+  const hamBtn   = document.getElementById('ham-btn');
+  const mobileNav = document.getElementById('mobile-nav');
+
+  hamBtn.addEventListener('click', () => {
+    const open = mobileNav.classList.toggle('open');
+    hamBtn.classList.toggle('ham-open', open);
+    hamBtn.setAttribute('aria-expanded', open);
+    document.body.style.overflow = open ? 'hidden' : '';
+  });
+
+  document.querySelectorAll('.mobile-nav-link').forEach(link => {
+    link.addEventListener('click', () => {
+      mobileNav.classList.remove('open');
+      hamBtn.classList.remove('ham-open');
+      hamBtn.setAttribute('aria-expanded', 'false');
+      document.body.style.overflow = '';
+    });
+  });
+
+  // ── Nav link hover style ──
+  document.querySelectorAll('.nav-link').forEach(link => {
+    link.addEventListener('mouseenter', () => link.style.color = 'var(--text)');
+    link.addEventListener('mouseleave', () => link.style.color = 'var(--muted)');
+  });
+
+  // ── Hero social icons ──
+  const SOCIAL_ICONS = {
+    GitHub: `<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12c0 4.42 2.87 8.17 6.84 9.49.5.09.66-.22.66-.48v-1.7c-2.78.6-3.37-1.34-3.37-1.34-.45-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.61.07-.61 1 .07 1.53 1.03 1.53 1.03.89 1.52 2.34 1.08 2.91.83.09-.65.35-1.08.63-1.33-2.22-.25-4.56-1.11-4.56-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.64 0 0 .84-.27 2.75 1.02A9.56 9.56 0 0 1 12 6.8c.85 0 1.71.11 2.51.34 1.91-1.29 2.75-1.02 2.75-1.02.55 1.37.2 2.39.1 2.64.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.69-4.57 4.93.36.31.68.92.68 1.85v2.75c0 .27.16.58.67.48A10 10 0 0 0 22 12c0-5.52-4.48-10-10-10z"/></svg>`,
+    LinkedIn: `<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.79M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg>`,
+    HackerRank: `<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12s5.37 12 12 12 12-5.37 12-12S18.63 0 12 0zm5.25 16.5c0 .41-.34.75-.75.75H7.5a.75.75 0 0 1-.75-.75V7.5c0-.41.34-.75.75-.75h9c.41 0 .75.34.75.75v9zm-5.25-7.5L9.75 12l2.25 3h-1.5L9 12.75v-.75L10.5 9h1.5zm1.5 0H15L13.5 12l1.5 3h-1.5l-2.25-3L13.5 9z"/></svg>`,
+    LeetCode: `<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M13.483 0a1.374 1.374 0 0 0-.961.438L7.116 6.226l-3.854 4.126a5.266 5.266 0 0 0-1.209 2.104 5.35 5.35 0 0 0-.125.513 5.527 5.527 0 0 0 .062 2.362 5.83 5.83 0 0 0 .349 1.017 5.938 5.938 0 0 0 1.271 1.818l4.277 4.193.039.038c2.248 2.165 5.852 2.133 8.063-.074l2.396-2.392c.54-.54.54-1.414.003-1.955a1.378 1.378 0 0 0-1.951-.003l-2.396 2.392a3.021 3.021 0 0 1-4.205.038l-.02-.019-4.276-4.193c-.652-.64-.972-1.469-.948-2.263a2.68 2.68 0 0 1 .066-.523 2.545 2.545 0 0 1 .619-1.164L9.13 8.114c1.058-1.134 3.204-1.27 4.43-.278l3.501 2.831c.593.48 1.461.387 1.94-.207a1.384 1.384 0 0 0-.207-1.943l-3.5-2.831c-.8-.647-1.766-1.045-2.774-1.202l2.015-2.158A1.384 1.384 0 0 0 13.483 0zm-2.866 12.815a1.38 1.38 0 0 0-1.38 1.382 1.38 1.38 0 0 0 1.38 1.382H20.79a1.38 1.38 0 0 0 1.38-1.382 1.38 1.38 0 0 0-1.38-1.382z"/></svg>`,
+    YouTube: `<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>`,
+    Instagram: `<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>`,
+  };
+
+  fetch('data/personal.json')
+    .then(r => r.json())
+    .then(p => {
+      const container = document.getElementById('hero-social');
+      if (!container) return;
+      const show = ['GitHub','LinkedIn','LeetCode','YouTube'];
+      p.social.filter(s => show.includes(s.platform)).forEach(s => {
+        const a = document.createElement('a');
+        a.href = s.url;
+        a.target = '_blank';
+        a.rel = 'noopener noreferrer';
+        a.setAttribute('aria-label', s.platform);
+        a.innerHTML = SOCIAL_ICONS[s.platform] || '';
+        a.style.cssText = `display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:8px;background:var(--surface);border:1px solid var(--border);color:var(--muted);transition:color 0.2s,border-color 0.2s`;
+        a.addEventListener('mouseenter', () => { a.style.color = 'var(--accent)'; a.style.borderColor = 'var(--accent)'; });
+        a.addEventListener('mouseleave', () => { a.style.color = 'var(--muted)'; a.style.borderColor = 'var(--border)'; });
+        container.appendChild(a);
+      });
+    });
+
+  // ── About section data ──
+  fetch('data/personal.json')
+    .then(r => r.json())
+    .then(p => {
+      const bio = document.getElementById('about-bio');
+      const bioExt = document.getElementById('about-bio-ext');
+      const langs = document.getElementById('about-langs');
+      const loc = document.getElementById('about-location');
+      if (bio) bio.textContent = p.bio;
+      if (bioExt) bioExt.textContent = p.bio_extended;
+      if (langs) p.languages.forEach(l => {
+        const span = document.createElement('span');
+        span.textContent = l;
+        span.style.cssText = 'padding:2px 10px;border-radius:99px;font-size:0.75rem;font-weight:500;background:var(--surface);border:1px solid var(--border);color:var(--muted)';
+        langs.appendChild(span);
+      });
+      if (loc) loc.href = p.maps_url;
+    });
+
+  // ── Experience section ──
+  let expData = null;
+  const expPanel = document.getElementById('exp-panel');
+
+  function renderExpTab(tab) {
+    if (!expData) return;
+    const items = expData[tab] || [];
+    let html = '';
+
+    if (tab === 'education') {
+      items.forEach(e => {
+        html += `<div class="timeline-item mb-6 pl-6 relative">
+          <div style="position:absolute;left:0;top:6px;width:10px;height:10px;border-radius:50%;background:var(--accent);"></div>
+          <div style="position:absolute;left:4px;top:16px;bottom:-6px;width:2px;background:var(--border);"></div>
+          <div class="rounded-xl p-5" style="background:var(--bg);border:1px solid var(--border);">
+            <div class="flex flex-wrap items-start justify-between gap-2 mb-1">
+              <h3 class="font-display font-bold text-base" style="color:var(--text)">${e.degree} — <span style="color:var(--accent)">${e.field || ''}</span></h3>
+              <span class="text-xs px-2 py-0.5 rounded-full font-display font-semibold" style="background:var(--surface2);color:var(--muted)">${e.period}</span>
+            </div>
+            <div class="text-sm font-medium mb-1" style="color:var(--muted)">${e.institution} · ${e.location}</div>
+            ${e.score ? `<div class="inline-block text-xs px-2 py-0.5 rounded-full mb-2 font-semibold" style="background:var(--accent-dim);color:var(--accent)">${e.score}</div>` : ''}
+            <p class="text-sm" style="color:var(--muted)">${e.description}</p>
+          </div>
+        </div>`;
+      });
+    } else if (tab === 'professional') {
+      items.forEach(e => {
+        html += `<div class="rounded-xl p-5 mb-4" style="background:var(--bg);border:1px solid var(--border);">
+          <div class="flex flex-wrap items-start justify-between gap-2 mb-1">
+            <h3 class="font-display font-bold text-base" style="color:var(--text)">${e.role}</h3>
+            <span class="text-xs px-2 py-0.5 rounded-full font-display font-semibold" style="background:var(--surface2);color:var(--muted)">${e.period}</span>
+          </div>
+          <div class="text-sm font-medium mb-3" style="color:var(--accent)">${e.organization} · ${e.location}</div>
+          <p class="text-sm mb-3" style="color:var(--muted)">${e.description}</p>
+          <ul class="space-y-1">${e.highlights.map(h=>`<li class="text-sm flex gap-2" style="color:var(--muted)"><span style="color:var(--accent);margin-top:2px">›</span>${h}</li>`).join('')}</ul>
+        </div>`;
+      });
+    } else if (tab === 'leadership') {
+      items.forEach(e => {
+        html += `<div class="rounded-xl p-5 mb-4" style="background:var(--bg);border:1px solid var(--border);">
+          <div class="flex flex-wrap items-start justify-between gap-2 mb-1">
+            <h3 class="font-display font-bold text-base" style="color:var(--text)">${e.role}</h3>
+            <span class="text-xs px-2 py-0.5 rounded-full font-display font-semibold" style="background:var(--surface2);color:var(--muted)">${e.period}</span>
+          </div>
+          <div class="text-sm font-medium mb-3" style="color:var(--accent)">${e.organization} · ${e.location}</div>
+          <p class="text-sm mb-3" style="color:var(--muted)">${e.description}</p>
+          <ul class="space-y-1">${e.highlights.map(h=>`<li class="text-sm flex gap-2" style="color:var(--muted)"><span style="color:var(--accent);margin-top:2px">›</span>${h}</li>`).join('')}</ul>
+        </div>`;
+      });
+    } else if (tab === 'awards') {
+      items.forEach(e => {
+        html += `<div class="rounded-xl p-5 mb-4 flex gap-4 items-start" style="background:var(--bg);border:1px solid var(--border);">
+          <div style="width:44px;height:44px;border-radius:10px;background:var(--accent-dim);display:flex;align-items:center;justify-content:center;shrink:0">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg>
+          </div>
+          <div>
+            <div class="flex flex-wrap items-start justify-between gap-2 mb-0.5">
+              <h3 class="font-display font-bold text-base" style="color:var(--text)">${e.title}</h3>
+              <span class="text-xs px-2 py-0.5 rounded-full font-display font-semibold" style="background:var(--surface2);color:var(--muted)">${e.year}</span>
+            </div>
+            <div class="text-sm font-medium mb-1" style="color:var(--accent)">${e.organization}</div>
+            <p class="text-sm" style="color:var(--muted)">${e.description}</p>
+          </div>
+        </div>`;
+      });
+    }
+
+    expPanel.innerHTML = html || '<p style="color:var(--muted)">No data found.</p>';
+  }
+
+  function setExpTab(tab) {
+    document.querySelectorAll('.exp-tab').forEach(btn => {
+      const active = btn.dataset.tab === tab;
+      btn.style.background = active ? 'var(--accent)' : 'var(--bg)';
+      btn.style.color = active ? '#000' : 'var(--muted)';
+      btn.style.border = active ? 'none' : '1px solid var(--border)';
+    });
+    renderExpTab(tab);
+  }
+
+  document.querySelectorAll('.exp-tab').forEach(btn => {
+    btn.style.border = '1px solid var(--border)';
+    btn.style.color = 'var(--muted)';
+    btn.style.background = 'var(--bg)';
+    btn.addEventListener('click', () => setExpTab(btn.dataset.tab));
+  });
+
+  fetch('data/experience.json')
+    .then(r => r.json())
+    .then(data => {
+      expData = data;
+      setExpTab('education');
+    });
+
+  // ── Skills section ──
+  let skillsData = null;
+  let activeSkillCat = null;
+
+  function renderSkillsTab(catId) {
+    if (!skillsData) return;
+    const cat = skillsData.categories.find(c => c.id === catId);
+    if (!cat) return;
+    const panel = document.getElementById('skills-panel');
+    panel.innerHTML = cat.skills.map(s => `
+      <div class="rounded-xl p-4" style="background:var(--surface);border:1px solid var(--border);">
+        <div class="flex justify-between items-center mb-2">
+          <span class="text-sm font-semibold font-display" style="color:var(--text)">${s.name}</span>
+          <span class="text-xs font-bold" style="color:var(--accent)">${s.proficiency}%</span>
+        </div>
+        <div style="height:4px;border-radius:99px;background:var(--surface2);overflow:hidden">
+          <div style="height:100%;width:${s.proficiency}%;background:var(--accent);border-radius:99px;transition:width 0.6s ease"></div>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  function setSkillsTab(catId) {
+    activeSkillCat = catId;
+    document.querySelectorAll('.skills-tab').forEach(btn => {
+      const active = btn.dataset.cat === catId;
+      btn.style.background = active ? 'var(--accent)' : 'var(--surface)';
+      btn.style.color = active ? '#000' : 'var(--muted)';
+      btn.style.border = '1px solid ' + (active ? 'var(--accent)' : 'var(--border)');
+    });
+    renderSkillsTab(catId);
+  }
+
+  fetch('data/skills.json')
+    .then(r => r.json())
+    .then(data => {
+      skillsData = data;
+      const tabsEl = document.getElementById('skills-tabs');
+      data.categories.forEach((cat, i) => {
+        const btn = document.createElement('button');
+        btn.dataset.cat = cat.id;
+        btn.className = 'skills-tab px-4 py-2 rounded-lg text-sm font-display font-semibold transition-all';
+        btn.textContent = cat.label;
+        btn.style.cssText = 'background:var(--surface);color:var(--muted);border:1px solid var(--border)';
+        btn.addEventListener('click', () => setSkillsTab(cat.id));
+        tabsEl.appendChild(btn);
+      });
+      setSkillsTab(data.categories[0].id);
+
+      // Competitive coding links
+      const codingEl = document.getElementById('coding-links');
+      data.competitive_coding.forEach(c => {
+        const a = document.createElement('a');
+        a.href = c.url;
+        a.target = '_blank';
+        a.rel = 'noopener noreferrer';
+        a.textContent = c.label;
+        a.style.cssText = 'padding:8px 16px;border-radius:8px;font-size:0.8rem;font-family:"Syne",sans-serif;font-weight:600;background:var(--surface);border:1px solid var(--border);color:var(--muted);text-decoration:none;transition:color 0.2s,border-color 0.2s';
+        a.addEventListener('mouseenter', () => { a.style.color='var(--accent)'; a.style.borderColor='var(--accent)'; });
+        a.addEventListener('mouseleave', () => { a.style.color='var(--muted)'; a.style.borderColor='var(--border)'; });
+        codingEl.appendChild(a);
+      });
+    });
+
+  // ── Projects section ──
+  let allProjects = [];
+  let activeFilter = 'all';
+
+  function renderProjects(filter) {
+    activeFilter = filter;
+    const grid = document.getElementById('projects-grid');
+    const list = filter === 'all' ? allProjects : allProjects.filter(p => p.category === filter);
+
+    document.querySelectorAll('.proj-filter').forEach(btn => {
+      const active = btn.dataset.filter === filter;
+      btn.style.background = active ? 'var(--accent)' : 'var(--bg)';
+      btn.style.color = active ? '#000' : 'var(--muted)';
+      btn.style.border = '1px solid ' + (active ? 'var(--accent)' : 'var(--border)');
+    });
+
+    grid.innerHTML = list.map(p => {
+      const hasCover = p.cover;
+      const accent = p.color_accent || 'var(--accent)';
+      const techBadges = p.tech_stack.slice(0,4).map(t =>
+        `<span style="padding:2px 8px;border-radius:99px;font-size:0.7rem;font-weight:500;background:rgba(255,255,255,0.07);color:var(--muted);border:1px solid var(--border)">${t}</span>`
+      ).join('');
+      return `
+      <article class="project-card group rounded-xl overflow-hidden cursor-pointer transition-transform hover:-translate-y-1"
+        style="background:var(--bg);border:1px solid var(--border);" data-id="${p.id}">
+        <!-- Cover / placeholder -->
+        <div class="relative overflow-hidden" style="height:160px; background:${hasCover ? '#000' : accent+'22'}">
+          ${hasCover
+            ? `<img src="${p.cover}" alt="${p.title}" class="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-105" loading="lazy"/>`
+            : `<div class="w-full h-full flex flex-col items-center justify-center gap-2">
+                <div style="font-size:2rem;font-family:monospace;font-weight:700;color:${accent};opacity:0.6">&lt;/&gt;</div>
+                <div style="font-size:0.65rem;font-family:'Syne',sans-serif;font-weight:600;letter-spacing:0.15em;text-transform:uppercase;color:${accent};opacity:0.5">${p.category}</div>
+               </div>`
+          }
+          ${p.featured ? `<span style="position:absolute;top:10px;right:10px;padding:2px 8px;border-radius:99px;font-size:0.65rem;font-weight:700;font-family:'Syne',sans-serif;background:${accent};color:#000">Featured</span>` : ''}
+        </div>
+        <!-- Content -->
+        <div class="p-5">
+          <h3 class="font-display font-bold text-sm mb-1 line-clamp-1" style="color:var(--text)">${p.short_title}</h3>
+          <p class="text-xs mb-3 line-clamp-2" style="color:var(--muted)">${p.tag}</p>
+          <div class="flex flex-wrap gap-1">${techBadges}${p.tech_stack.length > 4 ? `<span style="padding:2px 8px;border-radius:99px;font-size:0.7rem;font-weight:500;background:rgba(255,255,255,0.05);color:var(--muted)">+${p.tech_stack.length-4}</span>` : ''}</div>
+        </div>
+      </article>`;
+    }).join('');
+
+    // Add card click → modal
+    grid.querySelectorAll('.project-card').forEach(card => {
+      card.addEventListener('click', () => openProjModal(card.dataset.id));
+    });
+  }
+
+  function openProjModal(id) {
+    const p = allProjects.find(x => x.id === id);
+    if (!p) return;
+    const modal = document.getElementById('proj-modal');
+    const inner = document.getElementById('proj-modal-inner');
+    const accent = p.color_accent || '#f59e0b';
+    const techBadges = p.tech_stack.map(t =>
+      `<span style="padding:3px 10px;border-radius:99px;font-size:0.75rem;font-weight:500;background:var(--surface2);color:var(--muted);border:1px solid var(--border)">${t}</span>`
+    ).join('');
+    const links = [
+      p.github_url ? `<a href="${p.github_url}" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:8px;font-size:0.8rem;font-family:'Syne',sans-serif;font-weight:600;background:var(--surface2);color:var(--text);border:1px solid var(--border);text-decoration:none"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12c0 4.42 2.87 8.17 6.84 9.49.5.09.66-.22.66-.48v-1.7c-2.78.6-3.37-1.34-3.37-1.34-.45-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.61.07-.61 1 .07 1.53 1.03 1.53 1.03.89 1.52 2.34 1.08 2.91.83.09-.65.35-1.08.63-1.33-2.22-.25-4.56-1.11-4.56-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.64 0 0 .84-.27 2.75 1.02A9.56 9.56 0 0 1 12 6.8c.85 0 1.71.11 2.51.34 1.91-1.29 2.75-1.02 2.75-1.02.55 1.37.2 2.39.1 2.64.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.69-4.57 4.93.36.31.68.92.68 1.85v2.75c0 .27.16.58.67.48A10 10 0 0 0 22 12c0-5.52-4.48-10-10-10z"/></svg>GitHub</a>` : '',
+      p.linkedin_post ? `<a href="${p.linkedin_post}" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:8px;font-size:0.8rem;font-family:'Syne',sans-serif;font-weight:600;background:var(--surface2);color:var(--text);border:1px solid var(--border);text-decoration:none">LinkedIn Post</a>` : '',
+      p.live_url ? `<a href="${p.live_url}" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:8px;font-size:0.8rem;font-family:'Syne',sans-serif;font-weight:600;background:${accent};color:#000;text-decoration:none">Live Demo</a>` : '',
+    ].filter(Boolean).join('');
+
+    const screenshots = p.screenshots.length > 0
+      ? `<div style="margin-top:16px">
+          <div id="modal-img-main" style="width:100%;aspect-ratio:16/9;overflow:hidden;border-radius:10px;background:#000">
+            <img src="${p.screenshots[0]}" alt="Screenshot" style="width:100%;height:100%;object-fit:cover;object-position:top" loading="lazy"/>
+          </div>
+          ${p.screenshots.length > 1 ? `<div style="display:flex;gap:6px;margin-top:8px;overflow-x:auto;padding-bottom:4px">
+            ${p.screenshots.map((s,i) => `<img src="${s}" data-idx="${i}" alt="Screenshot ${i+1}" class="modal-thumb" style="width:70px;height:50px;object-fit:cover;object-position:top;border-radius:6px;cursor:pointer;border:2px solid ${i===0?accent:'transparent'};flex-shrink:0;opacity:${i===0?1:0.6};transition:opacity 0.2s" loading="lazy"/>`).join('')}
+          </div>` : ''}
+        </div>` : '';
+
+    inner.innerHTML = `
+      <div style="padding:24px">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:16px">
+          <div>
+            <h2 style="font-family:'Syne',sans-serif;font-weight:800;font-size:1.25rem;color:var(--text);margin-bottom:4px">${p.title}</h2>
+            <p style="font-size:0.8rem;color:${accent};font-style:italic">${p.tag}</p>
+          </div>
+          <button id="modal-close" aria-label="Close" style="width:32px;height:32px;border-radius:50%;background:var(--surface2);border:1px solid var(--border);color:var(--muted);cursor:pointer;flex-shrink:0;font-size:1rem;display:flex;align-items:center;justify-content:center">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+          </button>
+        </div>
+        ${screenshots}
+        <p style="font-size:0.875rem;color:var(--muted);line-height:1.7;margin-top:16px">${p.description}</p>
+        <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:14px">${techBadges}</div>
+        ${links ? `<div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:16px">${links}</div>` : ''}
+      </div>`;
+
+    modal.style.display = 'block';
+    document.body.style.overflow = 'hidden';
+
+    document.getElementById('modal-close').addEventListener('click', closeProjModal);
+    modal.addEventListener('click', e => { if (e.target === modal) closeProjModal(); });
+
+    // Thumbnail switching
+    inner.querySelectorAll('.modal-thumb').forEach(thumb => {
+      thumb.addEventListener('click', () => {
+        const idx = parseInt(thumb.dataset.idx);
+        const mainImg = inner.querySelector('#modal-img-main img');
+        mainImg.src = p.screenshots[idx];
+        inner.querySelectorAll('.modal-thumb').forEach((t, i) => {
+          t.style.borderColor = i === idx ? accent : 'transparent';
+          t.style.opacity = i === idx ? '1' : '0.6';
+        });
+      });
+    });
+  }
+
+  function closeProjModal() {
+    document.getElementById('proj-modal').style.display = 'none';
+    document.body.style.overflow = '';
+  }
+
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeProjModal(); });
+
+  document.querySelectorAll('.proj-filter').forEach(btn => {
+    btn.style.cssText = 'background:var(--bg);color:var(--muted);border:1px solid var(--border)';
+  });
+
+  fetch('data/projects.json')
+    .then(r => r.json())
+    .then(data => {
+      allProjects = data;
+      renderProjects('all');
+    });
+
+  // ── Research section ──
+  const STATUS_COLORS = { published: '#22c55e', pending: '#f59e0b', review: '#3b82f6', report: '#8b5cf6' };
+  const STATUS_LABELS = { published: 'Published', pending: 'Pending Publication', review: 'Review Paper', report: 'Internal Report' };
+
+  fetch('data/research.json')
+    .then(r => r.json())
+    .then(papers => {
+      const grid = document.getElementById('research-grid');
+      grid.innerHTML = papers.map(p => {
+        const color = STATUS_COLORS[p.status] || 'var(--accent)';
+        const label = STATUS_LABELS[p.status] || p.status;
+        const tags = p.tags.map(t => `<span style="padding:2px 8px;border-radius:99px;font-size:0.7rem;font-weight:500;background:var(--surface2);color:var(--muted);border:1px solid var(--border)">${t}</span>`).join('');
+        const hasContent = p.pdf_url || p.images.length > 0;
+        return `
+        <article class="rounded-xl p-6 ${hasContent ? 'cursor-pointer' : ''} transition-colors" data-rid="${p.id}"
+          style="background:var(--surface);border:1px solid var(--border);">
+          <div class="flex items-start justify-between gap-3 mb-3">
+            <span style="padding:2px 10px;border-radius:99px;font-size:0.7rem;font-weight:700;font-family:'Syne',sans-serif;background:${color}22;color:${color};border:1px solid ${color}44">${label}</span>
+            <span style="font-size:0.75rem;color:var(--muted)">${p.year}</span>
+          </div>
+          <h3 class="font-display font-bold text-sm mb-2 leading-snug" style="color:var(--text)">${p.title}</h3>
+          <p style="font-size:0.75rem;color:var(--accent);font-family:'Syne',sans-serif;font-weight:600;margin-bottom:10px">${p.conference_full}</p>
+          <p style="font-size:0.8rem;color:var(--muted);line-height:1.6;margin-bottom:12px" class="line-clamp-3">${p.abstract}</p>
+          <div style="display:flex;flex-wrap:wrap;gap:4px;margin-bottom:12px">${tags}</div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap">
+            ${p.pdf_url ? `<a href="${p.pdf_url}" target="_blank" rel="noopener" onclick="event.stopPropagation()" style="display:inline-flex;align-items:center;gap:5px;padding:5px 12px;border-radius:7px;font-size:0.75rem;font-family:'Syne',sans-serif;font-weight:600;background:var(--bg);color:var(--accent);border:1px solid var(--accent);text-decoration:none">
+              <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+              View Paper</a>` : ''}
+            ${p.images.length > 0 ? `<button class="view-research-btn" data-rid="${p.id}" style="display:inline-flex;align-items:center;gap:5px;padding:5px 12px;border-radius:7px;font-size:0.75rem;font-family:'Syne',sans-serif;font-weight:600;background:var(--bg);color:var(--muted);border:1px solid var(--border);cursor:pointer">
+              <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+              View Pages</button>` : ''}
+          </div>
+          <p style="font-size:0.72rem;color:var(--muted);margin-top:10px">Authors: ${p.authors.join(', ')}</p>
+        </article>`;
+      }).join('');
+
+      // Research modal (page viewer)
+      grid.querySelectorAll('.view-research-btn').forEach(btn => {
+        btn.addEventListener('click', e => {
+          e.stopPropagation();
+          const paper = papers.find(p => p.id === btn.dataset.rid);
+          if (!paper || !paper.images.length) return;
+          const modal = document.getElementById('research-modal');
+          const inner = document.getElementById('research-modal-inner');
+          inner.innerHTML = `
+            <div style="padding:24px">
+              <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:16px">
+                <h2 style="font-family:'Syne',sans-serif;font-weight:800;font-size:1rem;color:var(--text)">${paper.short_title}</h2>
+                <button id="rm-close" style="width:32px;height:32px;border-radius:50%;background:var(--surface2);border:1px solid var(--border);color:var(--muted);cursor:pointer;display:flex;align-items:center;justify-content:center">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6 6 18M6 6l12 12"/></svg>
+                </button>
+              </div>
+              <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:8px">
+                ${paper.images.map((img, i) => `
+                  <a href="${img}" target="_blank" rel="noopener" style="display:block;border-radius:8px;overflow:hidden;border:1px solid var(--border)">
+                    <img src="${img}" alt="Page ${i+1}" style="width:100%;display:block" loading="lazy"/>
+                    <div style="font-size:0.65rem;text-align:center;padding:4px;color:var(--muted);font-family:'Syne',sans-serif">Page ${i+1}</div>
+                  </a>`).join('')}
+              </div>
+            </div>`;
+          modal.style.display = 'block';
+          document.body.style.overflow = 'hidden';
+          document.getElementById('rm-close').addEventListener('click', () => { modal.style.display='none'; document.body.style.overflow=''; });
+          modal.addEventListener('click', ev => { if (ev.target === modal) { modal.style.display='none'; document.body.style.overflow=''; } });
+        });
+      });
+    });
+
+  // ── Contact section ──
+  fetch('data/personal.json')
+    .then(r => r.json())
+    .then(p => {
+      // Cards
+      const cards = [
+        { icon: `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>`, label: 'Email', value: p.email, href: `mailto:${p.email}` },
+        { icon: `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.62 3.38 2 2 0 0 1 3.61 1h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 8.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 15v1.92z"/></svg>`, label: 'Phone', value: p.phone, href: `tel:${p.phone}` },
+        { icon: `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>`, label: 'Location', value: p.location, href: p.maps_url },
+      ];
+      const container = document.getElementById('contact-cards');
+      cards.forEach(c => {
+        container.innerHTML += `<a href="${c.href}" target="_blank" rel="noopener"
+          class="rounded-xl p-5 flex items-start gap-3 transition-colors group"
+          style="background:var(--bg);border:1px solid var(--border);text-decoration:none">
+          <div style="width:40px;height:40px;border-radius:10px;background:var(--surface2);display:flex;align-items:center;justify-content:center;color:var(--accent);shrink:0">${c.icon}</div>
+          <div>
+            <div style="font-size:0.7rem;font-family:'Syne',sans-serif;font-weight:600;text-transform:uppercase;letter-spacing:0.1em;color:var(--muted);margin-bottom:2px">${c.label}</div>
+            <div style="font-size:0.875rem;font-weight:500;color:var(--text)">${c.value}</div>
+          </div>
+        </a>`;
+      });
+
+      // WhatsApp & email
+      const wa = document.getElementById('whatsapp-link');
+      const em = document.getElementById('email-link');
+      if (wa) wa.href = p.whatsapp_url;
+      if (em) em.href = `mailto:${p.email}`;
+
+      // Social row
+      const socEl = document.getElementById('contact-social');
+      if (socEl) p.social.forEach(s => {
+        const icon = SOCIAL_ICONS[s.platform] || '';
+        const a = document.createElement('a');
+        a.href = s.url;
+        a.target = '_blank';
+        a.rel = 'noopener noreferrer';
+        a.setAttribute('aria-label', s.platform);
+        a.innerHTML = (icon || '') + `<span style="font-size:0.75rem;font-family:'Syne',sans-serif;font-weight:600">${s.platform}</span>`;
+        a.style.cssText = 'display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border-radius:8px;background:var(--surface);border:1px solid var(--border);color:var(--muted);text-decoration:none;transition:color 0.2s,border-color 0.2s';
+        a.addEventListener('mouseenter', () => { a.style.color='var(--accent)'; a.style.borderColor='var(--accent)'; });
+        a.addEventListener('mouseleave', () => { a.style.color='var(--muted)'; a.style.borderColor='var(--border)'; });
+        socEl.appendChild(a);
+      });
+    });
+
+  // ── Scroll reveal ──
+  const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); revealObserver.unobserve(e.target); } });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+</script>
+</body>
+</html>

@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Resource Viewer — Tushar Neje</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root { --bg:#0c0c0d; --surface:#141415; --surface2:#1c1c1e; --border:rgba(255,255,255,0.07); --text:#f0ede8; --muted:#8a8a8e; --accent:#f59e0b; }
+    [data-theme="light"] { --bg:#fafaf9; --surface:#f3f3f1; --surface2:#e8e8e5; --border:rgba(0,0,0,0.08); --text:#1a1a1a; --muted:#6b6b6b; --accent:#d97706; }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    html,body{height:100%;overflow:hidden;}
+    body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);display:flex;flex-direction:column;transition:background 0.3s,color 0.3s;}
+
+    /* Toolbar */
+    #toolbar{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 16px;background:var(--surface);border-bottom:1px solid var(--border);flex-shrink:0;}
+    #toolbar-title{font-family:'Syne',sans-serif;font-weight:700;font-size:0.875rem;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:50vw;}
+    .tb-btn{display:inline-flex;align-items:center;justify-content:center;gap:5px;padding:6px 12px;border-radius:8px;font-size:0.75rem;font-family:'Syne',sans-serif;font-weight:600;cursor:pointer;border:1px solid var(--border);background:var(--surface2);color:var(--muted);text-decoration:none;transition:color 0.2s,border-color 0.2s;}
+    .tb-btn:hover{color:var(--accent);border-color:var(--accent);}
+    .tb-btn-primary{background:var(--accent);color:#000;border-color:var(--accent);}
+    .tb-btn-primary:hover{opacity:0.85;color:#000;}
+
+    /* Main viewer */
+    #viewer{flex:1;overflow:auto;display:flex;align-items:flex-start;justify-content:center;padding:24px 16px;background:var(--bg);}
+    #viewer-img{max-width:100%;max-height:none;border-radius:10px;box-shadow:0 8px 40px rgba(0,0,0,0.5);display:none;object-fit:contain;}
+    #viewer-multi{width:100%;max-width:860px;}
+    #viewer-multi .page-img{width:100%;border-radius:8px;margin-bottom:12px;display:block;box-shadow:0 4px 24px rgba(0,0,0,0.4);}
+    #loading{display:flex;flex-direction:column;align-items:center;justify-content:center;height:200px;gap:12px;}
+    .spinner{width:32px;height:32px;border:3px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin 0.7s linear infinite;}
+    @keyframes spin{to{transform:rotate(360deg)}}
+    #error-state{display:none;flex-direction:column;align-items:center;justify-content:center;height:200px;gap:8px;text-align:center;}
+
+    /* Thumbnails (sidebar for multi-page) */
+    #sidebar{width:100px;flex-shrink:0;overflow-y:auto;background:var(--surface);border-left:1px solid var(--border);padding:8px;display:none;gap:6px;flex-direction:column;}
+    #sidebar.visible{display:flex;}
+    .thumb{cursor:pointer;border-radius:6px;overflow:hidden;border:2px solid transparent;transition:border-color 0.2s;}
+    .thumb.active{border-color:var(--accent);}
+    .thumb img{width:100%;display:block;}
+    .thumb-label{font-size:0.6rem;font-family:'Syne',sans-serif;text-align:center;padding:3px;color:var(--muted);}
+
+    /* Full layout for multi-page (sidebar + viewer) */
+    #content-area{flex:1;overflow:hidden;display:flex;}
+    ::-webkit-scrollbar{width:5px;}
+    ::-webkit-scrollbar-track{background:var(--bg);}
+    ::-webkit-scrollbar-thumb{background:var(--surface2);border-radius:99px;}
+  </style>
+</head>
+<body>
+
+<!-- Toolbar -->
+<div id="toolbar">
+  <div class="flex items-center gap-3">
+    <a href="javascript:history.back()" class="tb-btn" aria-label="Go back">
+      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+      Back
+    </a>
+    <span id="toolbar-title">Loading…</span>
+  </div>
+  <div class="flex items-center gap-2">
+    <button id="theme-btn" class="tb-btn" aria-label="Toggle theme">
+      <svg id="t-sun" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+      <svg id="t-moon" style="display:none" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+    </button>
+    <a id="download-btn" href="#" download class="tb-btn tb-btn-primary" style="display:none">
+      <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+      Download
+    </a>
+  </div>
+</div>
+
+<!-- Content area -->
+<div id="content-area">
+  <!-- Sidebar (for multi-page) -->
+  <div id="sidebar"></div>
+
+  <!-- Viewer -->
+  <div id="viewer">
+    <div id="loading">
+      <div class="spinner"></div>
+      <span style="font-size:0.8rem;color:var(--muted)">Loading resource…</span>
+    </div>
+    <img id="viewer-img" alt="Resource" />
+    <div id="viewer-multi"></div>
+    <div id="error-state">
+      <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="color:var(--muted)"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+      <p style="color:var(--muted);font-size:0.875rem">Resource not found or invalid URL.</p>
+      <a href="index.html" style="margin-top:8px;font-size:0.8rem;font-family:'Syne',sans-serif;font-weight:600;color:var(--accent);text-decoration:none">← Go to Portfolio</a>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Theme
+  const html = document.documentElement;
+  function applyTheme(t) {
+    html.setAttribute('data-theme', t);
+    localStorage.setItem('theme', t);
+    document.getElementById('t-sun').style.display = t === 'dark' ? '' : 'none';
+    document.getElementById('t-moon').style.display = t === 'dark' ? 'none' : '';
+  }
+  applyTheme(localStorage.getItem('theme') || 'dark');
+  document.getElementById('theme-btn').addEventListener('click', () => {
+    applyTheme(html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
+  });
+
+  // Parse URL params
+  // Expected params:
+  //   ?src=<image_url>&title=<label>          → single image view
+  //   ?cert=<cert_id>                          → look up in certificates.json
+  const params = new URLSearchParams(window.location.search);
+
+  function showError() {
+    document.getElementById('loading').style.display = 'none';
+    document.getElementById('error-state').style.display = 'flex';
+  }
+
+  function showSingle(src, title) {
+    document.getElementById('toolbar-title').textContent = title || 'Resource';
+    document.title = (title || 'Resource') + ' — Tushar Neje';
+    const img = document.getElementById('viewer-img');
+    img.src = src;
+    img.alt = title || 'Resource';
+    img.style.display = 'block';
+    img.onload = () => {
+      document.getElementById('loading').style.display = 'none';
+    };
+    img.onerror = showError;
+    const dlBtn = document.getElementById('download-btn');
+    dlBtn.href = src;
+    dlBtn.download = (title || 'resource').toLowerCase().replace(/\s+/g, '-');
+    dlBtn.style.display = 'flex';
+  }
+
+  if (params.get('src')) {
+    showSingle(decodeURIComponent(params.get('src')), decodeURIComponent(params.get('title') || 'Resource'));
+  } else if (params.get('cert')) {
+    const certId = params.get('cert');
+    fetch('data/certificates.json')
+      .then(r => r.json())
+      .then(certs => {
+        const cert = certs.find(c => c.id === certId);
+        if (!cert) { showError(); return; }
+        showSingle(cert.image, cert.name);
+      })
+      .catch(showError);
+  } else {
+    // No params — show error
+    showError();
+  }
+</script>
+</body>
+</html>
