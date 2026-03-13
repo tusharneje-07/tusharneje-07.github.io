@@ -246,6 +246,10 @@
     <!-- Ambient glow -->
     <div aria-hidden="true" style="pointer-events:none; position:absolute; top:-10%; left:50%; transform:translateX(-50%); width:700px; height:500px; background:radial-gradient(ellipse at center, rgba(245,158,11,0.10) 0%, transparent 70%);"></div>
 
+    <!-- Mobile-only decorative accent lines -->
+    <div class="lg:hidden" aria-hidden="true" style="pointer-events:none; position:absolute; top:80px; right:0; width:180px; height:180px; border-top:1px solid rgba(245,158,11,0.15); border-left:1px solid rgba(245,158,11,0.15); border-radius:0 0 0 120px;"></div>
+    <div class="lg:hidden" aria-hidden="true" style="pointer-events:none; position:absolute; bottom:120px; left:0; width:120px; height:120px; border-bottom:1px solid rgba(245,158,11,0.12); border-right:1px solid rgba(245,158,11,0.12); border-radius:0 120px 0 0;"></div>
+
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 w-full py-20 md:py-32">
       <div class="flex flex-col lg:flex-row items-center lg:items-start gap-12 lg:gap-20">
 
@@ -295,23 +299,46 @@
 
           <!-- Social links -->
           <div class="reveal mt-10 flex items-center gap-3 justify-center lg:justify-start flex-wrap" id="hero-social"></div>
+
+          <!-- Mobile-only quick stats -->
+          <div class="lg:hidden reveal mt-8" style="display:flex; justify-content:center; gap:0;">
+            <div style="flex:1; text-align:center; padding:14px 8px; border:1px solid var(--border); border-radius:12px 0 0 12px; background:var(--surface);">
+              <div style="font-family:'Syne',sans-serif; font-weight:800; font-size:1.4rem; color:var(--accent);">12+</div>
+              <div style="font-size:0.65rem; color:var(--muted); font-family:'Syne',sans-serif; font-weight:600; letter-spacing:0.06em; text-transform:uppercase; margin-top:2px;">Projects</div>
+            </div>
+            <div style="flex:1; text-align:center; padding:14px 8px; border-top:1px solid var(--border); border-bottom:1px solid var(--border); background:var(--surface);">
+              <div style="font-family:'Syne',sans-serif; font-weight:800; font-size:1.4rem; color:var(--accent);">4</div>
+              <div style="font-size:0.65rem; color:var(--muted); font-family:'Syne',sans-serif; font-weight:600; letter-spacing:0.06em; text-transform:uppercase; margin-top:2px;">Papers</div>
+            </div>
+            <div style="flex:1; text-align:center; padding:14px 8px; border:1px solid var(--border); border-radius:0 12px 12px 0; background:var(--surface);">
+              <div style="font-family:'Syne',sans-serif; font-weight:800; font-size:1.4rem; color:var(--accent);">32+</div>
+              <div style="font-size:0.65rem; color:var(--muted); font-family:'Syne',sans-serif; font-weight:600; letter-spacing:0.06em; text-transform:uppercase; margin-top:2px;">Certs</div>
+            </div>
+          </div>
         </div>
 
-        <!-- Photo -->
-        <div class="reveal reveal-delay-2 shrink-0 flex flex-col items-center gap-4">
-          <div class="relative" style="width:220px; height:220px; md:width:270px; md:height:270px;">
-            <!-- Amber ring -->
-            <div style="position:absolute; inset:-6px; border-radius:50%; background:conic-gradient(var(--accent) 0deg, transparent 200deg); opacity:0.5;"></div>
+        <!-- Photo — hidden on mobile, visible on desktop -->
+        <div class="hidden lg:block reveal reveal-delay-2 shrink-0" style="position:relative; padding:16px;">
+          <!-- Decorative corner accent top-left -->
+          <div style="position:absolute; top:0; left:0; width:44px; height:44px; border-top:2px solid var(--accent); border-left:2px solid var(--accent); border-radius:6px 0 0 0; opacity:0.8; pointer-events:none;"></div>
+          <!-- Decorative corner accent bottom-right -->
+          <div style="position:absolute; bottom:0; right:0; width:44px; height:44px; border-bottom:2px solid var(--accent); border-right:2px solid var(--accent); border-radius:0 0 6px 0; opacity:0.8; pointer-events:none;"></div>
+
+          <!-- Glow blob behind image -->
+          <div style="position:absolute; inset:0; background:radial-gradient(ellipse at 60% 40%, rgba(245,158,11,0.10) 0%, transparent 65%); border-radius:24px; pointer-events:none;"></div>
+
+          <!-- Image card -->
+          <div style="position:relative; width:280px; height:380px; overflow:hidden; border-radius:16px; border:1px solid rgba(245,158,11,0.2); box-shadow:0 2px 0 0 var(--border), 0 32px 64px rgba(0,0,0,0.55);">
             <img src="assets/me.webp" alt="Tushar Neje"
-              class="relative w-full h-full object-cover rounded-full"
-              style="border:3px solid var(--bg);"
+              style="width:100%; height:100%; display:block; object-fit:cover; object-position:top center;"
               loading="eager" />
-          </div>
-          <!-- Location badge -->
-          <div class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium"
-            style="background:var(--surface); border:1px solid var(--border); color:var(--muted);">
-            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
-            Pune, India
+            <!-- Bottom gradient overlay -->
+            <div style="position:absolute; bottom:0; left:0; right:0; height:120px; background:linear-gradient(to top, rgba(10,10,11,0.95) 0%, rgba(10,10,11,0.5) 50%, transparent 100%); pointer-events:none;"></div>
+            <!-- Location badge pinned bottom-left -->
+            <div style="position:absolute; bottom:14px; left:14px; display:inline-flex; align-items:center; gap:5px; padding:5px 11px; border-radius:99px; background:rgba(20,20,21,0.75); border:1px solid rgba(245,158,11,0.3); backdrop-filter:blur(10px);">
+              <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+              <span style="font-size:0.68rem; font-family:'Syne',sans-serif; font-weight:700; color:var(--text); letter-spacing:0.05em;">Pune, India</span>
+            </div>
           </div>
         </div>
 
@@ -947,21 +974,38 @@
       p.live_url ? `<a href="${p.live_url}" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:8px;font-size:0.8rem;font-family:'Syne',sans-serif;font-weight:600;background:${accent};color:#000;text-decoration:none">Live Demo</a>` : '',
     ].filter(Boolean).join('');
 
-    const screenshots = p.screenshots.length > 0
-      ? `<div style="margin-top:16px">
-          <div id="modal-img-main" style="width:100%;aspect-ratio:16/9;overflow:hidden;border-radius:10px;background:#000">
-            <img src="${p.screenshots[0]}" alt="Screenshot" style="width:100%;height:100%;object-fit:cover;object-position:top" loading="lazy"/>
-          </div>
-          ${p.screenshots.length > 1 ? `<div style="display:flex;gap:6px;margin-top:8px;overflow-x:auto;padding-bottom:4px">
-            ${p.screenshots.map((s,i) => `<img src="${s}" data-idx="${i}" alt="Screenshot ${i+1}" class="modal-thumb" style="width:70px;height:50px;object-fit:cover;object-position:top;border-radius:6px;cursor:pointer;border:2px solid ${i===0?accent:'transparent'};flex-shrink:0;opacity:${i===0?1:0.6};transition:opacity 0.2s" loading="lazy"/>`).join('')}
-          </div>` : ''}
-        </div>` : '';
+    const screenshots = p.screenshots.length > 0 ? (() => {
+      const total = p.screenshots.length;
+      const slides = p.screenshots.map((s, i) =>
+        `<div class="carousel-slide" style="min-width:100%;transition:transform 0.35s cubic-bezier(.4,0,.2,1)">
+          <img src="${s}" alt="Screenshot ${i+1}" style="width:100%;height:100%;object-fit:cover;object-position:top;display:block;" loading="${i===0?'eager':'lazy'}"/>
+        </div>`
+      ).join('');
+      const dots = total > 1 ? p.screenshots.map((_, i) =>
+        `<button class="carousel-dot" data-idx="${i}" aria-label="Go to slide ${i+1}" style="width:${i===0?'20px':'6px'};height:6px;border-radius:99px;border:none;cursor:pointer;padding:0;transition:width 0.25s,background 0.25s;background:${i===0?accent:'rgba(255,255,255,0.25)'}"></button>`
+      ).join('') : '';
+      const arrows = total > 1 ? `
+        <button class="carousel-prev" aria-label="Previous" style="position:absolute;left:10px;top:50%;transform:translateY(-50%);z-index:3;width:32px;height:32px;border-radius:50%;border:none;cursor:pointer;background:rgba(0,0,0,0.55);color:#fff;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(4px);transition:background 0.2s">
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M15 18l-6-6 6-6"/></svg>
+        </button>
+        <button class="carousel-next" aria-label="Next" style="position:absolute;right:10px;top:50%;transform:translateY(-50%);z-index:3;width:32px;height:32px;border-radius:50%;border:none;cursor:pointer;background:rgba(0,0,0,0.55);color:#fff;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(4px);transition:background 0.2s">
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M9 18l6-6-6-6"/></svg>
+        </button>` : '';
+      return `<div style="margin-top:16px;position:relative;" id="carousel-wrap">
+        <div style="position:relative;width:100%;aspect-ratio:16/9;overflow:hidden;border-radius:12px;background:#000;">
+          <div id="carousel-track" style="display:flex;width:100%;height:100%;will-change:transform;transform:translateX(0)">${slides}</div>
+          ${arrows}
+          ${total > 1 ? `<div style="position:absolute;bottom:10px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:5px;z-index:3">${dots}</div>` : ''}
+          <div style="position:absolute;top:10px;right:10px;padding:3px 9px;border-radius:99px;background:rgba(0,0,0,0.55);font-size:0.68rem;font-family:'Syne',sans-serif;font-weight:600;color:#fff;letter-spacing:0.04em;backdrop-filter:blur(4px)" id="carousel-counter">1 / ${total}</div>
+        </div>
+      </div>`;
+    })() : '';
 
     inner.innerHTML = `
       <div style="padding:24px">
         <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:16px">
           <div>
-            <h2 style="font-family:'Syne',sans-serif;font-weight:800;font-size:1.25rem;color:var(--text);margin-bottom:4px">${p.title}</h2>
+            <h2 style="font-family:'DM Sans',sans-serif;font-weight:700;font-size:1.2rem;color:var(--text);margin-bottom:4px;letter-spacing:-0.01em;line-height:1.3">${p.title}</h2>
             <p style="font-size:0.8rem;color:${accent};font-style:italic">${p.tag}</p>
           </div>
           <button id="modal-close" aria-label="Close" style="width:32px;height:32px;border-radius:50%;background:var(--surface2);border:1px solid var(--border);color:var(--muted);cursor:pointer;flex-shrink:0;font-size:1rem;display:flex;align-items:center;justify-content:center">
@@ -980,21 +1024,65 @@
     document.getElementById('modal-close').addEventListener('click', closeProjModal);
     modal.addEventListener('click', e => { if (e.target === modal) closeProjModal(); });
 
-    // Thumbnail switching
-    inner.querySelectorAll('.modal-thumb').forEach(thumb => {
-      thumb.addEventListener('click', () => {
-        const idx = parseInt(thumb.dataset.idx);
-        const mainImg = inner.querySelector('#modal-img-main img');
-        mainImg.src = p.screenshots[idx];
-        inner.querySelectorAll('.modal-thumb').forEach((t, i) => {
-          t.style.borderColor = i === idx ? accent : 'transparent';
-          t.style.opacity = i === idx ? '1' : '0.6';
+    // Carousel logic
+    const track = inner.querySelector('#carousel-track');
+    if (track) {
+      const total = p.screenshots.length;
+      let cur = 0;
+      const counter = inner.querySelector('#carousel-counter');
+      const dots = inner.querySelectorAll('.carousel-dot');
+
+      function goTo(idx) {
+        cur = (idx + total) % total;
+        track.style.transform = `translateX(-${cur * 100}%)`;
+        if (counter) counter.textContent = `${cur + 1} / ${total}`;
+        dots.forEach((d, i) => {
+          d.style.background = i === cur ? accent : 'rgba(255,255,255,0.25)';
+          d.style.width = i === cur ? '20px' : '6px';
         });
-      });
-    });
+      }
+
+      // Auto-play
+      let autoTimer = setInterval(() => goTo(cur + 1), 3000);
+      const resetAuto = () => { clearInterval(autoTimer); autoTimer = setInterval(() => goTo(cur + 1), 3000); };
+      inner._carouselTimer = autoTimer;
+
+      // Pause on hover
+      track.parentElement.addEventListener('mouseenter', () => clearInterval(autoTimer));
+      track.parentElement.addEventListener('mouseleave', () => { autoTimer = setInterval(() => goTo(cur + 1), 3000); inner._carouselTimer = autoTimer; });
+
+      inner.querySelector('.carousel-prev')?.addEventListener('click', () => { goTo(cur - 1); resetAuto(); });
+      inner.querySelector('.carousel-next')?.addEventListener('click', () => { goTo(cur + 1); resetAuto(); });
+      dots.forEach(d => d.addEventListener('click', () => { goTo(parseInt(d.dataset.idx)); resetAuto(); }));
+
+      // Keyboard navigation (when modal is open)
+      const onKey = e => {
+        if (e.key === 'ArrowLeft') { goTo(cur - 1); resetAuto(); }
+        if (e.key === 'ArrowRight') { goTo(cur + 1); resetAuto(); }
+      };
+      document.addEventListener('keydown', onKey);
+      inner._carouselKeyHandler = onKey;
+
+      // Touch / swipe
+      let touchStartX = 0;
+      track.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; }, { passive: true });
+      track.addEventListener('touchend', e => {
+        const dx = e.changedTouches[0].clientX - touchStartX;
+        if (Math.abs(dx) > 40) { goTo(cur + (dx < 0 ? 1 : -1)); resetAuto(); }
+      }, { passive: true });
+    }
   }
 
   function closeProjModal() {
+    const inner = document.getElementById('proj-modal-inner');
+    if (inner?._carouselKeyHandler) {
+      document.removeEventListener('keydown', inner._carouselKeyHandler);
+      inner._carouselKeyHandler = null;
+    }
+    if (inner?._carouselTimer) {
+      clearInterval(inner._carouselTimer);
+      inner._carouselTimer = null;
+    }
     document.getElementById('proj-modal').style.display = 'none';
     document.body.style.overflow = '';
   }
