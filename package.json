@@ -1,0 +1,25 @@
+{
+  "name": "tusharneje-dev",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build:css": "tailwindcss -i ./css/input.css -o ./css/output.css --minify",
+    "watch:css": "tailwindcss -i ./css/input.css -o ./css/output.css --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tusharneje-07/tusharneje-dev.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/tusharneje-07/tusharneje-dev/issues"
+  },
+  "homepage": "https://github.com/tusharneje-07/tusharneje-dev#readme",
+  "devDependencies": {
+    "tailwindcss": "^3.4.19"
+  }
+}
