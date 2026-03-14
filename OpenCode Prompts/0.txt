@@ -1,0 +1,94 @@
+I want to build a "My Portfolio and Blog Website"
+
+-------
+- MY INITIAL PLANNING -
+Sections:
+I) index.html (Single Page) =>
+1. Hero Section
+2. About Me
+3. Experience (Professional Experience, Leadership Experience)
+4. Skills and Tools
+5. Projects
+6. Research (or any suitable name)
+7. Contact
+
+Navigation Bar [Me, Blog, Experience, Skills & Tools, Projects, Research (or any suitable name), Contact]
+
+II) blog.html (List all Blogs)
+III) blogname.html (Actual Blog)
+
+--------
+- DATA COLLECTION AND UNDERSTANDING SECTION -
+Note: Read and Understand everything which is given below.
+
+My CV/Resume Data: @textfile
+My Old Portfolio Link: https://tusharneje.in/
+
+Project Data: inside ./Data Collection/Projects/ You'll get text files of project eg. acadx-erp.txt it contains all the information of that project, and there is folder with name acadx-erp-ss which contains the Screenshots of project. 
+
+Certificates Data: inside ./Date Collection/Courses/
+./Date Collection/Extra Ciricular Activies
+./Date Collection/Hackathons and Competation
+./Date Collection/Hackathons and Competation
+
+Research and Conference Papers: inside ./Date Collection/Research and Conference Paper/
+Note: You Need to Convert all PDF's to Images webp you can run python script for that.
+
+--------
+- DEVELOPMENT INSTRUCTIONS - 
+1) Create a multiple json files which will contain all the information filenames of screenshots and a Unique ID to Each Project.
+2) All Data Must be Fetched from the json only, do not hardcode anything at any cost.
+3) Sections are just a basic planning you can use your creativity and thinking.
+4) I don't want a Generic Portfolio I want something which looks and mainly feels unique, cool, modern, minimal and stable.
+5) Look and Feel must not boring, it must give a confident vibe.
+6) All Certificate Images are not necessary to show, you can create cards on after clicking on that card a page will open with that particular certificate image. (eg. show_resource.html) 
+7) Where ever the page gets heavy it must not stuck on loading for long time, use lazy load, dynamic content loading, skeleton loading, loading animations etc. but In Any Case Website Must not Hang.
+8) Use Animation Wherever required.
+9) Strictly Do not use Emojies.
+10) Use Only SVG's, icons wherever required.
+11) Make Sure theme must be consistent everywhere in the portfolio.
+*12) Make Sure You Build Everything inside tusharneje-dev/ folder*
+
+also use the skills: /home/tusharneje/.agents/skills/html-frontend/SKILL.md for development.
+
+--------
+- DESIGN AND INSPIRATIONS -
+I want you to 1st analyze given references the design look and feel, structure etc. 
+References:
+https://opencode.ai/
+https://tailwindcss.com/
+https://abdulrehmanwaseem.me/
+https://www.dhvanitmonpara.in/
+
+These are Only Reference Learn from these designs and build something creative.
+
+-------
+- TECH STACK -
+I want Only a Static Website so there will be no Backend.
+Tech Stack: HTML + Tailwind CSS + JS + CSS
+(Configure tailwind config file with all color variable colors and everything)
+
+--------
+- OPENCODE COMPATIBLE INSTRUCTION - 
+1) make a directory .compaction/ in which save the compaction of the completed work time to time create a file with name .compact_DDMMYYYHHMMSS.md after each step update the compact file make sure the latest file must contains all the compaction (appended to previous one)
+
+2) After Each Step Create a Conventional git commit and push code to github.
+Repository Link: https://github.com/tusharneje-07/tusharneje-dev (It is a Fresh and Empty Repository)
+You can Use gh cli for this work.
+use skill: /home/tusharneje/.agents/skills/conventional-commits/SKILL.md
+
+--------
+- GIT & GITHUB INSTRUCTIONS
+1) Ignore node_nodules, Data Collection folder and other ignore-necessary files and logs.
+
+
+--------
+- STEPS -
+1) First sort the "DATA COLLECTION AND UNDERSTANDING SECTION" Create Necessary files and folder inside /tusharneje-dev folder eg. /data/personal_info.json Convert, Rename and Copy Certificates and files from Data Collection folder to /tusharneje-dev folder with proper structure and file organization. 
+
+2) Understand References
+
+3) Start Buidling After Understanding.
+
+
+MOST IMP NOTE: This is Very Huge Task You can't do it in one go, you need to do this task in steps one after another. 

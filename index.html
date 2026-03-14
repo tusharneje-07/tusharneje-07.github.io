@@ -10,7 +10,7 @@
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=Syne:wght@600;700;800&display=swap" rel="stylesheet" />
 
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -20,8 +20,9 @@
       theme: {
         extend: {
           fontFamily: {
-            display: ['Syne', 'sans-serif'],
-            body: ['DM Sans', 'sans-serif'],
+            display: ['Space Grotesk', 'sans-serif'],
+            body: ['Space Grotesk', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
           },
           colors: {
             amber: {
@@ -39,13 +40,16 @@
     /* ── CSS Variables ── */
     :root {
       --bg:        #0c0c0d;
-      --surface:   #141415;
-      --surface2:  #1c1c1e;
+      --surface:   #121317;
+      --surface2:  #1a1d24;
       --border:    rgba(255,255,255,0.07);
       --text:      #f0ede8;
       --muted:     #8a8a8e;
       --accent:    #f59e0b;
       --accent-dim:#7c4f07;
+      --code-bg:   #0f1117;
+      --glow-a:    rgba(245,158,11,0.16);
+      --glow-b:    rgba(56,189,248,0.12);
     }
     [data-theme="light"] {
       --bg:        #fafaf9;
@@ -56,18 +60,237 @@
       --muted:     #6b6b6b;
       --accent:    #d97706;
       --accent-dim:#fef3c7;
+      --code-bg:   #f5f5f3;
+      --glow-a:    rgba(245,158,11,0.18);
+      --glow-b:    rgba(59,130,246,0.10);
     }
 
     /* ── Base ── */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
     body {
-      font-family: 'DM Sans', sans-serif;
-      background: var(--bg);
+      font-family: 'Space Grotesk', sans-serif;
+      background:
+        radial-gradient(1200px 500px at 12% -10%, var(--glow-a), transparent 60%),
+        radial-gradient(1000px 540px at 88% -20%, var(--glow-b), transparent 65%),
+        var(--bg);
       color: var(--text);
       line-height: 1.6;
       transition: background 0.3s, color 0.3s;
       overflow-x: hidden;
+    }
+
+    .grid-lines {
+      background-image:
+        linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px);
+      background-size: 38px 38px;
+      mask-image: radial-gradient(circle at 50% 15%, #000 50%, transparent 85%);
+    }
+    [data-theme="light"] .grid-lines {
+      background-image:
+        linear-gradient(rgba(0,0,0,0.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,0,0,0.06) 1px, transparent 1px);
+    }
+
+    .hero-aurora {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+    .hero-aurora::before,
+    .hero-aurora::after {
+      content: "";
+      position: absolute;
+      width: 48vw;
+      height: 48vw;
+      max-width: 560px;
+      max-height: 560px;
+      border-radius: 999px;
+      filter: blur(38px);
+      opacity: 0.5;
+      animation: floatGlow 14s ease-in-out infinite;
+    }
+    .hero-aurora::before {
+      top: -120px;
+      left: -80px;
+      background: radial-gradient(circle at 40% 40%, rgba(245,158,11,0.42), rgba(245,158,11,0.10) 45%, transparent 72%);
+    }
+    .hero-aurora::after {
+      right: -120px;
+      bottom: -180px;
+      background: radial-gradient(circle at 35% 35%, rgba(56,189,248,0.32), rgba(56,189,248,0.09) 50%, transparent 72%);
+      animation-delay: -7s;
+    }
+
+    .hero-circuit {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background:
+        linear-gradient(110deg, transparent 0%, rgba(245,158,11,0.07) 35%, transparent 56%),
+        linear-gradient(295deg, transparent 8%, rgba(56,189,248,0.06) 42%, transparent 66%);
+      opacity: 0.9;
+      mask-image: linear-gradient(to bottom, #000 8%, #000 58%, transparent 100%);
+    }
+
+    @keyframes floatGlow {
+      0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+      50% { transform: translate3d(14px, -16px, 0) scale(1.05); }
+    }
+
+    .dev-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 12px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: color-mix(in srgb, var(--surface2) 70%, transparent);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.68rem;
+      color: var(--muted);
+      letter-spacing: 0.02em;
+    }
+
+    .terminal-card {
+      border: 1px solid color-mix(in srgb, var(--accent) 35%, var(--border));
+      background: linear-gradient(180deg, color-mix(in srgb, var(--code-bg) 94%, transparent), color-mix(in srgb, var(--surface) 88%, transparent));
+      border-radius: 16px;
+      box-shadow: 0 18px 50px rgba(0,0,0,0.35);
+      overflow: hidden;
+    }
+
+    .profile-shell {
+      position: relative;
+      border-radius: 22px;
+      background: linear-gradient(145deg, color-mix(in srgb, var(--surface2) 82%, transparent), color-mix(in srgb, var(--surface) 92%, transparent));
+      border: 1px solid color-mix(in srgb, var(--accent) 24%, var(--border));
+      padding: 14px;
+      overflow: hidden;
+      transform-style: preserve-3d;
+      box-shadow: 0 24px 70px rgba(0,0,0,0.45);
+      transition: transform 0.35s ease, box-shadow 0.35s ease, border-color 0.35s ease;
+    }
+
+    .profile-shell::before {
+      content: "";
+      position: absolute;
+      inset: -40%;
+      background: conic-gradient(from 120deg, transparent 0deg, rgba(245,158,11,0.35) 80deg, rgba(56,189,248,0.18) 145deg, transparent 210deg);
+      opacity: 0;
+      transform: rotate(0deg);
+      transition: opacity 0.3s ease;
+      pointer-events: none;
+    }
+
+    .profile-shell::after {
+      content: "";
+      position: absolute;
+      top: -65%;
+      left: -25%;
+      width: 30%;
+      height: 220%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.18), transparent);
+      transform: rotate(16deg) translateX(-240%);
+      transition: transform 0.75s ease;
+      pointer-events: none;
+    }
+
+    .profile-shell:hover {
+      transform: perspective(1100px) translateY(-8px) rotateX(2deg) rotateY(-2deg);
+      border-color: color-mix(in srgb, var(--accent) 45%, var(--border));
+      box-shadow: 0 34px 78px rgba(0,0,0,0.56);
+    }
+
+    .profile-shell:hover::before {
+      opacity: 1;
+      animation: profileHaloSpin 2.8s linear infinite;
+    }
+
+    .profile-shell:hover::after {
+      transform: rotate(16deg) translateX(350%);
+    }
+
+    .profile-frame {
+      position: relative;
+      border-radius: 14px;
+      overflow: hidden;
+      aspect-ratio: 4/5;
+      background: #000;
+    }
+
+    .profile-frame img {
+      transition: transform 0.35s ease;
+    }
+
+    .profile-shell:hover .profile-frame img {
+      transform: scale(1.045) translateY(-2px);
+    }
+
+    @keyframes profileHaloSpin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    .cipher-box {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      max-width: min(100%, 720px);
+      width: 100%;
+      padding: 12px 16px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: color-mix(in srgb, var(--surface) 88%, transparent);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.04);
+    }
+
+    .cipher-prompt {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--accent);
+      white-space: nowrap;
+      opacity: 0.9;
+    }
+
+    .cipher-text {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.96rem;
+      color: var(--text);
+      letter-spacing: 0.02em;
+      min-height: 1.4rem;
+      text-align: left;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    @media (max-width: 640px) {
+      .cipher-box {
+        padding: 11px 13px;
+      }
+
+      .cipher-text {
+        font-size: 0.82rem;
+      }
+    }
+
+
+    .status-pulse {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: #22c55e;
+      box-shadow: 0 0 0 0 rgba(34,197,94,0.65);
+      animation: pulse 2.2s infinite;
+    }
+    @keyframes pulse {
+      0% { box-shadow: 0 0 0 0 rgba(34,197,94,0.65); }
+      70% { box-shadow: 0 0 0 8px rgba(34,197,94,0); }
+      100% { box-shadow: 0 0 0 0 rgba(34,197,94,0); }
     }
 
     /* ── Dot-grid hero texture ── */
@@ -129,6 +352,209 @@
       line-height: 1.15;
     }
 
+    .skill-card {
+      aspect-ratio: 1 / 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 12px;
+      border-radius: 16px;
+      border: none;
+      background:
+        linear-gradient(145deg, color-mix(in srgb, var(--surface2) 85%, transparent), color-mix(in srgb, var(--surface) 94%, transparent));
+      padding: 12px;
+    }
+
+    .skill-icon-wrap {
+      width: 52px;
+      height: 52px;
+      border-radius: 12px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: color-mix(in srgb, var(--bg) 60%, var(--surface2));
+      flex-shrink: 0;
+    }
+
+    .skill-icon {
+      width: 30px;
+      height: 30px;
+      display: block;
+      object-fit: contain;
+    }
+
+    .skill-meta {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2px;
+      min-width: 0;
+      text-align: center;
+    }
+
+    .skill-name {
+      font-size: 1rem;
+      font-weight: 700;
+      line-height: 1.2;
+      color: var(--text);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 100%;
+    }
+
+    .skill-percent {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--accent);
+      letter-spacing: 0.02em;
+      flex-shrink: 0;
+    }
+
+    @media (max-width: 640px) {
+      .skill-card { padding: 10px; border-radius: 14px; gap: 10px; }
+      .skill-icon-wrap { width: 46px; height: 46px; border-radius: 11px; }
+      .skill-icon { width: 26px; height: 26px; }
+      .skill-name { font-size: 0.9rem; }
+      .skill-percent { font-size: 0.75rem; }
+    }
+
+    .cert-card-lite,
+    .act-card-lite {
+      position: relative;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: linear-gradient(160deg, color-mix(in srgb, var(--surface) 94%, transparent), color-mix(in srgb, var(--surface2) 92%, transparent));
+      padding: 14px;
+      min-height: 162px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .cert-kicker,
+    .act-kicker {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.67rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+
+    .cert-title,
+    .act-title {
+      font-size: 1rem;
+      font-weight: 700;
+      line-height: 1.3;
+      color: var(--text);
+    }
+
+    .cert-meta,
+    .act-meta {
+      font-size: 0.8rem;
+      color: var(--muted);
+      line-height: 1.45;
+    }
+
+    .mini-chip {
+      display: inline-flex;
+      align-items: center;
+      padding: 2px 8px;
+      border-radius: 999px;
+      border: 1px solid color-mix(in srgb, var(--accent) 35%, var(--border));
+      background: color-mix(in srgb, var(--accent) 15%, var(--surface2));
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.65rem;
+      color: var(--accent);
+      white-space: nowrap;
+    }
+
+    .preview-btn {
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: var(--surface2);
+      color: var(--text);
+      padding: 8px 10px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: border-color 0.2s ease, color 0.2s ease;
+    }
+
+    .preview-btn:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    #evidence-modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 220;
+      background: rgba(6,7,9,0.86);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      overflow-y: auto;
+      padding: 22px 14px;
+    }
+
+    #evidence-dialog {
+      width: min(960px, 100%);
+      margin: 0 auto;
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      background: var(--bg);
+      overflow: hidden;
+    }
+
+    #evidence-head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 14px;
+      border-bottom: 1px solid var(--border);
+      background: color-mix(in srgb, var(--surface) 90%, transparent);
+    }
+
+    #evidence-title { font-size: 1rem; font-weight: 700; color: var(--text); }
+    #evidence-subtitle { font-size: 0.8rem; color: var(--muted); margin-top: 2px; }
+    #evidence-desc { font-size: 0.8rem; color: var(--muted); margin-top: 6px; line-height: 1.5; }
+
+    #evidence-close {
+      border: 1px solid var(--border);
+      background: var(--surface2);
+      color: var(--text);
+      border-radius: 10px;
+      min-width: 34px;
+      height: 34px;
+      cursor: pointer;
+      font-size: 1rem;
+      line-height: 1;
+    }
+
+    #evidence-body { padding: 14px; }
+    #evidence-image-wrap {
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      background: var(--surface2);
+      max-height: 80vh;
+    }
+
+    #evidence-image {
+      width: 100%;
+      height: auto;
+      display: block;
+      object-fit: contain;
+      max-height: 80vh;
+    }
+
     /* ── Skeleton loader ── */
     .skeleton {
       background: linear-gradient(90deg, var(--surface) 25%, var(--surface2) 50%, var(--surface) 75%);
@@ -148,16 +574,30 @@
 
     /* ── Mobile nav overlay ── */
     #mobile-nav {
-      display: none;
+      display: flex;
       position: fixed;
-      inset: 0;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      width: min(88vw, 360px);
       z-index: 99;
-      background: var(--bg);
-      padding: 5rem 2rem 2rem;
+      background: color-mix(in srgb, var(--bg) 90%, transparent);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-left: 1px solid var(--border);
+      padding: 5.5rem 1rem 1rem;
       flex-direction: column;
-      gap: 0.5rem;
+      gap: 0.35rem;
+      transform: translateX(104%);
+      opacity: 0;
+      pointer-events: none;
+      transition: transform 0.28s ease, opacity 0.28s ease;
     }
-    #mobile-nav.open { display: flex; }
+    #mobile-nav.open {
+      transform: translateX(0);
+      opacity: 1;
+      pointer-events: auto;
+    }
 
     /* ── Hamburger ── */
     .ham-line {
@@ -177,11 +617,11 @@
 
 <!-- ══════════════ NAVBAR ══════════════ -->
 <nav id="navbar" aria-label="Main navigation">
-  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-14 flex items-center justify-between">
 
     <!-- Logo -->
-    <a href="#hero" class="font-display font-bold text-lg tracking-tight" style="color:var(--text)">
-      Tushar<span style="color:var(--accent)">.</span>
+    <a href="#hero" class="font-mono font-semibold text-sm tracking-tight px-2.5 py-1.5 rounded-lg" style="color:var(--text); background:var(--surface); border:1px solid var(--border)">
+      <span style="color:var(--accent)">$</span> tushar.dev
     </a>
 
     <!-- Desktop links -->
@@ -227,129 +667,105 @@
 
 <!-- Mobile nav overlay -->
 <div id="mobile-nav" role="dialog" aria-label="Mobile navigation">
-  <a href="#about"      class="mobile-nav-link text-2xl font-display font-semibold py-3 border-b" style="color:var(--text); border-color:var(--border)">About</a>
-  <a href="blog.html"   class="mobile-nav-link text-2xl font-display font-semibold py-3 border-b" style="color:var(--text); border-color:var(--border)">Blog</a>
-  <a href="#experience" class="mobile-nav-link text-2xl font-display font-semibold py-3 border-b" style="color:var(--text); border-color:var(--border)">Experience</a>
-  <a href="#skills"     class="mobile-nav-link text-2xl font-display font-semibold py-3 border-b" style="color:var(--text); border-color:var(--border)">Skills</a>
-  <a href="#projects"   class="mobile-nav-link text-2xl font-display font-semibold py-3 border-b" style="color:var(--text); border-color:var(--border)">Projects</a>
-  <a href="#research"      class="mobile-nav-link text-2xl font-display font-semibold py-3 border-b" style="color:var(--text); border-color:var(--border)">Research</a>
-  <a href="#activities"    class="mobile-nav-link text-2xl font-display font-semibold py-3 border-b" style="color:var(--text); border-color:var(--border)">Activities</a>
-  <a href="#certificates"  class="mobile-nav-link text-2xl font-display font-semibold py-3 border-b" style="color:var(--text); border-color:var(--border)">Certificates</a>
-  <a href="#contact"       class="mobile-nav-link text-2xl font-display font-semibold py-3"          style="color:var(--text)">Contact</a>
+  <a href="#about"      class="mobile-nav-link text-base font-display font-semibold py-3 px-4 rounded-xl" style="color:var(--text); border:1px solid var(--border); background:var(--surface)">About</a>
+  <a href="blog.html"   class="mobile-nav-link text-base font-display font-semibold py-3 px-4 rounded-xl" style="color:var(--text); border:1px solid var(--border); background:var(--surface)">Blog</a>
+  <a href="#experience" class="mobile-nav-link text-base font-display font-semibold py-3 px-4 rounded-xl" style="color:var(--text); border:1px solid var(--border); background:var(--surface)">Experience</a>
+  <a href="#skills"     class="mobile-nav-link text-base font-display font-semibold py-3 px-4 rounded-xl" style="color:var(--text); border:1px solid var(--border); background:var(--surface)">Skills</a>
+  <a href="#projects"   class="mobile-nav-link text-base font-display font-semibold py-3 px-4 rounded-xl" style="color:var(--text); border:1px solid var(--border); background:var(--surface)">Projects</a>
+  <a href="#research"      class="mobile-nav-link text-base font-display font-semibold py-3 px-4 rounded-xl" style="color:var(--text); border:1px solid var(--border); background:var(--surface)">Research</a>
+  <a href="#activities"    class="mobile-nav-link text-base font-display font-semibold py-3 px-4 rounded-xl" style="color:var(--text); border:1px solid var(--border); background:var(--surface)">Activities</a>
+  <a href="#certificates"  class="mobile-nav-link text-base font-display font-semibold py-3 px-4 rounded-xl" style="color:var(--text); border:1px solid var(--border); background:var(--surface)">Certificates</a>
+  <a href="#contact"       class="mobile-nav-link text-base font-display font-semibold py-3 px-4 rounded-xl" style="color:var(--text); border:1px solid var(--border); background:var(--surface)">Contact</a>
 </div>
 
 <!-- ══════════════ MAIN CONTENT ══════════════ -->
 <main>
 
   <!-- ══════════════ HERO ══════════════ -->
-  <section id="hero" class="dot-grid relative min-h-screen flex items-center pt-16 overflow-hidden">
-    <!-- Ambient glow -->
-    <div aria-hidden="true" style="pointer-events:none; position:absolute; top:-10%; left:50%; transform:translateX(-50%); width:700px; height:500px; background:radial-gradient(ellipse at center, rgba(245,158,11,0.10) 0%, transparent 70%);"></div>
+  <section id="hero" class="relative min-h-screen flex items-center pt-16 overflow-hidden">
+    <div class="grid-lines absolute inset-0 pointer-events-none" aria-hidden="true"></div>
+    <div class="hero-circuit" aria-hidden="true"></div>
+    <div class="hero-aurora" aria-hidden="true"></div>
+    <div aria-hidden="true" class="absolute -top-28 left-1/2 -translate-x-1/2 w-[760px] h-[520px] rounded-full" style="background:radial-gradient(circle at center, var(--glow-a), transparent 68%);"></div>
 
-    <!-- Mobile-only decorative accent lines -->
-    <div class="lg:hidden" aria-hidden="true" style="pointer-events:none; position:absolute; top:80px; right:0; width:180px; height:180px; border-top:1px solid rgba(245,158,11,0.15); border-left:1px solid rgba(245,158,11,0.15); border-radius:0 0 0 120px;"></div>
-    <div class="lg:hidden" aria-hidden="true" style="pointer-events:none; position:absolute; bottom:120px; left:0; width:120px; height:120px; border-bottom:1px solid rgba(245,158,11,0.12); border-right:1px solid rgba(245,158,11,0.12); border-radius:0 120px 0 0;"></div>
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 w-full py-12 md:py-20">
+      <div class="grid grid-cols-1 lg:grid-cols-[1.1fr_0.9fr] gap-8 md:gap-12 items-center">
 
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 w-full py-20 md:py-32">
-      <div class="flex flex-col lg:flex-row items-center lg:items-start gap-12 lg:gap-20">
-
-        <!-- Text -->
-        <div class="flex-1 text-center lg:text-left">
-          <!-- Eyebrow -->
-          <div class="reveal inline-flex items-center gap-2 mb-6">
-            <span style="display:inline-block; width:28px; height:2px; background:var(--accent);"></span>
-            <span class="section-label">Full-Stack Developer & AI Builder</span>
+        <div class="hidden lg:block reveal reveal-delay-2 order-1 lg:order-2">
+          <div class="profile-shell max-w-sm mx-auto lg:ml-auto lg:mr-0">
+            <div class="profile-frame">
+              <img src="assets/me.webp" alt="Tushar Neje" style="width:100%;height:100%;object-fit:cover;object-position:top center;display:block" loading="eager" />
+              <div style="position:absolute;inset:auto 0 0 0;padding:12px;background:linear-gradient(to top, rgba(0,0,0,0.88), rgba(0,0,0,0.2), transparent)">
+                <div class="dev-chip" style="width:fit-content;background:rgba(12,12,13,0.75)">
+                  <span class="status-pulse"></span>
+                  Open for Opportunities
+                </div>
+              </div>
+            </div>
+            <div class="mt-3 flex flex-wrap gap-2">
+              <span class="dev-chip">Pune, India</span>
+              <span class="dev-chip">AI + Full Stack</span>
+            </div>
           </div>
 
-          <!-- Name -->
-          <h1 class="reveal reveal-delay-1 font-display font-extrabold leading-none mb-4" style="font-size:clamp(3rem,8vw,5.5rem); color:var(--text); letter-spacing:-0.02em;">
-            Tushar<br><span style="color:var(--accent)">Neje</span>
-          </h1>
-
-          <!-- Tagline -->
-          <p class="reveal reveal-delay-2 text-base md:text-lg mb-8 tracking-widest uppercase font-display font-medium" style="color:var(--muted); letter-spacing:0.18em;">
-            Diligent &nbsp;•&nbsp; Committed &nbsp;•&nbsp; Consistent
-          </p>
-
-          <!-- Bio -->
-          <p class="reveal reveal-delay-3 text-base md:text-lg leading-relaxed mb-10 max-w-xl mx-auto lg:mx-0" style="color:var(--muted)">
-            Computer Engineering student at VIIT Pune — building AI-powered systems and full-stack platforms that solve real problems. From ERP to legal AI to lung disease detection.
-          </p>
-
-          <!-- CTAs -->
-          <div class="reveal reveal-delay-4 flex flex-wrap items-center gap-3 justify-center lg:justify-start">
-            <a href="#projects"
-              class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-semibold font-display transition-all duration-200"
-              style="background:var(--accent); color:#000;">
-              View Projects
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-            </a>
-            <a href="assets/resume.pdf" target="_blank" rel="noopener"
-              class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-semibold font-display transition-all duration-200"
-              style="background:var(--surface); color:var(--text); border:1px solid var(--border);">
-              <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
-              Download CV
-            </a>
-            <a href="#contact"
-              class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-semibold font-display transition-all duration-200"
-              style="background:transparent; color:var(--text); border:1px solid var(--border);">
-              Get in Touch
-            </a>
-          </div>
-
-          <!-- Social links -->
-          <div class="reveal mt-10 flex items-center gap-3 justify-center lg:justify-start flex-wrap" id="hero-social"></div>
-
-          <!-- Mobile-only quick stats -->
-          <div class="lg:hidden reveal mt-8" style="display:flex; justify-content:center; gap:0;">
-            <div style="flex:1; text-align:center; padding:14px 8px; border:1px solid var(--border); border-radius:12px 0 0 12px; background:var(--surface);">
-              <div style="font-family:'Syne',sans-serif; font-weight:800; font-size:1.4rem; color:var(--accent);">12+</div>
-              <div style="font-size:0.65rem; color:var(--muted); font-family:'Syne',sans-serif; font-weight:600; letter-spacing:0.06em; text-transform:uppercase; margin-top:2px;">Projects</div>
+          <div class="terminal-card mt-4 max-w-sm mx-auto lg:ml-auto lg:mr-0">
+            <div class="px-4 py-2.5 flex items-center gap-2" style="border-bottom:1px solid var(--border)">
+              <span style="width:9px;height:9px;border-radius:999px;background:#ef4444"></span>
+              <span style="width:9px;height:9px;border-radius:999px;background:#f59e0b"></span>
+              <span style="width:9px;height:9px;border-radius:999px;background:#22c55e"></span>
+              <span class="font-mono text-xs ml-2" style="color:var(--muted)">terminal - portfolio</span>
             </div>
-            <div style="flex:1; text-align:center; padding:14px 8px; border-top:1px solid var(--border); border-bottom:1px solid var(--border); background:var(--surface);">
-              <div style="font-family:'Syne',sans-serif; font-weight:800; font-size:1.4rem; color:var(--accent);">4</div>
-              <div style="font-size:0.65rem; color:var(--muted); font-family:'Syne',sans-serif; font-weight:600; letter-spacing:0.06em; text-transform:uppercase; margin-top:2px;">Papers</div>
-            </div>
-            <div style="flex:1; text-align:center; padding:14px 8px; border:1px solid var(--border); border-radius:0 12px 12px 0; background:var(--surface);">
-              <div style="font-family:'Syne',sans-serif; font-weight:800; font-size:1.4rem; color:var(--accent);">32+</div>
-              <div style="font-size:0.65rem; color:var(--muted); font-family:'Syne',sans-serif; font-weight:600; letter-spacing:0.06em; text-transform:uppercase; margin-top:2px;">Certs</div>
+            <div class="p-4 space-y-2 font-mono text-xs" style="color:#d6d8dd">
+              <p><span style="color:var(--accent)">$</span> stack --list</p>
+              <p style="color:#95a0b1">React · Node.js · Python · FastAPI · MySQL</p>
+              <p><span style="color:var(--accent)">$</span> currently-building</p>
+              <p style="color:#95a0b1">AI workflows, automation tools, and full-stack products.</p>
             </div>
           </div>
         </div>
 
-        <!-- Photo — hidden on mobile, visible on desktop -->
-        <div class="hidden lg:block reveal reveal-delay-2 shrink-0" style="position:relative; padding:16px;">
-          <!-- Decorative corner accent top-left -->
-          <div style="position:absolute; top:0; left:0; width:44px; height:44px; border-top:2px solid var(--accent); border-left:2px solid var(--accent); border-radius:6px 0 0 0; opacity:0.8; pointer-events:none;"></div>
-          <!-- Decorative corner accent bottom-right -->
-          <div style="position:absolute; bottom:0; right:0; width:44px; height:44px; border-bottom:2px solid var(--accent); border-right:2px solid var(--accent); border-radius:0 0 6px 0; opacity:0.8; pointer-events:none;"></div>
+        <div class="order-2 lg:order-1 text-center lg:text-left">
+          <div class="reveal inline-flex items-center gap-2 px-3 py-1.5 rounded-full mb-5" style="border:1px solid var(--border); background:var(--surface)">
+            <span class="font-mono text-xs" style="color:var(--accent)">dev@tushar:~$</span>
+            <span class="font-mono text-xs" style="color:var(--muted)">whoami</span>
+          </div>
 
-          <!-- Glow blob behind image -->
-          <div style="position:absolute; inset:0; background:radial-gradient(ellipse at 60% 40%, rgba(245,158,11,0.10) 0%, transparent 65%); border-radius:24px; pointer-events:none;"></div>
+          <h1 class="reveal reveal-delay-1 font-display font-bold leading-[0.95] mb-5" style="font-size:clamp(2.6rem,8vw,5.6rem); letter-spacing:-0.04em; color:var(--text)">
+            Engineering
+            <span style="display:block; color:var(--accent)">AI-native products.</span>
+          </h1>
 
-          <!-- Image card -->
-          <div style="position:relative; width:280px; height:380px; overflow:hidden; border-radius:16px; border:1px solid rgba(245,158,11,0.2); box-shadow:0 2px 0 0 var(--border), 0 32px 64px rgba(0,0,0,0.55);">
-            <img src="assets/me.webp" alt="Tushar Neje"
-              style="width:100%; height:100%; display:block; object-fit:cover; object-position:top center;"
-              loading="eager" />
-            <!-- Bottom gradient overlay -->
-            <div style="position:absolute; bottom:0; left:0; right:0; height:120px; background:linear-gradient(to top, rgba(10,10,11,0.95) 0%, rgba(10,10,11,0.5) 50%, transparent 100%); pointer-events:none;"></div>
-            <!-- Location badge pinned bottom-left -->
-            <div style="position:absolute; bottom:14px; left:14px; display:inline-flex; align-items:center; gap:5px; padding:5px 11px; border-radius:99px; background:rgba(20,20,21,0.75); border:1px solid rgba(245,158,11,0.3); backdrop-filter:blur(10px);">
-              <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
-              <span style="font-size:0.68rem; font-family:'Syne',sans-serif; font-weight:700; color:var(--text); letter-spacing:0.05em;">Pune, India</span>
+          <p class="reveal reveal-delay-2 text-base md:text-lg mb-7 max-w-xl mx-auto lg:mx-0" style="color:var(--muted)">
+            I am Tushar Neje, a Computer Engineering student crafting developer-grade products: AI tools, full-stack apps, and production-focused systems with clean architecture.
+          </p>
+
+          <div class="reveal reveal-delay-3 mb-8 flex justify-center lg:justify-start">
+            <div class="cipher-box" aria-live="polite">
+              <span class="cipher-prompt">status&gt;</span>
+              <span id="hero-cipher-text" class="cipher-text"></span>
             </div>
           </div>
+
+          <div class="reveal reveal-delay-4 flex flex-wrap items-center gap-3 justify-center lg:justify-start">
+            <a href="#projects" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-semibold font-display transition-all duration-200" style="background:var(--accent); color:#000; box-shadow:0 10px 25px color-mix(in srgb, var(--accent) 32%, transparent)">
+              Explore Projects
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </a>
+            <a href="assets/resume.pdf" target="_blank" rel="noopener" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-semibold font-display transition-all duration-200" style="background:var(--surface); color:var(--text); border:1px solid var(--border);">
+              <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+              Resume
+            </a>
+            <a href="#contact" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-semibold font-display transition-all duration-200" style="background:transparent; color:var(--text); border:1px solid var(--border);">
+              Let us connect
+            </a>
+          </div>
+
+          <div class="reveal mt-8 flex items-center gap-3 justify-center lg:justify-start flex-wrap" id="hero-social"></div>
         </div>
 
       </div>
     </div>
 
-    <!-- Scroll indicator -->
-    <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2" style="opacity:0.4;">
-      <span class="text-xs font-display tracking-widest uppercase" style="color:var(--muted); font-size:0.65rem;">Scroll</span>
-      <div style="width:1px; height:36px; background:linear-gradient(to bottom, var(--accent), transparent);"></div>
-    </div>
   </section>
 
 </main>
@@ -446,7 +862,7 @@
       <div class="reveal reveal-delay-2 flex flex-wrap gap-2 mb-10" id="skills-tabs"></div>
 
       <!-- Skills grid -->
-      <div id="skills-panel" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+      <div id="skills-panel" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 xl:grid-cols-6 gap-3">
         <div class="skeleton h-14"></div>
         <div class="skeleton h-14"></div>
         <div class="skeleton h-14"></div>
@@ -514,6 +930,24 @@
     <div id="research-modal-inner" class="max-w-2xl mx-auto my-10 mx-4 rounded-2xl overflow-hidden" style="background:var(--bg);border:1px solid var(--border)"></div>
   </div>
 
+  <div id="evidence-modal" role="dialog" aria-modal="true" aria-label="Evidence preview">
+    <div id="evidence-dialog">
+      <div id="evidence-head">
+        <div>
+          <div id="evidence-title"></div>
+          <div id="evidence-subtitle"></div>
+          <div id="evidence-desc"></div>
+        </div>
+        <button id="evidence-close" aria-label="Close preview">x</button>
+      </div>
+      <div id="evidence-body">
+        <div id="evidence-image-wrap">
+          <img id="evidence-image" alt="Evidence preview" loading="lazy" />
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- ══════════════ CERTIFICATES ══════════════ -->
   <section id="certificates" class="py-20 md:py-32" style="background:var(--surface)">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -527,16 +961,16 @@
       <div id="cert-tabs" class="reveal reveal-delay-3 flex flex-wrap gap-2 mb-8"></div>
 
       <!-- Grid skeleton -->
-      <div id="cert-skeleton" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
-        <div class="skeleton rounded-xl" style="aspect-ratio:3/2"></div>
-        <div class="skeleton rounded-xl" style="aspect-ratio:3/2"></div>
-        <div class="skeleton rounded-xl" style="aspect-ratio:3/2"></div>
-        <div class="skeleton rounded-xl" style="aspect-ratio:3/2"></div>
-        <div class="skeleton rounded-xl" style="aspect-ratio:3/2"></div>
+      <div id="cert-skeleton" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div class="skeleton rounded-xl h-40"></div>
+        <div class="skeleton rounded-xl h-40"></div>
+        <div class="skeleton rounded-xl h-40"></div>
+        <div class="skeleton rounded-xl h-40"></div>
+        <div class="skeleton rounded-xl h-40"></div>
       </div>
 
       <!-- Cert grid -->
-      <div id="cert-grid" class="hidden grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4"></div>
+      <div id="cert-grid" class="hidden grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"></div>
 
       <!-- Show all toggle (hidden until needed) -->
       <div id="cert-show-more-wrap" class="hidden mt-8 text-center">
@@ -567,17 +1001,17 @@
       </div>
 
       <!-- Skeleton -->
-      <div id="act-skeleton" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-        <div class="skeleton rounded-xl" style="aspect-ratio:4/3"></div>
-        <div class="skeleton rounded-xl" style="aspect-ratio:4/3"></div>
-        <div class="skeleton rounded-xl" style="aspect-ratio:4/3"></div>
-        <div class="skeleton rounded-xl" style="aspect-ratio:4/3"></div>
+      <div id="act-skeleton" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div class="skeleton rounded-xl h-40"></div>
+        <div class="skeleton rounded-xl h-40"></div>
+        <div class="skeleton rounded-xl h-40"></div>
+        <div class="skeleton rounded-xl h-40"></div>
       </div>
 
       <!-- Hackathons grid -->
-      <div id="act-hack-grid"  class="hidden grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4"></div>
+      <div id="act-hack-grid"  class="hidden grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"></div>
       <!-- Extracurricular grid -->
-      <div id="act-extra-grid" class="hidden grid grid-cols-1 sm:grid-cols-3 gap-5"></div>
+      <div id="act-extra-grid" class="hidden grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"></div>
 
       <!-- Stats row -->
       <div id="act-stats" class="hidden mt-10 flex flex-wrap gap-4">
@@ -637,7 +1071,7 @@
   <!-- ══════════════ FOOTER ══════════════ -->
   <footer class="py-8" style="border-top:1px solid var(--border);">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-3">
-      <p class="text-sm" style="color:var(--muted)">© 2026 Tushar Neje. Built with HTML, Tailwind &amp; care.</p>
+      <p class="text-sm" style="color:var(--muted)">© 2026 Tushar Neje. Designed by tusharneje with ❤️ and <a href="howibuild.html" class="font-semibold" style="color:var(--accent);text-decoration:none">OpenCode</a>.</p>
       <a href="#hero" class="text-sm font-display font-semibold" style="color:var(--accent)">Back to top ↑</a>
     </div>
   </footer>
@@ -711,9 +1145,86 @@
     Instagram: `<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>`,
   };
 
+  function startHeroCipherAnimation(cipherConfig) {
+    const target = document.getElementById('hero-cipher-text');
+    if (!target) return;
+
+    const lines = Array.isArray(cipherConfig?.lines)
+      ? cipherConfig.lines.map(x => String(x).trim()).filter(Boolean)
+      : [];
+
+    if (!lines.length) {
+      const wrap = target.closest('.cipher-box');
+      if (wrap) wrap.style.display = 'none';
+      return;
+    }
+
+    const charset = String(cipherConfig?.charset || '').trim();
+    if (!charset.length) {
+      target.textContent = lines[0];
+      return;
+    }
+
+    const decryptStepMs = Math.max(8, Number(cipherConfig?.timings?.decrypt_step_ms) || 28);
+    const holdMs = Math.max(300, Number(cipherConfig?.timings?.hold_ms) || 1700);
+    const scrambleStepMs = Math.max(8, Number(cipherConfig?.timings?.scramble_step_ms) || 18);
+    const betweenLineMs = Math.max(0, Number(cipherConfig?.timings?.between_line_ms) || 260);
+
+    const pickRandom = () => charset[Math.floor(Math.random() * charset.length)] || '*';
+    let lineIndex = 0;
+
+    function decryptLine(line) {
+      let reveal = 0;
+
+      function tick() {
+        target.textContent = [...line].map((ch, idx) => {
+          if (ch === ' ') return ' ';
+          return idx < reveal ? ch : pickRandom();
+        }).join('');
+
+        reveal += 1;
+        if (reveal <= line.length) {
+          setTimeout(tick, decryptStepMs);
+          return;
+        }
+
+        target.textContent = line;
+        setTimeout(() => scrambleOut(line), holdMs);
+      }
+
+      tick();
+    }
+
+    function scrambleOut(line) {
+      let remain = line.length;
+
+      function tick() {
+        target.textContent = [...line].map((ch, idx) => {
+          if (ch === ' ') return ' ';
+          return idx < remain ? pickRandom() : ' ';
+        }).join('');
+
+        remain -= 1;
+        if (remain >= 0) {
+          setTimeout(tick, scrambleStepMs);
+          return;
+        }
+
+        lineIndex = (lineIndex + 1) % lines.length;
+        setTimeout(() => decryptLine(lines[lineIndex]), betweenLineMs);
+      }
+
+      tick();
+    }
+
+    decryptLine(lines[lineIndex]);
+  }
+
   fetch('data/personal.json')
     .then(r => r.json())
     .then(p => {
+      startHeroCipherAnimation(p.hero_cipher);
+
       const container = document.getElementById('hero-social');
       if (!container) return;
       const show = ['GitHub','LinkedIn','LeetCode','YouTube'];
@@ -805,9 +1316,9 @@
           <div style="width:44px;height:44px;border-radius:10px;background:var(--accent-dim);display:flex;align-items:center;justify-content:center;shrink:0">
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg>
           </div>
-          <div>
-            <div class="flex flex-wrap items-start justify-between gap-2 mb-0.5">
-              <h3 class="font-display font-bold text-base" style="color:var(--text)">${e.title}</h3>
+          <div style="flex:1;min-width:0">
+            <div class="flex items-start justify-between gap-2 mb-0.5">
+              <h3 class="font-display font-bold text-base" style="color:var(--text);flex:1;min-width:0">${e.title}</h3>
               <span class="text-xs px-2 py-0.5 rounded-full font-display font-semibold" style="background:var(--surface2);color:var(--muted)">${e.year}</span>
             </div>
             <div class="text-sm font-medium mb-1" style="color:var(--accent)">${e.organization}</div>
@@ -854,13 +1365,13 @@
     if (!cat) return;
     const panel = document.getElementById('skills-panel');
     panel.innerHTML = cat.skills.map(s => `
-      <div class="rounded-xl p-4" style="background:var(--surface);border:1px solid var(--border);">
-        <div class="flex justify-between items-center mb-2">
-          <span class="text-sm font-semibold font-display" style="color:var(--text)">${s.name}</span>
-          <span class="text-xs font-bold" style="color:var(--accent)">${s.proficiency}%</span>
-        </div>
-        <div style="height:4px;border-radius:99px;background:var(--surface2);overflow:hidden">
-          <div style="height:100%;width:${s.proficiency}%;background:var(--accent);border-radius:99px;transition:width 0.6s ease"></div>
+      <div class="skill-card">
+        <span class="skill-icon-wrap">
+          <img class="skill-icon" src="${s.icon_url || ''}" alt="${s.name} icon" loading="lazy" />
+        </span>
+        <div class="skill-meta">
+          <span class="skill-name">${s.name}</span>
+          <span class="skill-percent">${s.proficiency}%</span>
         </div>
       </div>
     `).join('');
@@ -1087,7 +1598,12 @@
     document.body.style.overflow = '';
   }
 
-  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeProjModal(); });
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') {
+      closeProjModal();
+      closeEvidenceModal();
+    }
+  });
 
   document.querySelectorAll('.proj-filter').forEach(btn => {
     btn.style.cssText = 'background:var(--bg);color:var(--muted);border:1px solid var(--border)';
@@ -1214,95 +1730,159 @@
       });
     });
 
+  function encodeData(value) {
+    return encodeURIComponent(String(value ?? ''));
+  }
+
+  function decodeData(value) {
+    try { return decodeURIComponent(value || ''); } catch { return String(value || ''); }
+  }
+
+  function openEvidenceModal(payload) {
+    const modal = document.getElementById('evidence-modal');
+    const title = document.getElementById('evidence-title');
+    const subtitle = document.getElementById('evidence-subtitle');
+    const desc = document.getElementById('evidence-desc');
+    const image = document.getElementById('evidence-image');
+    if (!modal || !title || !subtitle || !desc || !image) return;
+
+    title.textContent = payload.title || 'Preview';
+    subtitle.textContent = payload.subtitle || '';
+    desc.textContent = payload.description || '';
+    image.src = payload.image || '';
+    image.alt = payload.title || 'Preview';
+
+    modal.style.display = 'block';
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeEvidenceModal() {
+    const modal = document.getElementById('evidence-modal');
+    const image = document.getElementById('evidence-image');
+    if (!modal || modal.style.display !== 'block') return;
+    modal.style.display = 'none';
+    if (image) image.removeAttribute('src');
+    document.body.style.overflow = '';
+  }
+
+  document.getElementById('evidence-close')?.addEventListener('click', closeEvidenceModal);
+  document.getElementById('evidence-modal')?.addEventListener('click', (e) => {
+    if (e.target && e.target.id === 'evidence-modal') closeEvidenceModal();
+  });
+
   // ── Activities section ──
   (function() {
     const RESULT_BADGE = {
-      '1st Rank': { bg: '#f59e0b', color: '#000', label: '1st' },
-      '2nd Rank': { bg: '#94a3b8', color: '#000', label: '2nd' },
-      '3rd Rank': { bg: '#cd7f32', color: '#fff', label: '3rd' },
+      '1st Rank': 'Winner',
+      '2nd Rank': 'Runner-up',
+      '3rd Rank': 'Top 3',
     };
-    const TYPE_ICON = {
-      sports:   `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M4.93 4.93 19.07 19.07M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>`,
-      creative: `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></svg>`,
-    };
-    let activeTab = 'hack';
-    let actData = null;
 
     function hackCard(h) {
-      const badge = RESULT_BADGE[h.result];
-      return `<div style="border-radius:12px;overflow:hidden;border:1px solid var(--border);background:var(--bg);transition:transform 0.2s,box-shadow 0.2s"
-        onmouseenter="this.style.transform='translateY(-3px)';this.style.boxShadow='0 8px 24px rgba(0,0,0,0.3)'"
-        onmouseleave="this.style.transform='';this.style.boxShadow=''">
-        <div style="position:relative;aspect-ratio:4/3;overflow:hidden;background:var(--surface2)">
-          <img src="${h.image}" alt="${h.name}" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;transition:transform 0.3s"
-            onmouseenter="this.style.transform='scale(1.05)'" onmouseleave="this.style.transform=''"/>
-          ${badge ? `<span style="position:absolute;top:8px;right:8px;padding:2px 8px;border-radius:99px;font-size:0.65rem;font-family:'Syne',sans-serif;font-weight:700;background:${badge.bg};color:${badge.color}">${badge.label}</span>` : ''}
-          <div style="position:absolute;bottom:0;left:0;right:0;padding:6px 8px;background:linear-gradient(to top,rgba(0,0,0,0.7),transparent)">
-            <div style="font-size:0.65rem;color:#fff;font-family:'Syne',sans-serif;font-weight:600;line-height:1.3">${h.organization}</div>
+      const resultLabel = RESULT_BADGE[h.result] || h.result;
+      return `<article class="act-card-lite">
+        <div>
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:8px">
+            <span class="act-kicker">Hackathon</span>
+            <span class="mini-chip">${h.year}</span>
           </div>
+          <h3 class="act-title">${h.name}</h3>
+          <p class="act-meta" style="margin-top:4px">${h.organization}</p>
+          <p class="act-meta" style="margin-top:4px">${h.location}</p>
         </div>
-        <div style="padding:8px 10px">
-          <div style="font-size:0.75rem;font-family:'Syne',sans-serif;font-weight:700;color:var(--text);line-height:1.3;margin-bottom:2px">${h.name}</div>
-          <div style="display:flex;align-items:center;justify-content:space-between;gap:4px">
-            <span style="font-size:0.65rem;color:var(--muted)">${h.location}, ${h.year}</span>
-            ${h.result !== 'Participant' ? `<span style="font-size:0.6rem;padding:1px 6px;border-radius:99px;background:rgba(245,158,11,0.15);color:var(--accent);font-family:'Syne',sans-serif;font-weight:600">${h.result}</span>` : ''}
-          </div>
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap">
+          <span class="mini-chip">${resultLabel}</span>
+          <button class="preview-btn js-evidence" type="button"
+            data-title="${encodeData(h.name)}"
+            data-subtitle="${encodeData(`${h.organization} - ${h.location}, ${h.year}`)}"
+            data-description="${encodeData(h.description || '')}"
+            data-image="${encodeData(h.image || '')}">View Proof</button>
         </div>
-      </div>`;
+      </article>`;
     }
 
     function extraCard(e) {
-      const icon = TYPE_ICON[e.type] || '';
-      return `<div style="border-radius:16px;overflow:hidden;border:1px solid var(--border);background:var(--bg);display:flex;gap:0;transition:transform 0.2s,box-shadow 0.2s"
-        onmouseenter="this.style.transform='translateY(-3px)';this.style.boxShadow='0 8px 24px rgba(0,0,0,0.3)'"
-        onmouseleave="this.style.transform='';this.style.boxShadow=''">
-        <div style="width:180px;min-width:140px;overflow:hidden;flex-shrink:0;background:var(--surface2)">
-          <img src="${e.image}" alt="${e.name}" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;transition:transform 0.3s;min-height:140px"
-            onmouseenter="this.style.transform='scale(1.04)'" onmouseleave="this.style.transform=''"/>
+      return `<article class="act-card-lite">
+        <div>
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:8px">
+            <span class="act-kicker">${e.type}</span>
+            <span class="mini-chip">Activity</span>
+          </div>
+          <h3 class="act-title">${e.name}</h3>
+          <p class="act-meta" style="margin-top:6px">${e.description || ''}</p>
         </div>
-        <div style="padding:20px 20px;display:flex;flex-direction:column;justify-content:center;gap:8px">
-          <div style="display:inline-flex;align-items:center;gap:5px;padding:2px 8px;border-radius:99px;background:var(--surface2);border:1px solid var(--border);width:fit-content;color:var(--muted)">${icon}<span style="font-size:0.65rem;font-family:'Syne',sans-serif;font-weight:600;text-transform:capitalize">${e.type}</span></div>
-          <div style="font-size:1rem;font-family:'Syne',sans-serif;font-weight:700;color:var(--text)">${e.name}</div>
-          <p style="font-size:0.8rem;color:var(--muted);line-height:1.6">${e.description}</p>
+        <div style="display:flex;justify-content:flex-end">
+          <button class="preview-btn js-evidence" type="button"
+            data-title="${encodeData(e.name)}"
+            data-subtitle="${encodeData(`Extracurricular - ${e.type}`)}"
+            data-description="${encodeData(e.description || '')}"
+            data-image="${encodeData(e.image || '')}">Open Media</button>
         </div>
-      </div>`;
+      </article>`;
+    }
+
+    function bindEvidenceClicks(container) {
+      container.querySelectorAll('.js-evidence').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          openEvidenceModal({
+            title: decodeData(btn.dataset.title),
+            subtitle: decodeData(btn.dataset.subtitle),
+            description: decodeData(btn.dataset.description),
+            image: decodeData(btn.dataset.image),
+          });
+        });
+      });
     }
 
     function renderTab(tab) {
-      activeTab = tab;
       const hackGrid  = document.getElementById('act-hack-grid');
       const extraGrid = document.getElementById('act-extra-grid');
       const hackBtn   = document.getElementById('act-tab-hack');
       const extraBtn  = document.getElementById('act-tab-extra');
       if (tab === 'hack') {
-        hackGrid.classList.remove('hidden');  extraGrid.classList.add('hidden');
-        hackBtn.style.background  = 'var(--accent)'; hackBtn.style.color  = '#000'; hackBtn.style.borderColor  = 'var(--accent)';
-        extraBtn.style.background = 'var(--surface2)'; extraBtn.style.color = 'var(--muted)'; extraBtn.style.borderColor = 'var(--border)';
+        hackGrid.classList.remove('hidden');
+        extraGrid.classList.add('hidden');
+        hackBtn.style.background = 'var(--accent)';
+        hackBtn.style.color = '#000';
+        hackBtn.style.borderColor = 'var(--accent)';
+        extraBtn.style.background = 'var(--surface2)';
+        extraBtn.style.color = 'var(--muted)';
+        extraBtn.style.borderColor = 'var(--border)';
       } else {
-        extraGrid.classList.remove('hidden'); hackGrid.classList.add('hidden');
-        extraBtn.style.background = 'var(--accent)'; extraBtn.style.color = '#000'; extraBtn.style.borderColor = 'var(--accent)';
-        hackBtn.style.background  = 'var(--surface2)'; hackBtn.style.color  = 'var(--muted)'; hackBtn.style.borderColor  = 'var(--border)';
+        extraGrid.classList.remove('hidden');
+        hackGrid.classList.add('hidden');
+        extraBtn.style.background = 'var(--accent)';
+        extraBtn.style.color = '#000';
+        extraBtn.style.borderColor = 'var(--accent)';
+        hackBtn.style.background = 'var(--surface2)';
+        hackBtn.style.color = 'var(--muted)';
+        hackBtn.style.borderColor = 'var(--border)';
       }
     }
 
-    document.getElementById('act-tab-hack').addEventListener('click',  () => renderTab('hack'));
+    document.getElementById('act-tab-hack').addEventListener('click', () => renderTab('hack'));
     document.getElementById('act-tab-extra').addEventListener('click', () => renderTab('extra'));
 
     fetch('data/activities.json')
       .then(r => r.json())
       .then(data => {
-        actData = data;
         document.getElementById('act-skeleton').style.display = 'none';
-        const hackGrid  = document.getElementById('act-hack-grid');
+        const hackGrid = document.getElementById('act-hack-grid');
         const extraGrid = document.getElementById('act-extra-grid');
-        const statsEl   = document.getElementById('act-stats');
-        hackGrid.innerHTML  = (data.hackathons || []).map(hackCard).join('');
+        const statsEl = document.getElementById('act-stats');
+
+        hackGrid.innerHTML = (data.hackathons || []).map(hackCard).join('');
         extraGrid.innerHTML = (data.extracurricular || []).map(extraCard).join('');
+        bindEvidenceClicks(hackGrid);
+        bindEvidenceClicks(extraGrid);
+
         hackGrid.classList.remove('hidden');
         statsEl.classList.remove('hidden');
         statsEl.style.display = 'flex';
       })
-      .catch(() => { document.getElementById('act-skeleton').style.display = 'none'; });
+      .catch(() => {
+        document.getElementById('act-skeleton').style.display = 'none';
+      });
   })();
 
   // ── Certificates section ──
@@ -1319,10 +1899,21 @@
       'networking':   'Networking',
       'professional': 'Professional',
     };
-    const PAGE_SIZE = 10; // initial visible cards per filter
+    const PAGE_SIZE = 12;
     let allCerts = [];
     let activeCat = 'all';
     let showAll = false;
+
+    const ISSUE_KIND = {
+      nptel: 'NPTEL',
+      government: 'Government',
+      institute: 'Institute',
+      platform: 'Platform',
+      'great-learning': 'Academy',
+      hackerrank: 'Assessment',
+      internship: 'Internship',
+      professional: 'Professional',
+    };
 
     function filteredCerts() {
       return activeCat === 'all' ? allCerts : allCerts.filter(c => c.category === activeCat);
@@ -1332,26 +1923,38 @@
       const list   = filteredCerts();
       const grid   = document.getElementById('cert-grid');
       const moreW  = document.getElementById('cert-show-more-wrap');
-      const moreB  = document.getElementById('cert-show-more-btn');
       const remaining = document.getElementById('cert-remaining');
       const visible = showAll ? list : list.slice(0, PAGE_SIZE);
 
       grid.innerHTML = visible.map(c => `
-        <a href="show_resource.html?cert=${encodeURIComponent(c.id)}" target="_blank" rel="noopener"
-           title="${c.name}" style="display:block;border-radius:12px;overflow:hidden;border:1px solid var(--border);background:var(--bg);text-decoration:none;transition:transform 0.2s,box-shadow 0.2s"
-           onmouseenter="this.style.transform='translateY(-3px)';this.style.boxShadow='0 8px 24px rgba(0,0,0,0.3)'"
-           onmouseleave="this.style.transform='';this.style.boxShadow=''">
-          <div style="aspect-ratio:3/2;overflow:hidden;background:var(--surface2)">
-            <img src="${c.image}" alt="${c.name}" loading="lazy"
-              style="width:100%;height:100%;object-fit:cover;display:block;transition:transform 0.3s"
-              onmouseenter="this.style.transform='scale(1.04)'"
-              onmouseleave="this.style.transform=''"/>
+        <article class="cert-card-lite">
+          <div>
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:8px">
+              <span class="cert-kicker">${ISSUE_KIND[c.issuer_type] || 'Certificate'}</span>
+              <span class="mini-chip">${c.date || ''}</span>
+            </div>
+            <h3 class="cert-title">${c.name}</h3>
+            <p class="cert-meta" style="margin-top:6px">${c.issuer}</p>
           </div>
-          <div style="padding:8px 10px">
-            <div style="font-size:0.72rem;font-family:'Syne',sans-serif;font-weight:600;color:var(--text);line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${c.name}</div>
-            <div style="font-size:0.65rem;color:var(--muted);margin-top:1px">${c.issuer}</div>
+          <div style="display:flex;justify-content:flex-end">
+            <button class="preview-btn js-evidence" type="button"
+              data-title="${encodeData(c.name)}"
+              data-subtitle="${encodeData(`${c.issuer} - ${c.date || ''}`)}"
+              data-description="${encodeData(c.description || '')}"
+              data-image="${encodeData(c.image || '')}">Preview</button>
           </div>
-        </a>`).join('');
+        </article>`).join('');
+
+      grid.querySelectorAll('.js-evidence').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          openEvidenceModal({
+            title: decodeData(btn.dataset.title),
+            subtitle: decodeData(btn.dataset.subtitle),
+            description: decodeData(btn.dataset.description),
+            image: decodeData(btn.dataset.image),
+          });
+        });
+      });
 
       // Show-more button
       if (!showAll && list.length > PAGE_SIZE) {

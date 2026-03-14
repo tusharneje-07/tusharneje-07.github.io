@@ -1,147 +1,147 @@
 {
-  "hackathons": [
-    {
-      "id": "hack-dkte",
-      "name": "DKTE Hackathon",
-      "organization": "DKTE's Yashwantrao Chavan Polytechnic",
-      "location": "Ichalkaranji",
-      "year": 2023,
-      "result": "Participant",
-      "image": "assets/hackathons/DKTE.webp",
-      "description": "Participated in institutional hackathon organized at DKTE Polytechnic."
-    },
-    {
-      "id": "hack-jjmcoe1",
-      "name": "JJMCOE Hackathon 1",
-      "organization": "Jayawantrao Sawant College of Engineering",
-      "location": "Pune",
-      "year": 2023,
-      "result": "1st Rank",
-      "image": "assets/hackathons/JJMCOE1.webp",
-      "description": "Secured 1st Rank in Crackers 2.0, Advitya competition at JJMCOE."
-    },
-    {
-      "id": "hack-jjmcoe3",
-      "name": "JJMCOE Competition",
-      "organization": "Jayawantrao Sawant College of Engineering",
-      "location": "Pune",
-      "year": 2023,
-      "result": "Participant",
-      "image": "assets/hackathons/JJMCOE3.webp",
-      "description": "Participated in technical competition at JJMCOE."
-    },
-    {
-      "id": "hack-lifi",
-      "name": "LiFi Technology Event",
-      "organization": "Technical Event",
-      "location": "Kolhapur",
-      "year": 2023,
-      "result": "Participant",
-      "image": "assets/hackathons/LIFI.webp",
-      "description": "Participated in LiFi technology showcase and competition."
-    },
-    {
-      "id": "hack-rit",
-      "name": "RIT Hackathon",
-      "organization": "Rajarambapu Institute of Technology",
-      "location": "Sangli",
-      "year": 2024,
-      "result": "Participant",
-      "image": "assets/hackathons/RIT.webp",
-      "description": "Participated in hackathon organized at RIT."
-    },
-    {
-      "id": "hack-sgi",
-      "name": "SGI Hackathon",
-      "organization": "Shivaji University / SGI",
-      "location": "Kolhapur",
-      "year": 2024,
-      "result": "Participant",
-      "image": "assets/hackathons/SGI.webp",
-      "description": "Participated in SGI organized technical competition."
-    },
-    {
-      "id": "hack-sgi2",
-      "name": "SGI Competition 2",
-      "organization": "Shivaji University / SGI",
-      "location": "Kolhapur",
-      "year": 2024,
-      "result": "Participant",
-      "image": "assets/hackathons/SGI2.webp",
-      "description": "Second participation in SGI technical events."
-    },
-    {
-      "id": "hack-sgm",
-      "name": "SGM Technical Event",
-      "organization": "SGM College",
-      "location": "Karad",
-      "year": 2024,
-      "result": "Participant",
-      "image": "assets/hackathons/SGM.webp",
-      "description": "Participated in technical event at SGM College."
-    },
-    {
-      "id": "hack-sitd",
-      "name": "SITD Hackathon",
-      "organization": "Sinhgad Institute of Technology and Design",
-      "location": "Pune",
-      "year": 2025,
-      "result": "Participant",
-      "image": "assets/hackathons/SITD.webp",
-      "description": "Participated in hackathon organized at SITD Pune."
-    },
-    {
-      "id": "hack-sitd1",
-      "name": "SITD Technical Event",
-      "organization": "Sinhgad Institute of Technology and Design",
-      "location": "Pune",
-      "year": 2025,
-      "result": "Participant",
-      "image": "assets/hackathons/SITD-1.webp",
-      "description": "Participated in technical event at SITD."
-    },
-    {
-      "id": "hack-sitmock",
-      "name": "SIT Mock Hackathon",
-      "organization": "Symbiosis Institute of Technology",
-      "location": "Pune",
-      "year": 2025,
-      "result": "Participant",
-      "image": "assets/hackathons/SITMOCK.webp",
-      "description": "Participated in mock hackathon at SIT Pune."
-    },
-    {
-      "id": "hack-vvp",
-      "name": "VVP Hackathon",
-      "organization": "VVP Engineering College",
-      "location": "Rajkot",
-      "year": 2025,
-      "result": "Participant",
-      "image": "assets/hackathons/VVP.webp",
-      "description": "Participated in national-level hackathon at VVP Engineering College."
-    }
-  ],
   "extracurricular": [
     {
+      "description": "Active cricket player, participated in institutional and inter-college cricket tournaments.",
       "id": "extra-cricket",
-      "name": "Cricket",
-      "type": "sports",
       "image": "assets/extracurricular/CRICKET.webp",
-      "description": "Active cricket player, participated in institutional and inter-college cricket tournaments."
+      "name": "Cricket",
+      "type": "sports"
     },
     {
+      "description": "Interest in photography and visual storytelling.",
       "id": "extra-ph1",
-      "name": "Photography & Visual Arts",
-      "type": "creative",
       "image": "assets/extracurricular/PH1.webp",
-      "description": "Interest in photography and visual storytelling."
+      "name": "Photography & Visual Arts",
+      "type": "creative"
     },
     {
+      "description": "Event photography and documentation.",
       "id": "extra-ph2",
-      "name": "Photography – Event Coverage",
-      "type": "creative",
       "image": "assets/extracurricular/PH2.webp",
-      "description": "Event photography and documentation."
+      "name": "Photography – Event Coverage",
+      "type": "creative"
+    }
+  ],
+  "hackathons": [
+    {
+      "description": "Participated in institutional hackathon organized at DKTE Polytechnic.",
+      "id": "hack-dkte",
+      "image": "assets/hackathons/DKTE.webp",
+      "location": "Ichalkaranji",
+      "name": "DKTE Hackathon",
+      "organization": "DKTE's Yashwantrao Chavan Polytechnic",
+      "result": "Participant",
+      "year": 2023
+    },
+    {
+      "description": "Secured 1st Rank in Crackers 2.0, Advitya competition at JJMCOE.",
+      "id": "hack-jjmcoe1",
+      "image": "assets/hackathons/JJMCOE1.webp",
+      "location": "Pune",
+      "name": "JJMCOE Hackathon 1",
+      "organization": "Jayawantrao Sawant College of Engineering",
+      "result": "1st Rank",
+      "year": 2023
+    },
+    {
+      "description": "Participated in technical competition at JJMCOE.",
+      "id": "hack-jjmcoe3",
+      "image": "assets/hackathons/JJMCOE3.webp",
+      "location": "Pune",
+      "name": "JJMCOE Competition",
+      "organization": "Jayawantrao Sawant College of Engineering",
+      "result": "Participant",
+      "year": 2023
+    },
+    {
+      "description": "Participated in LiFi technology showcase and competition.",
+      "id": "hack-lifi",
+      "image": "assets/hackathons/LIFI.webp",
+      "location": "Kolhapur",
+      "name": "LiFi Technology Event",
+      "organization": "Technical Event",
+      "result": "Participant",
+      "year": 2023
+    },
+    {
+      "description": "Participated in hackathon organized at RIT.",
+      "id": "hack-rit",
+      "image": "assets/hackathons/RIT.webp",
+      "location": "Sangli",
+      "name": "RIT Hackathon",
+      "organization": "Rajarambapu Institute of Technology",
+      "result": "Participant",
+      "year": 2024
+    },
+    {
+      "description": "Participated in SGI organized technical competition.",
+      "id": "hack-sgi",
+      "image": "assets/hackathons/SGI.webp",
+      "location": "Kolhapur",
+      "name": "SGI Hackathon",
+      "organization": "Shivaji University / SGI",
+      "result": "Participant",
+      "year": 2024
+    },
+    {
+      "description": "Second participation in SGI technical events.",
+      "id": "hack-sgi2",
+      "image": "assets/hackathons/SGI2.webp",
+      "location": "Kolhapur",
+      "name": "SGI Competition 2",
+      "organization": "Shivaji University / SGI",
+      "result": "Participant",
+      "year": 2024
+    },
+    {
+      "description": "Participated in technical event at SGM College.",
+      "id": "hack-sgm",
+      "image": "assets/hackathons/SGM.webp",
+      "location": "Karad",
+      "name": "SGM Technical Event",
+      "organization": "SGM College",
+      "result": "Participant",
+      "year": 2024
+    },
+    {
+      "description": "Participated in hackathon organized at SITD Pune.",
+      "id": "hack-sitd",
+      "image": "assets/hackathons/SITD.webp",
+      "location": "Pune",
+      "name": "SITD Hackathon",
+      "organization": "Sinhgad Institute of Technology and Design",
+      "result": "Participant",
+      "year": 2025
+    },
+    {
+      "description": "Participated in technical event at SITD.",
+      "id": "hack-sitd1",
+      "image": "assets/hackathons/SITD-1.webp",
+      "location": "Pune",
+      "name": "SITD Technical Event",
+      "organization": "Sinhgad Institute of Technology and Design",
+      "result": "Participant",
+      "year": 2025
+    },
+    {
+      "description": "Participated in mock hackathon at SIT Pune.",
+      "id": "hack-sitmock",
+      "image": "assets/hackathons/SITMOCK.webp",
+      "location": "Pune",
+      "name": "SIT Mock Hackathon",
+      "organization": "Symbiosis Institute of Technology",
+      "result": "Participant",
+      "year": 2025
+    },
+    {
+      "description": "Participated in national-level hackathon at VVP Engineering College.",
+      "id": "hack-vvp",
+      "image": "assets/hackathons/VVP.webp",
+      "location": "Rajkot",
+      "name": "VVP Hackathon",
+      "organization": "VVP Engineering College",
+      "result": "Participant",
+      "year": 2025
     }
   ]
 }

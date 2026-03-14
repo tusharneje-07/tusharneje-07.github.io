@@ -57,5 +57,19 @@
   ],
   "languages": ["Marathi", "English", "Hindi"],
   "whatsapp_url": "https://wa.me/917028573950?text=Hey%20Tushar%2C%20%0AI%20just%20explored%20your%20portfolio%20and%20I%27m%20excited%20to%20team%20up%20on%20something%20awesome.%0ALet%27s%20connect%21",
-  "maps_url": "https://www.google.com/maps?q=16.684278,74.470350"
+  "maps_url": "https://www.google.com/maps/place/Pune,+Maharashtra/@18.5038344,73.7098091,49018m/data=!3m2!1e3!4b1!4m6!3m5!1s0x3bc2bf2e67461101:0x828d43bf9d9ee343!8m2!3d18.5246091!4d73.8786239!16zL20vMDE1eTJx!5m1!1e1?entry=ttu&g_ep=EgoyMDI2MDMxMS4wIKXMDSoASAFQAw%3D%3D",
+  "hero_cipher": {
+    "lines": [
+      "I'm a full-stack developer.",
+      "I build AI-powered products.",
+      "I design clean, scalable systems."
+    ],
+    "charset": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789@#$%&*+-_",
+    "timings": {
+      "decrypt_step_ms": 28,
+      "hold_ms": 1700,
+      "scramble_step_ms": 18,
+      "between_line_ms": 260
+    }
+  }
 }

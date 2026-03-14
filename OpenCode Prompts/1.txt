@@ -1,0 +1,104 @@
+You are building a complete Portfolio & Blog Website. Work step-by-step. Commit after every step. Never skip compaction updates. This is a large multi-session task — maintain state via .compaction/.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ENVIRONMENT
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+- Output directory: tusharneje-dev/
+- Stack: HTML + Tailwind CSS (full config with CSS variables) + Vanilla JS
+- Static only — no backend, no frameworks
+- Skills:
+    /home/tusharneje/.agents/skills/html-frontend/SKILL.md
+    /home/tusharneje/.agents/skills/conventional-commits/SKILL.md
+- Read both skill files BEFORE writing any code
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+DATA SOURCES (read before Step 1)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+- Linkedin: https://www.linkedin.com/in/tushar-neje/
+- GitHub: https://github.com/tusharneje-07
+- CV/Resume: ./Data Collection/resume.txt
+- Old Portfolio: https://tusharneje.in/
+- Projects: ./Data Collection/Projects/
+    → Each .txt = full project data
+    → Each -ss/ folder = project screenshots
+- Certificates: ./Data Collection/Courses/
+- Extracurricular: ./Data Collection/Extra Ciricular Activies/
+- Hackathons: ./Data Collection/Hackathons and Competation/
+- Research Papers: ./Data Collection/Research and Conference Paper/
+    → Run a Python script to convert all PDFs → .webp images
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+STEP 1 — DATA PIPELINE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+1. Parse ALL data sources above
+2. Create structured JSON files under tusharneje-dev/data/:
+   - personal.json         → bio, contact, social links
+   - experience.json       → professional + leadership experience
+   - skills.json           → skills grouped by category
+   - projects.json         → each project: unique ID, title, description, tech stack, screenshot filenames, links
+   - certificates.json     → name, issuer, date, image filename
+   - activities.json       → extracurricular + hackathons
+   - research.json         → paper title, conference, year, authors, pdf/image path
+   - blogs.json            → blog metadata (slug, title, date, summary, tags)
+3. Copy and rename all assets into tusharneje-dev/assets/ with clean structure:
+   assets/projects/, assets/certificates/, assets/research/, assets/blogs/
+4. Run PDF → .webp conversion script, output to assets/research/
+5. RULE: Zero hardcoded content anywhere — all data must be fetched from JSON at runtime
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+STEP 2 — DESIGN RESEARCH
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Analyze these references for layout patterns, visual language, motion, and feel:
+  → https://opencode.ai/
+  → https://tailwindcss.com/
+  → https://abdulrehmanwaseem.me/
+  → https://www.dhvanitmonpara.in/
+
+Identify: color philosophy, typography scale, spacing rhythm, animation style, card patterns, nav behavior.
+Do NOT copy — synthesize into an original design direction. Document your design decisions briefly.
+
+Design constraints:
+- Modern, minimal, confident — not generic or template-like
+- Consistent theme + Tailwind CSS variables across all pages
+- SVG icons only (no emojis, no raster icons)
+- Purposeful animations — not decorative noise
+- For heavy sections: skeleton loaders + lazy loading + dynamic JSON fetching (site must never hang)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+STEP 3 — BUILD (section by section)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Pages:
+  index.html      → Hero | About | Experience | Skills & Tools | Projects | Research | Contact
+  blog.html       → Blog listing (cards, fetched from blogs.json)
+  [slug].html     → Individual blog post template
+  show_resource.html → Opens on certificate card click; displays certificate image full-screen
+
+Navbar (all pages): Me | Blog | Experience | Skills & Tools | Projects | Research | Contact
+
+Build order: Tailwind config → base layout/nav → Hero → About → Experience → Skills → Projects → Research → Contact → blog.html → show_resource.html
+Commit after each section is complete and functional.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+COMPACTION PROTOCOL
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+After completing each step or major section:
+- Append a summary to .compaction/.compact_DDMMYYYYHHMMSS.md
+- The latest file must always contain the full cumulative history (append, never overwrite)
+- This is your memory across sessions — keep it accurate and detailed
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+GIT PROTOCOL
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+- Repo: https://github.com/tusharneje-07/tusharneje-dev (use gh CLI)
+- Follow conventional commits skill for all commit messages
+- .gitignore must exclude: node_modules/, Data Collection/, *.log, dist/, .cache/
+- Push after every commit
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+EXECUTION ORDER
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Step 1 → Data pipeline + asset organization
+Step 2 → Design research + direction
+Step 3 → Build section by section
+
+One step at a time. Do not proceed to the next step until the current one is complete, committed, and compacted.

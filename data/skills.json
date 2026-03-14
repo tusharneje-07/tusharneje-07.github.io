@@ -5,16 +5,16 @@
       "label": "Languages",
       "icon": "code",
       "skills": [
-        { "name": "Python", "proficiency": 90 },
-        { "name": "JavaScript", "proficiency": 85 },
-        { "name": "TypeScript", "proficiency": 75 },
-        { "name": "HTML5", "proficiency": 90 },
-        { "name": "CSS3", "proficiency": 85 },
-        { "name": "C", "proficiency": 70 },
-        { "name": "C++", "proficiency": 65 },
-        { "name": "Java", "proficiency": 60 },
-        { "name": "PHP", "proficiency": 60 },
-        { "name": "VB.NET", "proficiency": 55 }
+        { "name": "Python", "proficiency": 90, "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" },
+        { "name": "JavaScript", "proficiency": 85, "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" },
+        { "name": "TypeScript", "proficiency": 75, "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg" },
+        { "name": "HTML5", "proficiency": 90, "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" },
+        { "name": "CSS3", "proficiency": 85, "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg" },
+        { "name": "C", "proficiency": 70, "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/c/c-original.svg" },
+        { "name": "C++", "proficiency": 65, "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/cplusplus/cplusplus-original.svg" },
+        { "name": "Java", "proficiency": 60, "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg" },
+        { "name": "PHP", "proficiency": 60, "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/php/php-original.svg" },
+        { "name": "VB.NET", "proficiency": 55, "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/dot-net/dot-net-original.svg" }
       ]
     },
     {
@@ -22,13 +22,13 @@
       "label": "Frameworks & Libraries",
       "icon": "layers",
       "skills": [
-        { "name": "Django", "proficiency": 90 },
-        { "name": "FastAPI", "proficiency": 80 },
-        { "name": "Flask", "proficiency": 75 },
-        { "name": "React.js", "proficiency": 80 },
-        { "name": "Tailwind CSS", "proficiency": 90 },
-        { "name": "Bootstrap", "proficiency": 80 },
-        { "name": "Tkinter", "proficiency": 65 }
+        { "name": "Django", "proficiency": 90, "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/django/django-plain.svg" },
+        { "name": "FastAPI", "proficiency": 80, "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/fastapi/fastapi-original.svg" },
+        { "name": "Flask", "proficiency": 75, "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/flask/flask-original.svg" },
+        { "name": "React.js", "proficiency": 80, "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" },
+        { "name": "Tailwind CSS", "proficiency": 90, "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tailwindcss/tailwindcss-original.svg" },
+        { "name": "Bootstrap", "proficiency": 80, "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/bootstrap/bootstrap-original.svg" },
+        { "name": "Tkinter", "proficiency": 65, "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" }
       ]
     },
     {
@@ -36,10 +36,10 @@
       "label": "Databases",
       "icon": "database",
       "skills": [
-        { "name": "MySQL", "proficiency": 85 },
-        { "name": "MariaDB", "proficiency": 80 },
-        { "name": "SQLite", "proficiency": 80 },
-        { "name": "PostgreSQL", "proficiency": 60 }
+        { "name": "MySQL", "proficiency": 85, "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg" },
+        { "name": "MariaDB", "proficiency": 80, "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mariadb/mariadb-original.svg" },
+        { "name": "SQLite", "proficiency": 80, "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/sqlite/sqlite-original.svg" },
+        { "name": "PostgreSQL", "proficiency": 60, "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg" }
       ]
     },
     {
@@ -47,13 +47,13 @@
       "label": "AI / ML",
       "icon": "cpu",
       "skills": [
-        { "name": "AI/ML Model Integration", "proficiency": 80 },
-        { "name": "LLM Integration", "proficiency": 85 },
-        { "name": "Computer Vision", "proficiency": 75 },
-        { "name": "Deep Learning (Keras/TF)", "proficiency": 70 },
-        { "name": "Scikit-Learn", "proficiency": 75 },
-        { "name": "Pandas / NumPy", "proficiency": 80 },
-        { "name": "Prompt Engineering", "proficiency": 85 }
+        { "name": "AI/ML Model Integration", "proficiency": 80, "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tensorflow/tensorflow-original.svg" },
+        { "name": "LLM Integration", "proficiency": 85, "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/pytorch/pytorch-original.svg" },
+        { "name": "Computer Vision", "proficiency": 75, "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/opencv/opencv-original.svg" },
+        { "name": "Deep Learning (Keras/TF)", "proficiency": 70, "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tensorflow/tensorflow-original.svg" },
+        { "name": "Scikit-Learn", "proficiency": 75, "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/scikitlearn/scikitlearn-original.svg" },
+        { "name": "Pandas / NumPy", "proficiency": 80, "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/pandas/pandas-original.svg" },
+        { "name": "Prompt Engineering", "proficiency": 85, "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/jupyter/jupyter-original.svg" }
       ]
     },
     {
@@ -61,11 +61,11 @@
       "label": "Tools & DevOps",
       "icon": "tool",
       "skills": [
-        { "name": "Git / GitHub", "proficiency": 90 },
-        { "name": "REST API Development", "proficiency": 85 },
-        { "name": "Docker (Basics)", "proficiency": 55 },
-        { "name": "Postman", "proficiency": 80 },
-        { "name": "VS Code", "proficiency": 90 }
+        { "name": "Git / GitHub", "proficiency": 90, "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg" },
+        { "name": "REST API Development", "proficiency": 85, "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/fastapi/fastapi-original.svg" },
+        { "name": "Docker (Basics)", "proficiency": 55, "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg" },
+        { "name": "Postman", "proficiency": 80, "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postman/postman-original.svg" },
+        { "name": "VS Code", "proficiency": 90, "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vscode/vscode-original.svg" }
       ]
     },
     {
@@ -73,14 +73,14 @@
       "label": "Concepts & Practices",
       "icon": "book-open",
       "skills": [
-        { "name": "Full-Stack Web Architecture", "proficiency": 85 },
-        { "name": "System Design & Architecture Planning", "proficiency": 75 },
-        { "name": "ERP System Development", "proficiency": 80 },
-        { "name": "UI/UX Development", "proficiency": 80 },
-        { "name": "Database Design", "proficiency": 80 },
-        { "name": "Feature Planning", "proficiency": 85 },
-        { "name": "API Testing & Debugging", "proficiency": 80 },
-        { "name": "Requirement Analysis", "proficiency": 80 }
+        { "name": "Full-Stack Web Architecture", "proficiency": 85, "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg" },
+        { "name": "System Design & Architecture Planning", "proficiency": 75, "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/kubernetes/kubernetes-original.svg" },
+        { "name": "ERP System Development", "proficiency": 80, "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/oracle/oracle-original.svg" },
+        { "name": "UI/UX Development", "proficiency": 80, "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/figma/figma-original.svg" },
+        { "name": "Database Design", "proficiency": 80, "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg" },
+        { "name": "Feature Planning", "proficiency": 85, "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/jira/jira-original.svg" },
+        { "name": "API Testing & Debugging", "proficiency": 80, "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postman/postman-original.svg" },
+        { "name": "Requirement Analysis", "proficiency": 80, "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/notion/notion-original.svg" }
       ]
     }
   ],

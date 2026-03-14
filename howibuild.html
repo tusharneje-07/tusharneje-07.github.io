@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>How I Built This Portfolio - Tushar Neje</title>
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    :root {
+      --bg: #0c0c0d;
+      --surface: #121317;
+      --surface2: #1a1d24;
+      --border: rgba(255,255,255,0.09);
+      --text: #f0ede8;
+      --muted: #94959a;
+      --accent: #f59e0b;
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: 'Space Grotesk', sans-serif;
+      background:
+        radial-gradient(900px 420px at 15% -10%, rgba(245,158,11,0.14), transparent 62%),
+        radial-gradient(700px 360px at 88% -12%, rgba(56,189,248,0.1), transparent 62%),
+        var(--bg);
+      color: var(--text);
+    }
+
+    .prompt-card {
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      background: linear-gradient(160deg, color-mix(in srgb, var(--surface) 94%, transparent), color-mix(in srgb, var(--surface2) 92%, transparent));
+      overflow: hidden;
+    }
+
+    .prompt-head {
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .prompt-title {
+      font-size: 0.92rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .prompt-file {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.68rem;
+      color: var(--accent);
+      padding: 3px 8px;
+      border: 1px solid color-mix(in srgb, var(--accent) 32%, var(--border));
+      border-radius: 999px;
+      background: color-mix(in srgb, var(--accent) 12%, var(--surface2));
+    }
+
+    .prompt-body {
+      margin: 0;
+      padding: 14px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.78rem;
+      line-height: 1.65;
+      color: #d7dbe4;
+      white-space: pre-wrap;
+      word-break: break-word;
+      max-height: 520px;
+      overflow: auto;
+    }
+  </style>
+</head>
+<body>
+  <main class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-14">
+    <header class="mb-10">
+      <a href="index.html#certificates" class="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm font-semibold" style="background:var(--surface);border:1px solid var(--border);color:var(--text);text-decoration:none">← Back to Portfolio</a>
+      <p class="mt-7 text-xs tracking-[0.14em] uppercase" style="color:var(--accent)">Build Notes</p>
+      <h1 class="mt-2 text-4xl md:text-5xl font-bold leading-tight">How I Built This <span style="color:var(--accent)">Portfolio</span></h1>
+      <p class="mt-4 text-base max-w-3xl" style="color:var(--muted)">This page contains the exact OpenCode prompt files used during the portfolio build and redesign process.</p>
+      <div class="mt-5 flex flex-wrap items-center gap-3">
+        <a href="https://opencode.ai/" target="_blank" rel="noopener noreferrer" class="px-4 py-2 rounded-lg text-sm font-semibold" style="background:var(--accent);color:#000;text-decoration:none">OpenCode Website</a>
+        <a href="https://github.com/tusharneje-07/tusharneje-dev" target="_blank" rel="noopener noreferrer" class="px-4 py-2 rounded-lg text-sm font-semibold" style="background:var(--surface2);border:1px solid var(--border);color:var(--text);text-decoration:none">Repository</a>
+      </div>
+    </header>
+
+    <section id="prompt-list" class="space-y-5"></section>
+  </main>
+
+  <script>
+    const PROMPT_FILES = [
+      { path: 'OpenCode Prompts/0.txt', title: 'Initial Build Prompt' },
+      { path: 'OpenCode Prompts/1.txt', title: 'Execution Protocol Prompt' },
+    ];
+
+    const listEl = document.getElementById('prompt-list');
+
+    async function loadPrompts() {
+      for (const file of PROMPT_FILES) {
+        const card = document.createElement('article');
+        card.className = 'prompt-card';
+        card.innerHTML = `
+          <div class="prompt-head">
+            <div class="prompt-title">${file.title}</div>
+            <span class="prompt-file">${file.path}</span>
+          </div>
+          <pre class="prompt-body">Loading...</pre>
+        `;
+        listEl.appendChild(card);
+
+        const pre = card.querySelector('.prompt-body');
+        try {
+          const res = await fetch(encodeURI(file.path));
+          if (!res.ok) throw new Error('Failed to load file');
+          pre.textContent = await res.text();
+        } catch {
+          pre.textContent = 'Unable to load this prompt file.';
+        }
+      }
+    }
+
+    loadPrompts();
+  </script>
+</body>
+</html>
