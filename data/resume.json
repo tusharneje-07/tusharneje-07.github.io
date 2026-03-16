@@ -1,0 +1,461 @@
+{
+  "personal": {
+    "name": "Tushar Neje",
+    "name_short": "Tushar",
+    "title": "Full-Stack Developer & AI Builder",
+    "tagline": "Diligent • Committed • Consistent",
+    "bio": "I'm a Computer Engineering student at VIIT Pune, building AI-powered systems and full-stack platforms. I care deeply about clean architecture, purposeful UI, and systems that actually solve problems. From ERP platforms to legal AI search to lung disease detection — I build things that matter.",
+    "bio_extended": "Polytechnic graduate with 94% aggregate (DKTE, Ichalkaranji) and currently pursuing B.Tech at Vishwakarma Institute of Information Technology, Pune. I've led student councils, organized hackathons, and shipped production systems across healthcare, legal, agriculture, and education domains. My stack centers on Python, Django, React, and AI/ML integration — with a growing interest in system design and developer tooling.",
+    "location": "Pune, India",
+    "location_secondary": "Ichalkaranji, Maharashtra, India",
+    "email": "nejetushar07@gmail.com",
+    "email_college": "tushar.22420085@viit.ac.in",
+    "phone": "+91 7038386679",
+    "phone_alt": "+91 7028573950",
+    "avatar": "assets/me.webp",
+    "resume": "assets/resume.pdf",
+    "social": [
+      {
+        "platform": "GitHub",
+        "url": "https://github.com/tusharneje-07",
+        "handle": "@tusharneje-07"
+      },
+      {
+        "platform": "LinkedIn",
+        "url": "https://www.linkedin.com/in/tushar-neje/",
+        "handle": "tushar-neje"
+      },
+      {
+        "platform": "HackerRank",
+        "url": "https://www.hackerrank.com/profile/nejetushar07",
+        "handle": "nejetushar07"
+      },
+      {
+        "platform": "LeetCode",
+        "url": "https://leetcode.com/u/tusharneje/",
+        "handle": "tusharneje"
+      },
+      {
+        "platform": "CodeChef",
+        "url": "https://www.codechef.com/users/nejetushar07",
+        "handle": "nejetushar07"
+      },
+      {
+        "platform": "HackerEarth",
+        "url": "https://www.hackerearth.com/@nejetushar07",
+        "handle": "nejetushar07"
+      },
+      {
+        "platform": "YouTube",
+        "url": "https://www.youtube.com/@tusharedits7571",
+        "handle": "@tusharedits7571"
+      },
+      {
+        "platform": "Instagram",
+        "url": "https://www.instagram.com/tushar_neje_07",
+        "handle": "@tushar_neje_07"
+      }
+    ],
+    "languages": ["Marathi", "English", "Hindi"],
+    "whatsapp_url": "https://wa.me/917028573950?text=Hey%20Tushar%2C%20%0AI%20just%20explored%20your%20portfolio%20and%20I%27m%20excited%20to%20team%20up%20on%20something%20awesome.%0ALet%27s%20connect%21",
+    "maps_url": "https://www.google.com/maps/place/Pune,+Maharashtra/@18.5038344,73.7098091,49018m/data=!3m2!1e3!4b1!4m6!3m5!1s0x3bc2bf2e67461101:0x828d43bf9d9ee343!8m2!3d18.5246091!4d73.8786239!16zL20vMDE1eTJx!5m1!1e1?entry=ttu&g_ep=EgoyMDI2MDMxMS4wIKXMDSoASAFQAw%3D%3D",
+    "hero_cipher": {
+      "lines": [
+        "I'm a full-stack developer.",
+        "I build AI-powered products.",
+        "I design clean, scalable systems."
+      ],
+      "charset": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789@#$%&*+-_",
+      "timings": {
+        "decrypt_step_ms": 28,
+        "hold_ms": 1700,
+        "scramble_step_ms": 18,
+        "between_line_ms": 260
+      }
+    }
+  },
+  "skills": {
+    "categories": [
+      {
+        "id": "languages",
+        "label": "Languages",
+        "icon": "code",
+        "skills": [
+          { "name": "Python", "proficiency": 90, "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" },
+          { "name": "JavaScript", "proficiency": 85, "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" },
+          { "name": "TypeScript", "proficiency": 75, "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg" },
+          { "name": "HTML5", "proficiency": 90, "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" },
+          { "name": "CSS3", "proficiency": 85, "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg" },
+          { "name": "C", "proficiency": 70, "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/c/c-original.svg" },
+          { "name": "C++", "proficiency": 65, "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/cplusplus/cplusplus-original.svg" },
+          { "name": "Java", "proficiency": 60, "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg" },
+          { "name": "PHP", "proficiency": 60, "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/php/php-original.svg" },
+          { "name": "VB.NET", "proficiency": 55, "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/dot-net/dot-net-original.svg" }
+        ]
+      },
+      {
+        "id": "frameworks",
+        "label": "Frameworks & Libraries",
+        "icon": "layers",
+        "skills": [
+          { "name": "Django", "proficiency": 90, "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/django/django-plain.svg" },
+          { "name": "FastAPI", "proficiency": 80, "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/fastapi/fastapi-original.svg" },
+          { "name": "Flask", "proficiency": 75, "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/flask/flask-original.svg" },
+          { "name": "React.js", "proficiency": 80, "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" },
+          { "name": "Tailwind CSS", "proficiency": 90, "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tailwindcss/tailwindcss-original.svg" },
+          { "name": "Bootstrap", "proficiency": 80, "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/bootstrap/bootstrap-original.svg" },
+          { "name": "Tkinter", "proficiency": 65, "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" }
+        ]
+      },
+      {
+        "id": "databases",
+        "label": "Databases",
+        "icon": "database",
+        "skills": [
+          { "name": "MySQL", "proficiency": 85, "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg" },
+          { "name": "MariaDB", "proficiency": 80, "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mariadb/mariadb-original.svg" },
+          { "name": "SQLite", "proficiency": 80, "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/sqlite/sqlite-original.svg" },
+          { "name": "PostgreSQL", "proficiency": 60, "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg" }
+        ]
+      },
+      {
+        "id": "ai-ml",
+        "label": "AI / ML",
+        "icon": "cpu",
+        "skills": [
+          { "name": "AI/ML Model Integration", "proficiency": 80, "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tensorflow/tensorflow-original.svg" },
+          { "name": "LLM Integration", "proficiency": 85, "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/pytorch/pytorch-original.svg" },
+          { "name": "Computer Vision", "proficiency": 75, "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/opencv/opencv-original.svg" },
+          { "name": "Deep Learning (Keras/TF)", "proficiency": 70, "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tensorflow/tensorflow-original.svg" },
+          { "name": "Scikit-Learn", "proficiency": 75, "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/scikitlearn/scikitlearn-original.svg" },
+          { "name": "Pandas / NumPy", "proficiency": 80, "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/pandas/pandas-original.svg" },
+          { "name": "Prompt Engineering", "proficiency": 85, "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/jupyter/jupyter-original.svg" }
+        ]
+      },
+      {
+        "id": "tools-devops",
+        "label": "Tools & DevOps",
+        "icon": "tool",
+        "skills": [
+          { "name": "Git / GitHub", "proficiency": 90, "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg" },
+          { "name": "REST API Development", "proficiency": 85, "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/fastapi/fastapi-original.svg" },
+          { "name": "Docker (Basics)", "proficiency": 55, "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg" },
+          { "name": "Postman", "proficiency": 80, "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postman/postman-original.svg" },
+          { "name": "VS Code", "proficiency": 90, "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vscode/vscode-original.svg" }
+        ]
+      },
+      {
+        "id": "concepts",
+        "label": "Concepts & Practices",
+        "icon": "book-open",
+        "skills": [
+          { "name": "Full-Stack Web Architecture", "proficiency": 85, "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg" },
+          { "name": "System Design & Architecture Planning", "proficiency": 75, "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/kubernetes/kubernetes-original.svg" },
+          { "name": "ERP System Development", "proficiency": 80, "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/oracle/oracle-original.svg" },
+          { "name": "UI/UX Development", "proficiency": 80, "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/figma/figma-original.svg" },
+          { "name": "Database Design", "proficiency": 80, "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg" },
+          { "name": "Feature Planning", "proficiency": 85, "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/jira/jira-original.svg" },
+          { "name": "API Testing & Debugging", "proficiency": 80, "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postman/postman-original.svg" },
+          { "name": "Requirement Analysis", "proficiency": 80, "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/notion/notion-original.svg" }
+        ]
+      }
+    ],
+    "competitive_coding": [
+      { "platform": "HackerRank", "url": "https://www.hackerrank.com/profile/nejetushar07", "label": "HackerRank" },
+      { "platform": "CodeChef", "url": "https://www.codechef.com/users/nejetushar07", "label": "CodeChef" },
+      { "platform": "HackerEarth", "url": "https://www.hackerearth.com/@nejetushar07", "label": "HackerEarth" },
+      { "platform": "LeetCode", "url": "https://leetcode.com/u/tusharneje/", "label": "LeetCode" }
+    ]
+  },
+  "projects": [
+    {
+      "id": "acadx-erp",
+      "title": "ACADX – Enterprise Resource Planning System",
+      "short_title": "ACADX ERP",
+      "tag": "Seamless access to your enterprise's potential.",
+      "description": "ACADX is an academic ERP system designed for Schools, Colleges, and Polytechnic institutions to manage attendance, academic scores, and administrative workflows efficiently. It provides modules for attendance tracking, MSBTE-compatible score management, and digital NOC processing, along with AI-powered reports and export features. The system improves transparency, reduces administrative workload, and enables seamless collaboration among students, faculty, HODs, and staff through a responsive web platform.",
+      "tech_stack": ["Python", "Django 5.0", "MySQL", "MariaDB", "Django ORM", "HTML5", "CSS3", "JavaScript", "Bootstrap", "ReportLab", "Pandas", "NumPy", "XlsxWriter", "Google AI"],
+      "screenshots": [
+        "assets/projects/acadx-erp/01.png",
+        "assets/projects/acadx-erp/02.png",
+        "assets/projects/acadx-erp/03.png",
+        "assets/projects/acadx-erp/04.png",
+        "assets/projects/acadx-erp/05.png",
+        "assets/projects/acadx-erp/06.png",
+        "assets/projects/acadx-erp/07.png",
+        "assets/projects/acadx-erp/08.png",
+        "assets/projects/acadx-erp/09.png",
+        "assets/projects/acadx-erp/10.png",
+        "assets/projects/acadx-erp/11.png",
+        "assets/projects/acadx-erp/12.png",
+        "assets/projects/acadx-erp/13.png",
+        "assets/projects/acadx-erp/14.png",
+        "assets/projects/acadx-erp/15.png",
+        "assets/projects/acadx-erp/16.png",
+        "assets/projects/acadx-erp/17.png"
+      ],
+      "cover": "assets/projects/acadx-erp/01.png",
+      "github_url": "https://github.com/tusharneje-07/acadx-erp",
+      "linkedin_post": "https://www.linkedin.com/posts/tushar-neje_erp-python-django-activity-7279352528809414656-4xlZ",
+      "live_url": null,
+      "featured": true,
+      "category": "web",
+      "color_accent": "#3b82f6"
+    },
+    {
+      "id": "synedra-ai",
+      "title": "Synedra AI",
+      "short_title": "Synedra AI",
+      "tag": "Where ideas debate, decisions evolve.",
+      "description": "Synedra AI is an agentic multi-AI marketing strategy system that autonomously debates, decides, and executes end-to-end marketing strategies. Instead of relying on a single AI model, it uses a council of specialized agents (such as Trend, Brand, Risk, Engagement, and CMO agents) that analyze trends, evaluate risks, and generate platform-specific content strategies. The system employs structured debate and reasoning between agents to reach strategic decisions and continuously improves through a feedback loop using real engagement analytics.",
+      "tech_stack": ["Python", "Flask", "HTML", "CSS", "JavaScript", "Tailwind CSS", "Groq API", "Llama-3.3-70B-Versatile"],
+      "screenshots": [
+        "assets/projects/synedra-ai/01.png",
+        "assets/projects/synedra-ai/02.png",
+        "assets/projects/synedra-ai/03.png",
+        "assets/projects/synedra-ai/04.png",
+        "assets/projects/synedra-ai/05.png",
+        "assets/projects/synedra-ai/06.png",
+        "assets/projects/synedra-ai/07.png",
+        "assets/projects/synedra-ai/08.png",
+        "assets/projects/synedra-ai/09.png",
+        "assets/projects/synedra-ai/10.png",
+        "assets/projects/synedra-ai/11.png",
+        "assets/projects/synedra-ai/12.png",
+        "assets/projects/synedra-ai/13.png"
+      ],
+      "cover": "assets/projects/synedra-ai/01.png",
+      "github_url": "https://github.com/tusharneje-07/synedra-ai",
+      "linkedin_post": "https://www.linkedin.com/posts/tushar-neje_hackfusion-internationalhackathon-ieee-activity-7428368634575659008-dbHf",
+      "live_url": null,
+      "featured": true,
+      "category": "ai",
+      "color_accent": "#8b5cf6"
+    },
+    {
+      "id": "replate",
+      "title": "RePlate – AI-Driven Smart Surplus Food Redistribution",
+      "short_title": "RePlate",
+      "tag": "Connecting surplus food to consumers while reducing carbon emissions and food waste.",
+      "description": "RePlate is an AI-powered marketplace platform that connects restaurants, bakeries, and grocery stores with nearby consumers to redistribute surplus food before it expires. The system uses AI-driven demand forecasting, smart dynamic pricing, and location-based discovery to recommend discounted surplus food to users. If items remain unsold, the platform intelligently redirects them to nearby NGOs with optimized pickup routes, reducing food waste and improving food accessibility.",
+      "tech_stack": ["React.js", "TypeScript", "Tailwind CSS", "Python", "FastAPI", "Groq LLM", "Razorpay API", "Leaflet Maps", "Charts.js", "Relational Database"],
+      "screenshots": [
+        "assets/projects/replate/01.png",
+        "assets/projects/replate/02.png",
+        "assets/projects/replate/03.png",
+        "assets/projects/replate/04.png",
+        "assets/projects/replate/05.png",
+        "assets/projects/replate/06.png",
+        "assets/projects/replate/07.png",
+        "assets/projects/replate/08.png",
+        "assets/projects/replate/09.png",
+        "assets/projects/replate/10.png",
+        "assets/projects/replate/11.png",
+        "assets/projects/replate/12.png",
+        "assets/projects/replate/13.png",
+        "assets/projects/replate/14.png",
+        "assets/projects/replate/15.png",
+        "assets/projects/replate/16.png",
+        "assets/projects/replate/17.png",
+        "assets/projects/replate/18.png",
+        "assets/projects/replate/19.png"
+      ],
+      "cover": "assets/projects/replate/01.png",
+      "github_url": "https://github.com/tusharneje-07/RePlate",
+      "linkedin_post": null,
+      "live_url": null,
+      "featured": true,
+      "category": "ai",
+      "color_accent": "#22c55e"
+    }
+  ],
+  "experience": {
+    "education": [
+      {
+        "id": "edu-viit",
+        "degree": "Bachelor of Technology",
+        "field": "Computer Engineering",
+        "institution": "Vishwakarma Institute of Information Technology (VIIT)",
+        "location": "Kondhawa (Bk), Pune",
+        "period": "2024 – Present",
+        "year_start": 2024,
+        "year_end": null,
+        "status": "pursuing",
+        "description": "Pursuing B.Tech in Computer Engineering. Active in hackathon culture, research publication, and student leadership."
+      },
+      {
+        "id": "edu-dkte-poly",
+        "degree": "Polytechnic Diploma (MSBTE)",
+        "field": "Computer Science and Engineering",
+        "institution": "DKTE's Yashwantrao Chavan Polytechnic",
+        "location": "Ichalkaranji",
+        "period": "2021 – 2024",
+        "year_start": 2021,
+        "year_end": 2024,
+        "status": "completed",
+        "score": "94.00% Aggregate",
+        "score_detail": "91.11% (SY) & 97.06% (TY)",
+        "description": "Graduated with distinction. Held the highest student leadership position (General Secretary) in final year."
+      },
+      {
+        "id": "edu-ssc",
+        "degree": "SSC (Secondary School Certificate)",
+        "field": "(State Board)",
+        "institution": "Ichalkaranji Highschool Rajwada",
+        "location": "Ichalkaranji",
+        "period": "2021",
+        "year_start": null,
+        "year_end": 2021,
+        "status": "completed",
+        "score": "87%",
+        "description": "Completed SSC Board examination with 87%."
+      }
+    ],
+    "professional": [
+      {
+        "id": "exp-svl",
+        "role": "Full Stack Web Development Intern",
+        "organization": "SVL Automations",
+        "location": "Kolhapur",
+        "type": "internship",
+        "period": "July 2022",
+        "year_start": 2022,
+        "year_end": 2022,
+        "description": "Completed a full-stack web development internship, gaining hands-on experience with web technologies and production workflows.",
+        "highlights": [
+          "Developed and deployed full-stack web features",
+          "Worked with real production codebase",
+          "Gained exposure to industry workflows and client requirements"
+        ]
+      }
+    ],
+    "leadership": [
+      {
+        "id": "lead-president-viit",
+        "role": "President",
+        "organization": "Hackathons VIT",
+        "location": "Pune",
+        "type": "leadership",
+        "period": "2025 – Present",
+        "year_start": 2025,
+        "year_end": null,
+        "description": "Leading the hackathon organizing body at VIIT Pune, responsible for organizing large-scale national-level hackathon events.",
+        "highlights": [
+          "Leading end-to-end hackathon event planning and execution",
+          "Managing a cross-functional organizing team",
+          "Coordinating with sponsors, mentors, and participants"
+        ]
+      },
+      {
+        "id": "lead-tech-cohead",
+        "role": "Technical Co-Head",
+        "organization": "Hackathon VIIT (VIT-K)",
+        "location": "Pune",
+        "type": "leadership",
+        "period": "2024 – 2025",
+        "year_start": 2024,
+        "year_end": 2025,
+        "description": "Served as Technical Co-Head for VIIT's flagship hackathon, overseeing technical operations and participant experience.",
+        "highlights": [
+          "Managed technical infrastructure for hackathon events",
+          "Coordinated judging panels and problem statement design",
+          "Mentored participating teams throughout the event"
+        ]
+      },
+      {
+        "id": "lead-gen-sec",
+        "role": "General Secretary",
+        "organization": "DKTE's Yashwantrao Chavan Polytechnic",
+        "location": "Ichalkaranji",
+        "type": "leadership",
+        "period": "2023 – 2024",
+        "year_start": 2023,
+        "year_end": 2024,
+        "description": "Held the highest student leadership position at DKTE Polytechnic. Responsible for overseeing council activities, coordinating between students and administration, and leading major college events.",
+        "highlights": [
+          "Highest student leadership position in the institution",
+          "Coordinated between student body and administration",
+          "Led major college events and cultural initiatives",
+          "Awarded 'Student of the Year – Best Outgoing Student' for this term"
+        ]
+      }
+    ],
+    "awards": [
+      {
+        "id": "award-soty",
+        "title": "Student of the Year – Best Outgoing Student",
+        "organization": "DKTE's Yashwantrao Chavan Polytechnic",
+        "year": "2023–2024",
+        "description": "Awarded for outstanding academic performance, leadership, and contributions to the institution."
+      }
+    ]
+  },
+  "certificates": [
+    {
+      "id": "cert-nptel-python",
+      "name": "Python for Data Science",
+      "issuer": "NPTEL – IIT Madras",
+      "issuer_type": "nptel",
+      "date": "Jan–Feb 2023",
+      "image": "assets/certificates/NPTEL1.webp",
+      "category": "programming",
+      "description": "NPTEL Elite certification in Python for Data Science (4-week course). Score: 60%. Funded by MoE, Govt. of India."
+    },
+    {
+      "id": "cert-nptel-ethical-hacking",
+      "name": "Ethical Hacking",
+      "issuer": "NPTEL – IIT Kharagpur",
+      "issuer_type": "nptel",
+      "date": "Jul–Oct 2023",
+      "image": "assets/certificates/NPTEL2.webp",
+      "category": "programming",
+      "description": "NPTEL Elite certification in Ethical Hacking (12-week course). Score: 69%. Funded by MoE, Govt. of India."
+    }
+  ],
+  "research": [
+    {
+      "id": "research-acadx-erp",
+      "title": "Acadx: An Departmental ERP System",
+      "short_title": "Acadx ERP",
+      "authors": ["Tushar Neje", "Neha Patil", "Rushabh Zore", "Runali Ramdurge"],
+      "conference": "IJIRCCE",
+      "conference_full": "International Journal of Innovative Research in Computer and Communication Engineering",
+      "year": 2025,
+      "status": "published",
+      "abstract": "A departmental ERP system for academic institutions enabling automated attendance tracking, score management, digital NOC processing, and AI-powered reporting. Designed to reduce administrative overhead and improve transparency across institutional hierarchies.",
+      "pdf_url": "https://ijircce.com/admin/main/storage/app/pdf/NFeWUCxFGWKnEKH0UdJMokxx8BUEL5Bn3IK2BPB6.pdf",
+      "images": [],
+      "tags": ["ERP", "Django", "Academic Systems", "Web Application"]
+    }
+  ],
+  "activities": {
+    "extracurricular": [
+      {
+        "description": "Participated in institutional and inter-college cricket tournaments.",
+        "id": "extra-cricket",
+        "image": "assets/extracurricular/CRICKET.webp",
+        "name": "Cricket",
+        "type": "sports"
+      },
+      {
+        "description": "Interest in photography and visual storytelling.",
+        "id": "extra-ph1",
+        "image": "assets/extracurricular/PH1.webp",
+        "name": "Photography & Visual Arts",
+        "type": "creative"
+      }
+    ],
+    "hackathons": [
+      {
+        "description": "Secured 1st Rank at Advitya, organized by DKTE Polytechnic.",
+        "id": "hack-dkte",
+        "image": "assets/hackathons/DKTE.webp",
+        "location": "Ichalkaranji",
+        "name": "DKTE Hackathon",
+        "organization": "DKTE's Yashwantrao Chavan Polytechnic",
+        "result": "1st Rank",
+        "year": 2023
+      }
+    ]
+  }
+}
