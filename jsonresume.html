@@ -6,36 +6,54 @@
   <title>Tushar Neje — Resume (JSON)</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Merriweather:wght@700&display=swap" rel="stylesheet">
   <style>
-    :root{--paper:#ffffff;--page-bg:#f3f4f6;--text:#0b1720;--muted:#55606a;--accent:#111827}
-    html,body{height:100%;margin:0;background:var(--page-bg);color:var(--text);font-family:Inter,system-ui,Arial,sans-serif}
-    .paper{max-width:800px;margin:28px auto;padding:36px;background:var(--paper);box-shadow:0 10px 30px rgba(16,24,40,0.08);border-radius:6px;border:1px solid rgba(15,23,42,0.06)}
+    :root{--paper:#ffffff;--page-bg:#f6f7f8;--text:#0b1720;--muted:#55606a;--accent:#111827;--hr:#e6e9ef}
+    html,body{height:100%;margin:0;background:var(--page-bg);color:var(--text);font-family:Inter,system-ui,Arial,sans-serif;-webkit-font-smoothing:antialiased}
+
+    /* Paper container */
+    .paper{max-width:794px;margin:28px auto;padding:34px 40px;background:var(--paper);box-shadow:0 12px 30px rgba(16,24,40,0.06);border-radius:6px;border:1px solid rgba(15,23,42,0.04)}
+
+    /* Header */
     header{display:flex;align-items:flex-start;gap:18px}
     .meta{flex:1}
-    .name{font-family:Merriweather,serif;font-size:28px;margin:0 0 4px}
-    .title{font-weight:600;color:var(--muted);margin-bottom:6px}
-    .contact{font-size:13px;color:var(--muted);display:flex;flex-wrap:wrap;gap:10px}
-    .avatar{width:96px;height:96px;border-radius:6px;object-fit:cover;flex-shrink:0}
+    .name{font-family:Merriweather,serif;font-size:30px;margin:0 0 2px;line-height:1}
+    .title{font-weight:600;color:var(--muted);margin-bottom:8px;font-size:14px}
+    .contact{font-size:13px;color:var(--muted);display:flex;flex-wrap:wrap;gap:12px}
+    .contact a{color:var(--muted);text-decoration:none}
+    .avatar{width:96px;height:96px;border-radius:8px;object-fit:cover;flex-shrink:0;border:1px solid rgba(0,0,0,0.06)}
+    .avatar.circle{border-radius:50%}
 
+    /* Sections */
     .section{margin-top:20px}
-    .section h2{font-size:13px;letter-spacing:0.12em;text-transform:uppercase;margin:0 0 10px;color:var(--accent);font-weight:700}
-    .job{display:flex;justify-content:space-between;gap:12px;margin-bottom:12px}
+    .section h2{font-size:12px;letter-spacing:0.14em;text-transform:uppercase;margin:0 0 12px;color:var(--accent);font-weight:700;border-bottom:1px solid var(--hr);padding-bottom:8px}
+
+    .job{display:flex;justify-content:space-between;gap:12px;margin-bottom:10px}
     .job .left{flex:1}
     .job .right{min-width:120px;text-align:right;color:var(--muted);font-size:13px}
     .muted{color:var(--muted)}
-    ul{margin:6px 0 12px 18px}
-    .chips{display:flex;flex-wrap:wrap;gap:8px}
-    .chip{background:#eef2f6;padding:6px 8px;border-radius:6px;font-size:13px;color:var(--text)}
+    ul{margin:8px 0 14px 18px}
+    .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}
+    .chip{background:#f1f5f9;padding:6px 8px;border-radius:6px;font-size:13px;color:var(--text)}
     .tech{font-size:12px;color:var(--muted);margin-top:6px}
 
-    .actions{display:flex;justify-content:flex-end;gap:10px;margin-bottom:14px}
+    /* Controls & settings */
+    .actions{display:flex;justify-content:space-between;gap:12px;margin-bottom:14px;align-items:center}
+    .settings{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+    .settings label{font-size:13px;color:var(--muted);display:inline-flex;align-items:center;gap:6px}
+    select,input[type=checkbox]{font-size:13px}
+    .controls-right{display:flex;gap:10px}
     .btn{background:#111827;color:#fff;padding:8px 12px;border-radius:6px;text-decoration:none;font-size:13px}
-    .btn-secondary{background:transparent;color:var(--muted);border:1px solid rgba(0,0,0,0.06)}
+    .btn-secondary{background:transparent;color:var(--muted);border:1px solid rgba(0,0,0,0.06);padding:7px 10px;border-radius:6px}
+
+    /* Page-break helpers */
+    .avoid-break{page-break-inside:avoid;break-inside:avoid}
+    .page-break{page-break-after:always;break-after:page}
 
     /* Print friendly */
     @media print{
       body{background:white}
       .paper{box-shadow:none;border:none;margin:6mm auto;padding:18mm}
       .actions{display:none}
+      .section{page-break-inside:avoid;break-inside:avoid}
     }
 
     @media (max-width:720px){.paper{padding:20px}.avatar{width:78px;height:78px}}
@@ -44,8 +62,25 @@
 <body>
   <div class="paper" id="paper">
     <div class="actions">
-      <a id="download-resume" class="btn" href="#" download>Download PDF</a>
-      <a id="print-resume" class="btn btn-secondary" href="#" onclick="window.print();return false;">Print</a>
+      <div class="settings">
+        <label>Paper
+          <select id="paper-size">
+            <option value="a4">A4</option>
+            <option value="letter">US Letter</option>
+          </select>
+        </label>
+        <label>Orientation
+          <select id="paper-orientation">
+            <option value="portrait">Portrait</option>
+            <option value="landscape">Landscape</option>
+          </select>
+        </label>
+        <label><input type="checkbox" id="use-circle-avatar" /> Circular photo</label>
+      </div>
+      <div class="controls-right">
+        <a id="download-resume" class="btn" href="#" download>Download PDF</a>
+        <a id="print-resume" class="btn btn-secondary" href="#" onclick="window.print();return false;">Print</a>
+      </div>
     </div>
 
     <header>
@@ -96,6 +131,15 @@
       const avatar = document.getElementById('avatar');
       if(data.personal?.avatar) avatar.src = data.personal.avatar;
 
+      // wire avatar shape toggle
+      const avatarToggle = document.getElementById('use-circle-avatar');
+      function applyAvatarShape(){
+        if(avatarToggle && avatar){
+          if(avatarToggle.checked) avatar.classList.add('circle'); else avatar.classList.remove('circle');
+        }
+      }
+      if(avatarToggle){ avatarToggle.addEventListener('change', applyAvatarShape); applyAvatarShape(); }
+
       // contact
       const contactLine = document.getElementById('contact-line');
       contactLine.innerHTML = '';
@@ -110,9 +154,9 @@
       }
       contactItems.forEach(i=>contactLine.appendChild(i));
 
-      // download link
+      // download link (will generate PDF from rendered HTML by default)
       const dl = document.getElementById('download-resume');
-      if(data.personal?.resume){ dl.href = data.personal.resume; }
+      if(data.personal?.resume){ dl.dataset.original = data.personal.resume; }
 
       const content = document.getElementById('content');
       content.innerHTML = '';
@@ -306,13 +350,15 @@
         const name = (document.getElementById('name')?.textContent || 'resume').replace(/\s+/g,'_');
         const filename = `${name}_Resume.pdf`;
 
-        // options for html2pdf
+        // options for html2pdf (paperSize can be changed by UI)
+        const paperSize = document.getElementById('paper-size')?.value || 'a4';
+        const orientation = document.getElementById('paper-orientation')?.value || 'portrait';
         const opt = {
           margin: [10,10,10,10],
           filename: filename,
           image: { type: 'jpeg', quality: 0.98 },
           html2canvas: { scale: 2, useCORS: true, logging: false },
-          jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+          jsPDF: { unit: 'mm', format: paperSize, orientation: orientation }
         };
 
         // html2pdf will automatically prompt download
