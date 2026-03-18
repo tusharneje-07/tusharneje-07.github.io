@@ -499,9 +499,13 @@
       font-weight: 700;
       line-height: 1.2;
       color: var(--text);
-      white-space: nowrap;
+      /* Allow wrapping and clamp to two lines to avoid single-line truncation */
+      white-space: normal;
       overflow: hidden;
       text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
       max-width: 100%;
     }
 
@@ -1190,6 +1194,8 @@
 </main>
 
 <!-- ══════════════ SCRIPTS ══════════════ -->
+<!-- PDF.js (used for in-modal PDF viewing) -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
 <script>
   // ── Page + image loading ──
   const pageLoader = document.getElementById('page-loader');
@@ -1531,7 +1537,7 @@
         </span>
         <div class="skill-meta">
           <span class="skill-name">${s.name}</span>
-          <span class="skill-percent">${s.proficiency}%</span>
+          <span class="skill-percent">${s.proficiency}</span>
         </div>
       </div>
     `).join('');
@@ -1767,6 +1773,11 @@
 
   document.querySelectorAll('.proj-filter').forEach(btn => {
     btn.style.cssText = 'background:var(--bg);color:var(--muted);border:1px solid var(--border)';
+    // Attach click handler so filters actually work
+    btn.addEventListener('click', () => {
+      const f = btn.dataset.filter;
+      renderProjects(f);
+    });
   });
 
   fetch('data/projects.json')
@@ -1817,29 +1828,253 @@
         btn.addEventListener('click', e => {
           e.stopPropagation();
           const paper = papers.find(p => p.id === btn.dataset.rid);
-          if (!paper || !paper.images.length) return;
+          if (!paper) return;
           const modal = document.getElementById('research-modal');
           const inner = document.getElementById('research-modal-inner');
-          inner.innerHTML = `
-            <div style="padding:24px">
-              <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:16px">
-                <h2 style="font-family:'Syne',sans-serif;font-weight:800;font-size:1rem;color:var(--text)">${paper.short_title}</h2>
-                <button id="rm-close" style="width:32px;height:32px;border-radius:50%;background:var(--surface2);border:1px solid var(--border);color:var(--muted);cursor:pointer;display:flex;align-items:center;justify-content:center">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6 6 18M6 6l12 12"/></svg>
-                </button>
-              </div>
-              <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:8px">
-                ${paper.images.map((img, i) => `
-                  <a href="${img}" target="_blank" rel="noopener" style="display:block;border-radius:8px;overflow:hidden;border:1px solid var(--border)">
-                    <img src="${img}" alt="Page ${i+1}" style="width:100%;display:block" loading="lazy"/>
-                    <div style="font-size:0.65rem;text-align:center;padding:4px;color:var(--muted);font-family:'Syne',sans-serif">Page ${i+1}</div>
-                  </a>`).join('')}
-              </div>
-            </div>`;
-          modal.style.display = 'block';
-          document.body.style.overflow = 'hidden';
-          document.getElementById('rm-close').addEventListener('click', () => { modal.style.display='none'; document.body.style.overflow=''; });
-          modal.addEventListener('click', ev => { if (ev.target === modal) { modal.style.display='none'; document.body.style.overflow=''; } });
+
+          // If there's a PDF URL, open a dedicated PDF viewer inside the modal
+          if (paper.pdf_url) {
+            inner.innerHTML = `
+              <div style="padding:24px">
+                <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:12px">
+                  <div>
+                    <h2 style="font-family:'Syne',sans-serif;font-weight:800;font-size:1rem;color:var(--text);margin:0">${paper.short_title}</h2>
+                    <p style="font-size:0.8rem;color:var(--muted);margin:4px 0 0">${paper.conference_full || ''}</p>
+                  </div>
+                  <div style="display:flex;gap:8px;align-items:center">
+                    <a id="pdf-download" href="${paper.pdf_url}" target="_blank" rel="noopener" style="padding:8px 10px;border-radius:8px;background:var(--surface2);border:1px solid var(--border);color:var(--muted);text-decoration:none">Download</a>
+                    <button id="rm-close" aria-label="Close" style="width:36px;height:36px;border-radius:50%;background:var(--surface2);border:1px solid var(--border);color:var(--muted);cursor:pointer;display:flex;align-items:center;justify-content:center">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+                    </button>
+                  </div>
+                </div>
+
+                <div id="pdf-viewer-wrap" style="height:72vh;overflow:auto;border:1px solid var(--border);border-radius:12px;background:var(--surface);padding:12px">
+                  <div id="pdf-viewer-container" style="max-width:1100px;margin:0 auto"></div>
+                </div>
+              </div>`;
+
+            modal.style.display = 'block';
+            document.body.style.overflow = 'hidden';
+
+            const viewerWrap = inner.querySelector('#pdf-viewer-wrap');
+            const viewerContainer = inner.querySelector('#pdf-viewer-container');
+            const closeBtn = inner.querySelector('#rm-close');
+
+            // Use PDF.js if available
+            if (window.pdfjsLib) {
+              try {
+                pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
+              } catch (e) {}
+
+              let pdfDoc = null;
+              const pagesCache = {};
+              let currentScale = 1.0;
+              const MIN_SCALE = 0.5, MAX_SCALE = 3.0;
+
+              viewerContainer.innerHTML = '<div style="text-align:center;padding:32px;color:var(--muted)">Loading document…</div>';
+
+              const loadingTask = pdfjsLib.getDocument(paper.pdf_url);
+              loadingTask.promise.then(doc => {
+                pdfDoc = doc;
+                viewerContainer.innerHTML = '';
+
+                // compute initial scale to fit width
+                pdfDoc.getPage(1).then(firstPage => {
+                  const firstViewport = firstPage.getViewport({ scale: 1 });
+                  const wrapWidth = Math.max(200, viewerWrap.clientWidth - 24);
+                  currentScale = Math.max(0.6, Math.min(1.2, wrapWidth / firstViewport.width));
+
+                  const renderPromises = [];
+                  for (let i = 1; i <= pdfDoc.numPages; i++) {
+                    ((pageNum) => {
+                      pdfDoc.getPage(pageNum).then(page => {
+                        const viewport = page.getViewport({ scale: currentScale });
+                        const canvas = document.createElement('canvas');
+                        canvas.style.display = 'block';
+                        canvas.style.margin = '12px auto';
+                        canvas.style.maxWidth = '100%';
+                        canvas.style.height = 'auto';
+                        viewerContainer.appendChild(canvas);
+                        const ctx = canvas.getContext('2d');
+                        pagesCache[pageNum] = { page, canvas, ctx };
+                        const renderTask = page.render({ canvasContext: ctx, viewport });
+                        renderPromises.push(renderTask.promise);
+                      }).catch(() => {});
+                    })(i);
+                  }
+                  return Promise.all(renderPromises);
+                }).catch(() => {});
+              }).catch(() => {
+                viewerContainer.innerHTML = '<div style="text-align:center;padding:32px;color:var(--muted)">Failed to load PDF.</div>';
+              });
+
+              function rerenderAll() {
+                if (!pdfDoc) return;
+                for (let i = 1; i <= pdfDoc.numPages; i++) {
+                  const entry = pagesCache[i];
+                  if (!entry) continue;
+                  const viewport = entry.page.getViewport({ scale: currentScale });
+                  entry.canvas.width = viewport.width;
+                  entry.canvas.height = viewport.height;
+                  entry.canvas.style.maxWidth = '100%';
+                  entry.canvas.style.height = 'auto';
+                  entry.page.render({ canvasContext: entry.ctx, viewport }).promise.catch(() => {});
+                }
+              }
+
+              // Pinch-to-zoom support for touch devices
+              let pinchStartDist = 0;
+              let pinchStartScale = currentScale;
+              const getPinchDist = (t) => Math.hypot(t[0].clientX - t[1].clientX, t[0].clientY - t[1].clientY);
+
+              const onTouchStart = (ev) => {
+                if (ev.touches && ev.touches.length === 2) {
+                  ev.preventDefault();
+                  pinchStartDist = getPinchDist(ev.touches);
+                  pinchStartScale = currentScale;
+                }
+              };
+              const onTouchMove = (ev) => {
+                if (ev.touches && ev.touches.length === 2 && pinchStartDist) {
+                  ev.preventDefault();
+                  const d = getPinchDist(ev.touches);
+                  const factor = d / pinchStartDist;
+                  currentScale = Math.max(MIN_SCALE, Math.min(MAX_SCALE, pinchStartScale * factor));
+                  rerenderAll();
+                }
+              };
+              const onTouchEnd = (ev) => {
+                if (!ev.touches || ev.touches.length < 2) pinchStartDist = 0;
+              };
+              viewerWrap.addEventListener('touchstart', onTouchStart, { passive: false });
+              viewerWrap.addEventListener('touchmove', onTouchMove, { passive: false });
+              viewerWrap.addEventListener('touchend', onTouchEnd);
+
+              const cleanup = () => {
+                try { pdfDoc?.destroy?.(); } catch (e) {}
+                viewerContainer.innerHTML = '';
+                for (const k in pagesCache) delete pagesCache[k];
+                pdfDoc = null;
+                // remove touch listeners
+                try { viewerWrap.removeEventListener('touchstart', onTouchStart); viewerWrap.removeEventListener('touchmove', onTouchMove); viewerWrap.removeEventListener('touchend', onTouchEnd); } catch (e) {}
+              };
+
+              closeBtn?.addEventListener('click', () => { modal.style.display = 'none'; document.body.style.overflow = ''; cleanup(); });
+              modal.addEventListener('click', ev => { if (ev.target === modal) { modal.style.display = 'none'; document.body.style.overflow = ''; cleanup(); } });
+
+            } else {
+              // Fallback: embed PDF in iframe if PDF.js is not available
+              inner.querySelector('#pdf-viewer-container').innerHTML = `<iframe src="${paper.pdf_url}" style="width:100%;height:72vh;border:none"></iframe>`;
+              inner.querySelector('#rm-close').addEventListener('click', () => { modal.style.display = 'none'; document.body.style.overflow = ''; });
+              modal.addEventListener('click', ev => { if (ev.target === modal) { modal.style.display = 'none'; document.body.style.overflow = ''; } });
+            }
+
+          } else if (paper.images && paper.images.length) {
+            // If no PDF is available, show images in a document-like scrollable viewer
+            inner.innerHTML = `
+              <div style="padding:24px">
+                <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:12px">
+                  <div>
+                    <h2 style="font-family:'Syne',sans-serif;font-weight:800;font-size:1rem;color:var(--text);margin:0">${paper.short_title}</h2>
+                    <p style="font-size:0.8rem;color:var(--muted);margin:4px 0 0">${paper.conference_full || ''}</p>
+                  </div>
+                  <div style="display:flex;gap:8px;align-items:center">
+                    <!-- Close only: zoom UI removed - pinch-to-zoom is supported on touch devices -->
+                    <button id="rm-close" aria-label="Close" style="width:36px;height:36px;border-radius:50%;background:var(--surface2);border:1px solid var(--border);color:var(--muted);cursor:pointer;display:flex;align-items:center;justify-content:center">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+                    </button>
+                  </div>
+                </div>
+
+                <div id="pdf-viewer-wrap" style="height:72vh;overflow:auto;border:1px solid var(--border);border-radius:12px;background:var(--surface);padding:12px">
+                  <div id="pdf-viewer-container" style="max-width:1100px;margin:0 auto"></div>
+                </div>
+              </div>`;
+
+            modal.style.display = 'block';
+            document.body.style.overflow = 'hidden';
+
+            const viewerWrap = inner.querySelector('#pdf-viewer-wrap');
+            const viewerContainer = inner.querySelector('#pdf-viewer-container');
+            const closeBtn = inner.querySelector('#rm-close');
+
+            // Render images stacked vertically and provide pinch-to-zoom on touch devices
+            viewerContainer.innerHTML = '';
+            const MIN_SCALE = 0.5, MAX_SCALE = 3.0;
+            let currentScale = 1.0;
+
+            // Append images
+            paper.images.forEach((src, idx) => {
+              const img = document.createElement('img');
+              img.src = src;
+              img.alt = `Page ${idx+1}`;
+              img.loading = 'lazy';
+              img.style.display = 'block';
+              img.style.margin = '12px auto';
+              img.style.height = 'auto';
+              img.style.maxWidth = '100%';
+              // width will be adjusted by rerenderAllImages()
+              viewerContainer.appendChild(img);
+            });
+
+            function rerenderAllImages() {
+              const wrapWidth = Math.max(200, viewerWrap.clientWidth - 24);
+              viewerContainer.querySelectorAll('img').forEach(img => {
+                // Set explicit width to achieve crisp layout and support zoom
+                img.style.width = Math.round(wrapWidth * currentScale) + 'px';
+                img.style.maxWidth = '100%';
+                img.style.height = 'auto';
+              });
+            }
+
+            // Initial fit
+            currentScale = 1.0;
+            rerenderAllImages();
+
+            // Pinch-to-zoom support for stacked images (touch)
+            let pinchStartDist = 0;
+            let pinchStartScale = currentScale;
+            const getPinchDist = (t) => Math.hypot(t[0].clientX - t[1].clientX, t[0].clientY - t[1].clientY);
+
+            const onTouchStart = (ev) => {
+              if (ev.touches && ev.touches.length === 2) {
+                ev.preventDefault();
+                pinchStartDist = getPinchDist(ev.touches);
+                pinchStartScale = currentScale;
+              }
+            };
+
+            const onTouchMove = (ev) => {
+              if (ev.touches && ev.touches.length === 2 && pinchStartDist) {
+                ev.preventDefault();
+                const d = getPinchDist(ev.touches);
+                const factor = d / pinchStartDist;
+                currentScale = Math.max(MIN_SCALE, Math.min(MAX_SCALE, pinchStartScale * factor));
+                rerenderAllImages();
+              }
+            };
+
+            const onTouchEnd = (ev) => {
+              if (!ev.touches || ev.touches.length < 2) pinchStartDist = 0;
+            };
+
+            viewerWrap.addEventListener('touchstart', onTouchStart, { passive: false });
+            viewerWrap.addEventListener('touchmove', onTouchMove, { passive: false });
+            viewerWrap.addEventListener('touchend', onTouchEnd);
+
+            const onResize = () => { rerenderAllImages(); };
+            window.addEventListener('resize', onResize);
+
+             const cleanup = () => {
+               window.removeEventListener('resize', onResize);
+               try { viewerWrap.removeEventListener('touchstart', onTouchStart); viewerWrap.removeEventListener('touchmove', onTouchMove); viewerWrap.removeEventListener('touchend', onTouchEnd); } catch (e) {}
+               viewerContainer.innerHTML = '';
+             };
+
+            closeBtn?.addEventListener('click', () => { modal.style.display = 'none'; document.body.style.overflow = ''; cleanup(); });
+            modal.addEventListener('click', ev => { if (ev.target === modal) { modal.style.display = 'none'; document.body.style.overflow = ''; cleanup(); } });
+          }
         });
       });
     });
@@ -1956,7 +2191,7 @@
             data-title="${encodeData(h.name)}"
             data-subtitle="${encodeData(`${h.organization} - ${h.location}, ${h.year}`)}"
             data-description="${encodeData(h.description || '')}"
-            data-image="${encodeData(h.image || '')}">View Proof</button>
+            data-image="${encodeData(h.image || '')}">View Certificate</button>
         </div>
       </article>`;
     }

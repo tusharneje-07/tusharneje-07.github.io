@@ -29,7 +29,7 @@
     "github_url": "https://github.com/tusharneje-07/acadx-erp",
     "linkedin_post": "https://www.linkedin.com/posts/tushar-neje_erp-python-django-activity-7279352528809414656-4xlZ",
     "live_url": null,
-    "featured": true,
+    "featured": false,
     "category": "web",
     "color_accent": "#3b82f6"
   },
@@ -59,7 +59,7 @@
     "github_url": "https://github.com/tusharneje-07/synedra-ai",
     "linkedin_post": "https://www.linkedin.com/posts/tushar-neje_hackfusion-internationalhackathon-ieee-activity-7428368634575659008-dbHf",
     "live_url": null,
-    "featured": true,
+    "featured": false,
     "category": "ai",
     "color_accent": "#8b5cf6"
   },
@@ -95,7 +95,7 @@
     "github_url": "https://github.com/tusharneje-07/RePlate",
     "linkedin_post": null,
     "live_url": null,
-    "featured": true,
+    "featured": false,
     "category": "ai",
     "color_accent": "#22c55e"
   },
@@ -123,7 +123,7 @@
     "github_url": "https://github.com/tusharneje-07/NyayaSearch",
     "linkedin_post": "https://www.linkedin.com/posts/tushar-neje_hackoverflow2025-hackathonexperience-aiforlawyers-activity-7310896466200293376-LfOE",
     "live_url": null,
-    "featured": true,
+    "featured": false,
     "category": "ai",
     "color_accent": "#f59e0b"
   },

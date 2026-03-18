@@ -37,9 +37,9 @@
       "description": "Secured 1st Rank in Crackers 2.0, organized by JJMCOE.",
       "id": "hack-jjmcoe1",
       "image": "assets/hackathons/JJMCOE1.webp",
-      "location": "Pune",
-      "name": "JJMCOE Hackathon 1",
-      "organization": "Jayawantrao Sawant College of Engineering",
+      "location": "Jaysingpur",
+      "name": "Crackers 2.0",
+      "organization": "Jaisinghpur College of Engineering, Jaysingpur",
       "result": "1st Rank",
       "year": 2023
     },
@@ -47,17 +47,17 @@
       "description": "Secured 3rd Rank in Crackers, organized by JJMCOE.",
       "id": "hack-jjmcoe3",
       "image": "assets/hackathons/JJMCOE3.webp",
-      "location": "Pune",
-      "name": "JJMCOE Competition",
-      "organization": "Jayawantrao Sawant College of Engineering",
+      "location": "Jaysingpur",
+      "name": "Crackers",
+      "organization": "Jaisinghpur College of Engineering, Jaysingpur",
       "result": "3rd Rank",
       "year": 2023
     },
     {
-      "description": "Participated in LiFi technology showcase and competition.",
+      "description": "Secured 3rd Rank in Model Making and Presentations, organized by DKTE YCP, Ichalkaranji.",
       "id": "hack-lifi",
       "image": "assets/hackathons/LIFI.webp",
-      "location": "Kolhapur",
+      "location": "Ichalkaranji",
       "name": "LiFi Technology Event",
       "organization": "Technical Event",
       "result": "Participant",
@@ -79,19 +79,19 @@
       "image": "assets/hackathons/SGI.webp",
       "location": "Kolhapur",
       "name": "SGI Hackathon",
-      "organization": "Shivaji University / SGI",
+      "organization": "Sanjay Ghodavat Institute of Technology, Kolhapur",
       "result": "Participant",
-      "year": 2024
+      "year": 2023
     },
     {
-      "description": "Second participation in SGI technical events.",
+      "description": "Participated in SGI organized technical competition.",
       "id": "hack-sgi2",
       "image": "assets/hackathons/SGI2.webp",
       "location": "Kolhapur",
-      "name": "SGI Competition 2",
-      "organization": "Shivaji University / SGI",
+      "name": "SGI Competition",
+      "organization": "Sanjay Ghodavat Institute of Technology, Kolhapur",
       "result": "Participant",
-      "year": 2024
+      "year": 2022
     },
     {
       "description": "Participated in technical event at SGM College.",
@@ -101,47 +101,47 @@
       "name": "SGM Technical Event",
       "organization": "SGM College",
       "result": "Participant",
-      "year": 2024
+      "year": 2023
     },
     {
-      "description": "Participated in hackathon organized at SITD Pune.",
+      "description": "Participated in technical event at SIT, Ichalkaranji.",
       "id": "hack-sitd",
       "image": "assets/hackathons/SITD.webp",
-      "location": "Pune",
-      "name": "SITD Hackathon",
-      "organization": "Sinhgad Institute of Technology and Design",
+      "location": "Ichalkaranji",
+      "name": "Imputest 2023",
+      "organization": "Sharad Institute of Technology, Ichalkaranji",
       "result": "Participant",
-      "year": 2025
+      "year": 2023
     },
     {
-      "description": "Participated in technical event at SITD.",
+      "description": "Secured 1st Rank at Ornate 2022, organized by SIT Polytechnic.",
       "id": "hack-sitd1",
       "image": "assets/hackathons/SITD-1.webp",
-      "location": "Pune",
-      "name": "SITD Technical Event",
-      "organization": "Sinhgad Institute of Technology and Design",
-      "result": "Participant",
-      "year": 2025
+      "location": "Ichalkaranji",
+      "name": "ORNATE 2022",
+      "organization": "Sharad Institute of Technology, Ichalkaranji",
+      "result": "1st Rank",
+      "year": 2022
     },
     {
-      "description": "Participated in mock hackathon at SIT Pune.",
+      "description": "Participated in Mock Interview at, SIT Ichalkaranji.",
       "id": "hack-sitmock",
       "image": "assets/hackathons/SITMOCK.webp",
-      "location": "Pune",
-      "name": "SIT Mock Hackathon",
+      "location": "Ichalkaranji",
+      "name": "ORNATE 2023",
       "organization": "Symbiosis Institute of Technology",
       "result": "Participant",
-      "year": 2025
+      "year": 2023
     },
     {
       "description": "Participated in national-level hackathon at VVP Engineering College.",
       "id": "hack-vvp",
       "image": "assets/hackathons/VVP.webp",
-      "location": "Rajkot",
-      "name": "VVP Hackathon",
+      "location": "Loni",
+      "name": "Techcode War 2023",
       "organization": "VVP Engineering College",
-      "result": "Participant",
-      "year": 2025
+      "result": "3rd Rank",
+      "year": 2023
     }
   ]
 }

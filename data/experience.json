@@ -10,6 +10,7 @@
       "year_start": 2024,
       "year_end": null,
       "status": "pursuing",
+      "score": "8.9 CGPA (Till 3rd Year 1st Sem)",
       "description": "Pursuing B.Tech in Computer Engineering. Active in hackathon culture, research publication, and student leadership."
     },
     {
@@ -41,6 +42,23 @@
     }
   ],
   "professional": [
+    {
+      "id": "exp-ttmf",
+      "role": "Product Operations Volunteering (Part-Time)",
+      "organization": "The Tann Mann Foundation",
+      "location": "Banglore (Remote)",
+      "type": "internship",
+      "period": "Jun 2025 - Mar 2026",
+      "year_start": 2025,
+      "year_end": 2026,
+      "description": "Contributing to product operations for a startup, supporting product development and user engagement initiatives.",
+      "highlights": [
+        "Built dashboards and reports to track product metrics and support data-driven decision making",  
+        "Analyzed user feedback and optimized workflows to improve product features and overall execution"
+
+      ]
+    },
+
     {
       "id": "exp-svl",
       "role": "Full Stack Web Development Intern",
