@@ -643,6 +643,7 @@
 
     #evidence-body { padding: 14px; }
     #evidence-image-wrap {
+      position: relative;
       border: 1px solid var(--border);
       border-radius: 12px;
       overflow: hidden;
@@ -657,6 +658,61 @@
       object-fit: contain;
       max-height: 80vh;
     }
+
+    /* Loader shown while evidence image is pending */
+    .evidence-loader {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(rgba(6,7,9,0.6), rgba(6,7,9,0.6));
+      opacity: 0;
+      transition: opacity 180ms ease;
+      pointer-events: none;
+    }
+
+    /* Spinner */
+    .evidence-spinner {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      border: 4px solid rgba(255,255,255,0.08);
+      border-top-color: var(--accent);
+      box-shadow: 0 6px 18px rgba(0,0,0,0.45);
+      animation: evidence-spin 0.9s linear infinite;
+    }
+
+    /* Error overlay when image fails to load */
+    .evidence-error {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      background: linear-gradient(rgba(6,7,9,0.7), rgba(6,7,9,0.7));
+      color: var(--muted);
+      padding: 12px;
+      opacity: 0;
+      transition: opacity 180ms ease;
+      pointer-events: none;
+      text-align: center;
+    }
+
+    #evidence-image.img-error + .evidence-loader { opacity: 0; pointer-events: none; }
+    #evidence-image.img-error + .evidence-loader + .evidence-error { opacity: 1; pointer-events: auto; }
+
+    .evidence-error .err-title { font-weight: 700; color: var(--text); }
+    .evidence-error .err-actions { display:flex; gap:8px; }
+    .evidence-error .err-btn { padding:8px 12px; border-radius:8px; background:var(--surface2); border:1px solid var(--border); color:var(--muted); cursor:pointer; }
+    .evidence-error .err-btn.primary { background: var(--accent); color: #000; border-color: transparent; }
+    /* show loader while #evidence-image has pending class */
+    #evidence-image.img-pending + .evidence-loader { opacity: 1; pointer-events: auto; }
+    #evidence-image.img-ready + .evidence-loader  { opacity: 0; pointer-events: none; }
+
+    @keyframes evidence-spin { to { transform: rotate(360deg); } }
 
     /* ── Skeleton loader ── */
     .skeleton {
@@ -1055,11 +1111,22 @@
         </div>
         <button id="evidence-close" aria-label="Close preview">x</button>
       </div>
-      <div id="evidence-body">
+        <div id="evidence-body">
         <div id="evidence-image-wrap">
-          <img id="evidence-image" alt="Evidence preview" loading="lazy" />
+            <img id="evidence-image" alt="Evidence preview" loading="lazy" />
+            <div class="evidence-loader" aria-hidden="true">
+              <div class="evidence-spinner" role="status" aria-label="Loading image"></div>
+            </div>
+            <div class="evidence-error" aria-hidden="true">
+              <div class="err-title">Failed to load image</div>
+              <div class="err-desc">The image could not be loaded. This may be due to a network error or the file being unavailable.</div>
+              <div class="err-actions">
+                <button class="err-btn err-retry" type="button">Retry</button>
+                <button class="err-btn err-open" type="button">Open original</button>
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
     </div>
   </div>
 
@@ -2144,8 +2211,63 @@
     title.textContent = payload.title || 'Preview';
     subtitle.textContent = payload.subtitle || '';
     desc.textContent = payload.description || '';
-    image.src = payload.image || '';
+    // Show loader and set image src (handle cached images too)
     image.alt = payload.title || 'Preview';
+    image.classList.remove('img-ready');
+    image.classList.add('img-pending');
+
+
+    // Prepare loader / error UI states
+    const errorOverlay = document.querySelector('#evidence-image-wrap .evidence-error');
+    const retryBtn = errorOverlay?.querySelector('.err-retry');
+    const openBtn = errorOverlay?.querySelector('.err-open');
+
+    // Handlers
+    const markReady = () => {
+      image.classList.remove('img-pending', 'img-error');
+      image.classList.add('img-ready');
+      if (errorOverlay) errorOverlay.style.opacity = '0';
+    };
+    const markError = () => {
+      image.classList.remove('img-pending', 'img-ready');
+      image.classList.add('img-error');
+      if (errorOverlay) errorOverlay.style.opacity = '1';
+    };
+
+    const onLoad = () => { markReady(); cleanupListeners(); };
+    const onError = () => { markError(); cleanupListeners(); };
+
+    const cleanupListeners = () => {
+      try { image.removeEventListener('load', onLoad); image.removeEventListener('error', onError); } catch (e) {}
+    };
+
+    // Retry / open handlers
+    const onRetry = () => {
+      // reset and reload
+      image.classList.remove('img-error', 'img-ready');
+      image.classList.add('img-pending');
+      if (errorOverlay) errorOverlay.style.opacity = '0';
+      // force reload by changing src (cache-bust)
+      const src = payload.image || '';
+      image.src = src ? (src + (src.includes('?') ? '&' : '?') + 'cachebust=' + Date.now()) : '';
+    };
+    const onOpenOriginal = () => {
+      const src = payload.image || '';
+      if (src) window.open(src, '_blank', 'noopener');
+    };
+
+    // Assign src after setting classes/listeners
+    image.addEventListener('load', onLoad, { once: true });
+    image.addEventListener('error', onError, { once: true });
+    if (retryBtn) retryBtn.addEventListener('click', onRetry);
+    if (openBtn) openBtn.addEventListener('click', onOpenOriginal);
+
+    image.src = payload.image || '';
+
+    // If image is already cached and complete, mark ready immediately
+    if (image.complete && image.naturalWidth) {
+      requestAnimationFrame(() => { markReady(); cleanupListeners(); });
+    }
 
     modal.style.display = 'block';
     document.body.style.overflow = 'hidden';
@@ -2156,7 +2278,13 @@
     const image = document.getElementById('evidence-image');
     if (!modal || modal.style.display !== 'block') return;
     modal.style.display = 'none';
-    if (image) image.removeAttribute('src');
+    if (image) {
+      image.removeAttribute('src');
+      image.classList.remove('img-pending', 'img-ready', 'img-error');
+      // hide error overlay if present
+      const errorOverlay = document.querySelector('#evidence-image-wrap .evidence-error');
+      if (errorOverlay) errorOverlay.style.opacity = '0';
+    }
     document.body.style.overflow = '';
   }
 
