@@ -28,10 +28,10 @@
       "id": "hack-dkte",
       "image": "assets/hackathons/DKTE.webp",
       "location": "Ichalkaranji",
-      "name": "DKTE Hackathon",
+      "name": "Advitya (Code-Astra)",
       "organization": "DKTE's Yashwantrao Chavan Polytechnic",
       "result": "1st Rank",
-      "year": 2023
+      "year": 2022
     },
     {
       "description": "Secured 1st Rank in Crackers 2.0, organized by JJMCOE.",
@@ -51,34 +51,34 @@
       "name": "Crackers",
       "organization": "Jaisinghpur College of Engineering, Jaysingpur",
       "result": "3rd Rank",
-      "year": 2023
+      "year": 2022
     },
     {
       "description": "Secured 3rd Rank in Model Making and Presentations, organized by DKTE YCP, Ichalkaranji.",
       "id": "hack-lifi",
       "image": "assets/hackathons/LIFI.webp",
       "location": "Ichalkaranji",
-      "name": "LiFi Technology Event",
+      "name": "Project Presentation & Model Making",
       "organization": "Technical Event",
       "result": "Participant",
-      "year": 2023
+      "year": 2022
     },
     {
       "description": "Participated in hackathon organized at RIT.",
       "id": "hack-rit",
       "image": "assets/hackathons/RIT.webp",
       "location": "Sangli",
-      "name": "RIT Hackathon",
+      "name": "Code Utsav 2023",
       "organization": "Rajarambapu Institute of Technology",
       "result": "Participant",
-      "year": 2024
+      "year": 2023
     },
     {
       "description": "Participated in SGI organized technical competition.",
       "id": "hack-sgi",
       "image": "assets/hackathons/SGI.webp",
       "location": "Kolhapur",
-      "name": "SGI Hackathon",
+      "name": "Nimbus 2023",
       "organization": "Sanjay Ghodavat Institute of Technology, Kolhapur",
       "result": "Participant",
       "year": 2023
@@ -88,7 +88,7 @@
       "id": "hack-sgi2",
       "image": "assets/hackathons/SGI2.webp",
       "location": "Kolhapur",
-      "name": "SGI Competition",
+      "name": "Nimbus 2022",
       "organization": "Sanjay Ghodavat Institute of Technology, Kolhapur",
       "result": "Participant",
       "year": 2022
@@ -98,7 +98,7 @@
       "id": "hack-sgm",
       "image": "assets/hackathons/SGM.webp",
       "location": "Karad",
-      "name": "SGM Technical Event",
+      "name": "Anuttara 2023",
       "organization": "SGM College",
       "result": "Participant",
       "year": 2023
@@ -108,7 +108,7 @@
       "id": "hack-sitd",
       "image": "assets/hackathons/SITD.webp",
       "location": "Ichalkaranji",
-      "name": "Imputest 2023",
+      "name": "CodePy (Imputest 2023)",
       "organization": "Sharad Institute of Technology, Ichalkaranji",
       "result": "Participant",
       "year": 2023
@@ -118,7 +118,7 @@
       "id": "hack-sitd1",
       "image": "assets/hackathons/SITD-1.webp",
       "location": "Ichalkaranji",
-      "name": "ORNATE 2022",
+      "name": "Programmies (ORNATE 2022)",
       "organization": "Sharad Institute of Technology, Ichalkaranji",
       "result": "1st Rank",
       "year": 2022
@@ -129,7 +129,7 @@
       "image": "assets/hackathons/SITMOCK.webp",
       "location": "Ichalkaranji",
       "name": "ORNATE 2023",
-      "organization": "Symbiosis Institute of Technology",
+      "organization": "Sharad Institute of Technology, Ichalkaranji",
       "result": "Participant",
       "year": 2023
     },

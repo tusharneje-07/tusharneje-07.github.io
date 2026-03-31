@@ -927,7 +927,7 @@
               Resume
             </a>
             <a href="#contact" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-semibold font-display transition-all duration-200" style="background:transparent; color:var(--text); border:1px solid var(--border);">
-              Let us connect
+              Let's connect
             </a>
           </div>
 
@@ -959,9 +959,10 @@
             <span id="about-langs" class="flex gap-2 flex-wrap"></span>
           </div>
         </div>
-
+        
+        <!-- change(hidden): Removed Stats -->
         <!-- Right: quick stats -->
-        <div class="reveal reveal-delay-2 lg:w-80 shrink-0 grid grid-cols-2 gap-3">
+        <div class="hidden reveal reveal-delay-2 lg:w-80 shrink-0 grid grid-cols-2 gap-3">
           <div class="stat-card col-span-2 rounded-xl p-5" style="background:var(--surface); border:1px solid var(--border);">
             <div class="text-3xl font-display font-extrabold mb-1" style="color:var(--accent)">94<span class="text-lg">%</span></div>
             <div class="text-xs font-display font-semibold uppercase tracking-widest" style="color:var(--muted)">Polytechnic Aggregate</div>
@@ -1195,25 +1196,31 @@
       <!-- Extracurricular grid -->
       <div id="act-extra-grid" class="hidden grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"></div>
 
+
+      <!-- change(hide): Count Conflicts & Unnecessary Stats-->
       <!-- Stats row -->
-      <div id="act-stats" class="hidden mt-10 flex flex-wrap gap-4">
-        <div class="flex-1 min-w-[140px] rounded-xl p-5 text-center" style="background:var(--surface);border:1px solid var(--border)">
+      <!-- <div id="act-stats" class="hidden mt-10 flex flex-wrap gap-4"> -->
+      <div id="act-stats" class="hidden mt-10 gap-4">
+        <div class="hidden flex-1 min-w-[140px] rounded-xl p-5 text-center" style="background:var(--surface);border:1px solid var(--border)">
           <div class="font-display font-extrabold text-3xl mb-1" style="color:var(--accent)">12+</div>
           <div class="text-xs" style="color:var(--muted)">Hackathons &amp; Events</div>
         </div>
-        <div class="flex-1 min-w-[140px] rounded-xl p-5 text-center" style="background:var(--surface);border:1px solid var(--border)">
+        <div class="hidden flex-1 min-w-[140px] rounded-xl p-5 text-center" style="background:var(--surface);border:1px solid var(--border)">
           <div class="font-display font-extrabold text-3xl mb-1" style="color:var(--accent)">5+</div>
           <div class="text-xs" style="color:var(--muted)">Cities Visited</div>
         </div>
-        <div class="flex-1 min-w-[140px] rounded-xl p-5 text-center" style="background:var(--surface);border:1px solid var(--border)">
+
+        <div class="hidden flex-1 min-w-[140px] rounded-xl p-5 text-center" style="background:var(--surface);border:1px solid var(--border)">
           <div class="font-display font-extrabold text-3xl mb-1" style="color:var(--accent)">1st</div>
           <div class="text-xs" style="color:var(--muted)">Rank at JJMCOE</div>
         </div>
-        <div class="flex-1 min-w-[140px] rounded-xl p-5 text-center" style="background:var(--surface);border:1px solid var(--border)">
+        
+        <div class="hidden flex-1 min-w-[140px] rounded-xl p-5 text-center" style="background:var(--surface);border:1px solid var(--border)">
           <div class="font-display font-extrabold text-3xl mb-1" style="color:var(--accent)">3</div>
           <div class="text-xs" style="color:var(--muted)">Extracurricular Activities</div>
         </div>
       </div>
+      
     </div>
   </section>
 
