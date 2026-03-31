@@ -33,11 +33,11 @@
     "id": "cert-android",
     "name": "Android App Development Workshop",
     "issuer": "MSME-PPDC, Govt. of India",
-    "issuer_type": "government",
-    "date": "Mar 2023",
+    "issuer_type": "MSME",
+    "date": "Apr 2023",
     "image": "assets/certificates/ANDROID.webp",
     "category": "development",
-    "description": "Workshop on Android App Development conducted at Kolhapur (23–25 Mar 2023) by MSME Technology Development Centre, Agra."
+    "description": "Workshop on Android App Development conducted by MSME Technology Development Centre, Agra."
   },
   {
     "id": "cert-cpp",
@@ -47,7 +47,7 @@
     "date": "Aug 2022",
     "image": "assets/certificates/CPP.webp",
     "category": "programming",
-    "description": "ISO 9001:2008 certified course in C++ Programming. Score: 100/100. DiSHA Computer Institute, Ichalkaranji."
+    "description": "Certified course in C++ Programming. Score: 100/100. DiSHA Computer Institute, Ichalkaranji."
   },
   {
     "id": "cert-dev1",
@@ -134,7 +134,7 @@
     "name": "Full-Stack Web Development Internship",
     "issuer": "SVL Automations",
     "issuer_type": "company",
-    "date": "2022",
+    "date": "2023",
     "image": "assets/certificates/SVL1.webp",
     "category": "internship",
     "description": "Internship completion certificate from SVL Automations in full-stack web development."
@@ -144,7 +144,7 @@
     "name": "Internship Certificate of Appreciation",
     "issuer": "SVL Automations",
     "issuer_type": "company",
-    "date": "2022",
+    "date": "2023",
     "image": "assets/certificates/SVL2.webp",
     "category": "internship",
     "description": "Certificate of appreciation from SVL Automations internship program."
@@ -164,7 +164,7 @@
     "name": "CCNA – Networking Fundamentals",
     "issuer": "Cisco / CCNC",
     "issuer_type": "cisco",
-    "date": null,
+    "date": "Nov 2025",
     "image": "assets/certificates/CCNC_Certificate.webp",
     "category": "networking",
     "description": "Cisco networking certification covering network fundamentals and configuration."
@@ -174,7 +174,7 @@
     "name": "SAP Technology Consultant",
     "issuer": "SAP",
     "issuer_type": "sap",
-    "date": null,
+    "date": "Nov 2025",
     "image": "assets/certificates/SAP_Technology_Consultant.webp",
     "category": "professional",
     "description": "SAP Technology Consultant certification covering enterprise resource planning concepts."
@@ -184,7 +184,7 @@
     "name": "Machine Learning – Linear Regression",
     "issuer": "Online Platform",
     "issuer_type": "platform",
-    "date": null,
+    "date": "Apr 2025",
     "image": "assets/certificates/Machine_Learning_Linear_Regression.webp",
     "category": "ai-ml",
     "description": "Certification in Machine Learning fundamentals with focus on Linear Regression models."
@@ -194,7 +194,7 @@
     "name": "Positive Leadership",
     "issuer": "Online Platform",
     "issuer_type": "platform",
-    "date": null,
+    "date": "Apr 2025",
     "image": "assets/certificates/Positive_Leadership.webp",
     "category": "leadership",
     "description": "Certification in positive leadership principles and practices."
@@ -204,47 +204,17 @@
     "name": "Leadership Plus",
     "issuer": "Online Platform",
     "issuer_type": "platform",
-    "date": null,
+    "date": "Apr 2025",
     "image": "assets/certificates/leadership_plus.webp",
     "category": "leadership",
     "description": "Advanced leadership certification."
-  },
-  {
-    "id": "cert-basic-c",
-    "name": "Basic Coding in C",
-    "issuer": "Online Platform",
-    "issuer_type": "platform",
-    "date": null,
-    "image": "assets/certificates/Basic_Coding_in_C.webp",
-    "category": "programming",
-    "description": "Certification in C programming fundamentals."
-  },
-  {
-    "id": "cert-basic-cpp",
-    "name": "Basic Coding in C++",
-    "issuer": "Online Platform",
-    "issuer_type": "platform",
-    "date": null,
-    "image": "assets/certificates/Basic_Coding_in_Cpp.webp",
-    "category": "programming",
-    "description": "Certification in C++ programming fundamentals."
-  },
-  {
-    "id": "cert-basic-java",
-    "name": "Basic Coding in Java",
-    "issuer": "Online Platform",
-    "issuer_type": "platform",
-    "date": null,
-    "image": "assets/certificates/Basic_Coding_in_Java.webp",
-    "category": "programming",
-    "description": "Certification in Java programming fundamentals."
   },
   {
     "id": "cert-basic-python",
     "name": "Basic Coding in Python",
     "issuer": "Online Platform",
     "issuer_type": "platform",
-    "date": null,
+    "date": "Apr 2025",
     "image": "assets/certificates/Basic_Coding_in_Python.webp",
     "category": "programming",
     "description": "Certification in Python programming fundamentals."
@@ -254,7 +224,7 @@
     "name": "Data Interpretation",
     "issuer": "Online Platform",
     "issuer_type": "platform",
-    "date": null,
+    "date": "Apr 2025",
     "image": "assets/certificates/Data_Interpretation.webp",
     "category": "aptitude",
     "description": "Data interpretation skills certification for competitive examinations."
@@ -264,7 +234,7 @@
     "name": "Verbal Reasoning",
     "issuer": "Online Platform",
     "issuer_type": "platform",
-    "date": null,
+    "date": "Apr 2025",
     "image": "assets/certificates/Verbal_Reasoning.webp",
     "category": "aptitude",
     "description": "Verbal reasoning skills certification."
@@ -274,7 +244,7 @@
     "name": "Logical Reasoning",
     "issuer": "Online Platform",
     "issuer_type": "platform",
-    "date": null,
+    "date": "Apr 2025",
     "image": "assets/certificates/Logical_Reasoning.webp",
     "category": "aptitude",
     "description": "Logical reasoning skills certification."
@@ -284,7 +254,7 @@
     "name": "Quantitative Aptitude",
     "issuer": "Online Platform",
     "issuer_type": "platform",
-    "date": null,
+    "date": "Apr 2025",
     "image": "assets/certificates/Quants_Aptitude.webp",
     "category": "aptitude",
     "description": "Quantitative aptitude certification for competitive examinations."
@@ -294,7 +264,7 @@
     "name": "Visual Reasoning",
     "issuer": "Online Platform",
     "issuer_type": "platform",
-    "date": null,
+    "date": "Apr 2025",
     "image": "assets/certificates/Visual_Reasoning.webp",
     "category": "aptitude",
     "description": "Visual reasoning skills certification."
@@ -304,7 +274,7 @@
     "name": "Group Discussion Skills",
     "issuer": "Online Platform",
     "issuer_type": "platform",
-    "date": null,
+    "date": "Apr 2025",
     "image": "assets/certificates/Group_Discussion.webp",
     "category": "soft-skills",
     "description": "Group discussion and communication skills certification."
@@ -314,7 +284,7 @@
     "name": "HR Interview Preparation",
     "issuer": "Online Platform",
     "issuer_type": "platform",
-    "date": null,
+    "date": "Apr 2025",
     "image": "assets/certificates/HR_Preparations.webp",
     "category": "soft-skills",
     "description": "HR interview preparation and professional skills certification."
