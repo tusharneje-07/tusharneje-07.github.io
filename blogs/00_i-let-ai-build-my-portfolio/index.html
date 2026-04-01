@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title id="page-title">Blog — Tushar Neje</title>
-  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
+  <link rel="icon" type="image/svg+xml" href="../../assets/favicon.svg" />
   <meta name="description" id="page-desc" content="Blog post by Tushar Neje" />
   <!-- Open Graph -->
   <meta property="og:title"       id="og-title"       content="Blog — Tushar Neje" />
@@ -14,7 +14,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=Syne:wght@600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/output.css" />
+  <link rel="stylesheet" href="../../css/output.css" />
   <style>
     :root { --bg:#0c0c0d; --surface:#121317; --surface2:#1a1d24; --border:rgba(255,255,255,0.07); --text:#f0ede8; --muted:#8a8a8e; --accent:#f59e0b; --glow-a:rgba(245,158,11,0.15); --glow-b:rgba(56,189,248,0.1); }
     [data-theme="light"] { --bg:#fafaf9; --surface:#f3f3f1; --surface2:#e8e8e5; --border:rgba(0,0,0,0.08); --text:#1a1a1a; --muted:#6b6b6b; --accent:#d97706; --glow-a:rgba(245,158,11,0.16); --glow-b:rgba(59,130,246,0.08); }
@@ -42,7 +42,7 @@
     #progress-bar{position:fixed;top:0;left:0;height:3px;background:var(--accent);z-index:200;transition:width 0.1s linear;width:0%;}
 
     /* Article prose styles */
-    .prose{line-height:1.85;font-size:1.0625rem;}
+    .prose{line-height:1.85;font-size:1.0625rem;word-break:break-word;overflow-wrap:anywhere;}
     .prose h1,.prose h2,.prose h3,.prose h4{font-family:'Syne',sans-serif;font-weight:700;color:var(--text);margin-top:2.2em;margin-bottom:0.6em;line-height:1.25;}
     .prose h2{font-size:1.5rem;padding-bottom:0.4em;border-bottom:1px solid var(--border);}
     .prose h3{font-size:1.2rem;}
@@ -61,7 +61,7 @@
     .prose pre code{background:none;padding:0;color:var(--text);font-size:0.875rem;line-height:1.7;}
     .prose hr{border:none;border-top:1px solid var(--border);margin:2.5em 0;}
     .prose img{max-width:100%;border-radius:10px;margin:1.5em 0;border:1px solid var(--border);}
-    .prose table{width:100%;border-collapse:collapse;margin:1.5em 0;font-size:0.9rem;}
+    .prose table{width:100%;border-collapse:collapse;margin:1.5em 0;font-size:0.9rem;display:block;overflow-x:auto;}
     .prose th{text-align:left;font-family:'Syne',sans-serif;font-weight:600;padding:0.6em 0.8em;border-bottom:2px solid var(--border);color:var(--text);}
     .prose td{padding:0.6em 0.8em;border-bottom:1px solid var(--border);color:var(--muted);}
     .prose tr:last-child td{border-bottom:none;}
@@ -83,6 +83,15 @@
     /* Fade in */
     .fade-in{opacity:0;transform:translateY(16px);transition:opacity 0.5s ease,transform 0.5s ease;}
     .fade-in.visible{opacity:1;transform:none;}
+
+    @media (max-width: 1023px){
+      #toc-sidebar{display:none !important;}
+    }
+    @media (max-width: 767px){
+      .prose{font-size:1rem;line-height:1.8;}
+      .prose h2{font-size:1.3rem;}
+      .prose h3{font-size:1.1rem;}
+    }
   </style>
 </head>
 <body>
@@ -93,16 +102,17 @@
 <!-- NAVBAR -->
 <nav id="navbar">
   <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-14 flex items-center justify-between">
-    <a href="index.html#hero" class="font-mono font-semibold text-sm tracking-tight px-2.5 py-1.5 rounded-lg" style="color:var(--text); background:var(--surface); border:1px solid var(--border)"><span style="color:var(--accent)">$</span> tushar.dev</a>
+    <a href="../../index.html#hero" class="font-mono font-semibold text-sm tracking-tight px-2.5 py-1.5 rounded-lg" style="color:var(--text); background:var(--surface); border:1px solid var(--border)"><span style="color:var(--accent)">$</span> tushar.dev</a>
     <div class="hidden md:flex items-center gap-1">
-      <a href="index.html#about"      class="nav-link px-3 py-1.5 rounded-md text-sm font-medium" style="color:var(--muted)">About</a>
-      <a href="blog.html"             class="nav-link px-3 py-1.5 rounded-md text-sm font-medium" style="color:var(--accent)">Blog</a>
-      <a href="index.html#experience" class="nav-link px-3 py-1.5 rounded-md text-sm font-medium" style="color:var(--muted)">Experience</a>
-      <a href="index.html#skills"     class="nav-link px-3 py-1.5 rounded-md text-sm font-medium" style="color:var(--muted)">Skills</a>
-      <a href="index.html#projects"   class="nav-link px-3 py-1.5 rounded-md text-sm font-medium" style="color:var(--muted)">Projects</a>
-      <a href="index.html#research"      class="nav-link px-3 py-1.5 rounded-md text-sm font-medium" style="color:var(--muted)">Research</a>
-      <a href="index.html#activities"    class="nav-link px-3 py-1.5 rounded-md text-sm font-medium" style="color:var(--muted)">Activities</a>
-      <a href="index.html#contact"       class="nav-link px-3 py-1.5 rounded-md text-sm font-medium" style="color:var(--muted)">Contact</a>
+      <a href="../../index.html#about"      class="nav-link px-3 py-1.5 rounded-md text-sm font-medium" style="color:var(--muted)">About</a>
+      <a href="/blogs/"                     class="nav-link px-3 py-1.5 rounded-md text-sm font-medium" style="color:var(--accent)">Blog</a>
+      <a href="../../index.html#experience" class="nav-link px-3 py-1.5 rounded-md text-sm font-medium" style="color:var(--muted)">Experience</a>
+      <a href="../../index.html#skills"     class="nav-link px-3 py-1.5 rounded-md text-sm font-medium" style="color:var(--muted)">Skills</a>
+      <a href="../../index.html#projects"   class="nav-link px-3 py-1.5 rounded-md text-sm font-medium" style="color:var(--muted)">Projects</a>
+      <a href="../../index.html#research"      class="nav-link px-3 py-1.5 rounded-md text-sm font-medium" style="color:var(--muted)">Research</a>
+      <a href="../../index.html#activities"    class="nav-link px-3 py-1.5 rounded-md text-sm font-medium" style="color:var(--muted)">Activities</a>
+      <a href="../../index.html#certificates"  class="nav-link px-3 py-1.5 rounded-md text-sm font-medium" style="color:var(--muted)">Certs</a>
+      <a href="../../index.html#contact"       class="nav-link px-3 py-1.5 rounded-md text-sm font-medium" style="color:var(--muted)">Contact</a>
     </div>
     <div class="flex items-center gap-2">
       <button id="theme-toggle" aria-label="Toggle theme" class="w-9 h-9 rounded-full flex items-center justify-center" style="background:var(--surface);border:1px solid var(--border)">
@@ -117,14 +127,15 @@
 </nav>
 
 <div id="mobile-nav" role="dialog">
-  <a href="index.html#about"      class="mobile-nav-link text-base font-display font-semibold py-3 px-4 rounded-xl" style="color:var(--text);border:1px solid var(--border);background:var(--surface)">About</a>
-  <a href="blog.html"             class="mobile-nav-link text-base font-display font-semibold py-3 px-4 rounded-xl" style="color:var(--accent);border:1px solid color-mix(in srgb,var(--accent) 35%,var(--border));background:var(--surface)">Blog</a>
-  <a href="index.html#experience" class="mobile-nav-link text-base font-display font-semibold py-3 px-4 rounded-xl" style="color:var(--text);border:1px solid var(--border);background:var(--surface)">Experience</a>
-  <a href="index.html#skills"     class="mobile-nav-link text-base font-display font-semibold py-3 px-4 rounded-xl" style="color:var(--text);border:1px solid var(--border);background:var(--surface)">Skills</a>
-  <a href="index.html#projects"   class="mobile-nav-link text-base font-display font-semibold py-3 px-4 rounded-xl" style="color:var(--text);border:1px solid var(--border);background:var(--surface)">Projects</a>
-  <a href="index.html#research"      class="mobile-nav-link text-base font-display font-semibold py-3 px-4 rounded-xl" style="color:var(--text);border:1px solid var(--border);background:var(--surface)">Research</a>
-  <a href="index.html#activities"    class="mobile-nav-link text-base font-display font-semibold py-3 px-4 rounded-xl" style="color:var(--text);border:1px solid var(--border);background:var(--surface)">Activities</a>
-  <a href="index.html#contact"       class="mobile-nav-link text-base font-display font-semibold py-3 px-4 rounded-xl" style="color:var(--text);border:1px solid var(--border);background:var(--surface)">Contact</a>
+  <a href="../../index.html#about"      class="mobile-nav-link text-base font-display font-semibold py-3 px-4 rounded-xl" style="color:var(--text);border:1px solid var(--border);background:var(--surface)">About</a>
+  <a href="/blogs/"                     class="mobile-nav-link text-base font-display font-semibold py-3 px-4 rounded-xl" style="color:var(--accent);border:1px solid color-mix(in srgb,var(--accent) 35%,var(--border));background:var(--surface)">Blog</a>
+  <a href="../../index.html#experience" class="mobile-nav-link text-base font-display font-semibold py-3 px-4 rounded-xl" style="color:var(--text);border:1px solid var(--border);background:var(--surface)">Experience</a>
+  <a href="../../index.html#skills"     class="mobile-nav-link text-base font-display font-semibold py-3 px-4 rounded-xl" style="color:var(--text);border:1px solid var(--border);background:var(--surface)">Skills</a>
+  <a href="../../index.html#projects"   class="mobile-nav-link text-base font-display font-semibold py-3 px-4 rounded-xl" style="color:var(--text);border:1px solid var(--border);background:var(--surface)">Projects</a>
+  <a href="../../index.html#research"      class="mobile-nav-link text-base font-display font-semibold py-3 px-4 rounded-xl" style="color:var(--text);border:1px solid var(--border);background:var(--surface)">Research</a>
+  <a href="../../index.html#activities"    class="mobile-nav-link text-base font-display font-semibold py-3 px-4 rounded-xl" style="color:var(--text);border:1px solid var(--border);background:var(--surface)">Activities</a>
+  <a href="../../index.html#certificates"  class="mobile-nav-link text-base font-display font-semibold py-3 px-4 rounded-xl" style="color:var(--text);border:1px solid var(--border);background:var(--surface)">Certificates</a>
+  <a href="../../index.html#contact"       class="mobile-nav-link text-base font-display font-semibold py-3 px-4 rounded-xl" style="color:var(--text);border:1px solid var(--border);background:var(--surface)">Contact</a>
 </div>
 
 <main class="pt-14">
@@ -162,7 +173,7 @@
     </div>
     <h1 class="font-display font-bold text-2xl mb-2" style="color:var(--text)">Post Not Found</h1>
     <p class="text-sm mb-6 max-w-xs" style="color:var(--muted)">This blog post doesn't exist or may have been removed.</p>
-    <a href="blog.html" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-semibold font-display" style="background:var(--accent);color:#000">
+    <a href="/blogs/" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-semibold font-display" style="background:var(--accent);color:#000">
       ← Back to Blog
     </a>
   </div>
@@ -175,9 +186,9 @@
       <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
         <!-- Breadcrumb -->
         <nav aria-label="Breadcrumb" class="mb-5 flex items-center gap-2 text-xs" style="color:var(--muted)">
-          <a href="index.html" class="hover:opacity-80 transition-opacity" style="color:var(--muted)">Home</a>
+          <a href="../../index.html" class="hover:opacity-80 transition-opacity" style="color:var(--muted)">Home</a>
           <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
-          <a href="blog.html" class="hover:opacity-80 transition-opacity" style="color:var(--muted)">Blog</a>
+          <a href="/blogs/" class="hover:opacity-80 transition-opacity" style="color:var(--muted)">Blog</a>
           <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
           <span id="breadcrumb-title" style="color:var(--text)">Post</span>
         </nav>
@@ -194,7 +205,7 @@
         <!-- Meta row -->
         <div class="flex flex-wrap items-center gap-4 text-sm" style="color:var(--muted)">
           <div class="flex items-center gap-2">
-            <img src="assets/me.webp" alt="Tushar Neje" class="w-7 h-7 rounded-full object-cover" style="border:1px solid var(--border)" />
+            <img src="../../assets/me.webp" alt="Tushar Neje" class="w-7 h-7 rounded-full object-cover" style="border:1px solid var(--border)" />
             <span style="color:var(--text)" class="font-medium">Tushar Neje</span>
           </div>
           <span id="article-date"></span>
@@ -217,7 +228,7 @@
     </div>
 
     <!-- Main layout: article + TOC sidebar -->
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 flex gap-12 items-start">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-12 flex flex-col lg:flex-row gap-8 lg:gap-12 items-start">
 
       <!-- Article body -->
       <div class="flex-1 min-w-0">
@@ -251,7 +262,7 @@
         </div>
 
         <!-- Back link -->
-        <a href="blog.html" class="inline-flex items-center gap-2 text-sm font-semibold font-display transition-opacity hover:opacity-70" style="color:var(--accent)">
+        <a href="/blogs/" class="inline-flex items-center gap-2 text-sm font-semibold font-display transition-opacity hover:opacity-70" style="color:var(--accent)">
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
           All Articles
         </a>
@@ -275,8 +286,8 @@
 
 <footer class="py-8" style="border-top:1px solid var(--border)">
   <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-3">
-    <p class="text-sm" style="color:var(--muted)">© 2026 Tushar Neje.</p>
-    <a href="blog.html" class="text-sm font-display font-semibold" style="color:var(--accent)">← All Articles</a>
+    <p class="text-sm" style="color:var(--muted)">© 2026 Tushar Neje. Designed by tusharneje with ❤️ and <a href="../../howibuild.html" class="font-semibold" style="color:var(--accent);text-decoration:none">OpenCode</a>.</p>
+    <a href="#" class="text-sm font-display font-semibold" style="color:var(--accent)">Back to top ↑</a>
   </div>
 </footer>
 
@@ -486,12 +497,18 @@ function showNotFound() {
 
 // ─── Render article ───────────────────────────────────────────────────────────
 function renderArticle(post) {
+  const toRootPath = (value) => {
+    if (!value) return value;
+    if (/^(https?:)?\/\//.test(value) || value.startsWith('/')) return value;
+    return '/' + value.replace(/^\.\//, '').replace(/^\/+/, '');
+  };
+
   // Meta
   document.getElementById('page-title').textContent    = post.title + ' — Tushar Neje';
   document.getElementById('page-desc').content          = post.excerpt || '';
   document.getElementById('og-title').content           = post.title;
   document.getElementById('og-desc').content            = post.excerpt || '';
-  if (post.cover) document.getElementById('og-image').content = post.cover;
+  if (post.cover) document.getElementById('og-image').content = toRootPath(post.cover);
 
   // Breadcrumb
   document.getElementById('breadcrumb-title').textContent = post.title.length > 40
@@ -515,7 +532,7 @@ function renderArticle(post) {
   // Cover image
   if (post.cover) {
     document.getElementById('cover-wrap').classList.remove('hidden');
-    document.getElementById('article-cover').src = post.cover;
+    document.getElementById('article-cover').src = toRootPath(post.cover);
     document.getElementById('article-cover').alt = post.title;
   }
 
@@ -523,6 +540,12 @@ function renderArticle(post) {
   const bodyEl = document.getElementById('article-body');
   const rawContent = post.content || post.body || '';
   bodyEl.innerHTML = renderMarkdown(rawContent);
+  bodyEl.querySelectorAll('img').forEach((img) => {
+    const src = img.getAttribute('src') || '';
+    if (src && !/^(https?:)?\/\//.test(src) && !src.startsWith('/')) {
+      img.src = '/' + src.replace(/^\.\//, '').replace(/^\/+/, '');
+    }
+  });
 
   // Read time
   document.getElementById('read-time-text').textContent = calcReadTime(
@@ -545,13 +568,23 @@ function renderArticle(post) {
 }
 
 // ─── Bootstrap ────────────────────────────────────────────────────────────────
-const params = new URLSearchParams(window.location.search);
-const postId = params.get('id');
+function getPostIdFromUrl() {
+  const params = new URLSearchParams(window.location.search);
+  const queryId = params.get('id');
+  if (queryId) return queryId;
+
+  const parts = window.location.pathname.split('/').filter(Boolean);
+  const blogsIdx = parts.indexOf('blogs');
+  if (blogsIdx !== -1 && parts[blogsIdx + 1]) return decodeURIComponent(parts[blogsIdx + 1]);
+  return null;
+}
+
+const postId = getPostIdFromUrl();
 
 if (!postId) {
   showNotFound();
 } else {
-  fetch('data/blogs.json')
+  fetch('../../data/blogs.json')
     .then(r => r.json())
     .then(blogs => {
       const post = blogs.find(b => String(b.id) === String(postId));
