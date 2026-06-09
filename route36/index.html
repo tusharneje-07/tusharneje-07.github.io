@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Route36 — Tushar Neje</title>
+  <meta name="description" content="Encode and decode Route36 links for local and remote HTTP endpoints." />
+  <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=Syne:wght@600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #0c0c0d;
+      --surface: #121317;
+      --surface2: #1a1d24;
+      --surface3: #20242d;
+      --border: rgba(255,255,255,0.09);
+      --text: #f0ede8;
+      --muted: #9a9aa0;
+      --accent: #f59e0b;
+      --accent-soft: rgba(245,158,11,0.14);
+      --good: #22c55e;
+      --bad: #ef4444;
+    }
+
+    [data-theme="light"] {
+      --bg: #faf9f6;
+      --surface: #f4f1ea;
+      --surface2: #ece7de;
+      --surface3: #e2dbcf;
+      --border: rgba(0,0,0,0.08);
+      --text: #171717;
+      --muted: #626266;
+      --accent: #d97706;
+      --accent-soft: rgba(217,119,6,0.12);
+      --good: #15803d;
+      --bad: #dc2626;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: 'Space Grotesk', sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(900px 420px at 12% -8%, var(--accent-soft), transparent 62%),
+        radial-gradient(640px 340px at 88% 0%, rgba(56,189,248,0.08), transparent 55%),
+        linear-gradient(180deg, var(--bg), var(--bg));
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+      background-size: 48px 48px;
+      mask-image: linear-gradient(to bottom, rgba(0,0,0,0.35), transparent 88%);
+      opacity: 0.4;
+    }
+
+    a { color: inherit; }
+    button, input { font: inherit; }
+
+    .page {
+      width: min(1160px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 18px 0 48px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 10px 0 22px;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: color-mix(in srgb, var(--surface) 88%, transparent);
+      text-decoration: none;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.16);
+    }
+
+    .brand-mark {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.9rem;
+      color: var(--accent);
+    }
+
+    .brand-copy {
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+    }
+
+    .brand-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 0.96rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    .brand-subtitle {
+      font-size: 0.75rem;
+      color: var(--muted);
+    }
+
+    .toolbar {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .icon-btn,
+    .ghost-btn,
+    .primary-btn {
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      background: var(--surface);
+      color: var(--text);
+      cursor: pointer;
+      transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease, color 0.2s ease;
+    }
+
+    .icon-btn {
+      width: 42px;
+      height: 42px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .ghost-btn,
+    .primary-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 12px 16px;
+      font-family: 'Syne', sans-serif;
+      font-size: 0.82rem;
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    .primary-btn {
+      background: var(--accent);
+      color: #000;
+      border-color: var(--accent);
+    }
+
+    .icon-btn:hover,
+    .ghost-btn:hover,
+    .primary-btn:hover {
+      transform: translateY(-1px);
+      border-color: color-mix(in srgb, var(--accent) 55%, var(--border));
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 24px;
+      align-items: start;
+      padding: 24px 0 32px;
+    }
+
+    .hero-copy,
+    .panel {
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      background: linear-gradient(160deg, color-mix(in srgb, var(--surface) 90%, transparent), color-mix(in srgb, var(--surface2) 94%, transparent));
+      box-shadow: 0 28px 100px rgba(0,0,0,0.2);
+      overflow: hidden;
+    }
+
+    .hero-copy {
+      padding: 30px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: var(--surface2);
+      color: var(--muted);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.74rem;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: 18px 0 14px;
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(2.2rem, 4vw, 4.4rem);
+      line-height: 0.98;
+      letter-spacing: -0.05em;
+    }
+
+    .lede {
+      margin: 0;
+      max-width: 60ch;
+      color: var(--muted);
+      font-size: 1rem;
+      line-height: 1.75;
+    }
+
+    .meta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 22px;
+    }
+
+    .meta-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 12px;
+      border-radius: 999px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 0.82rem;
+    }
+
+    .panel {
+      padding: 20px;
+    }
+
+    .panel-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .panel-title {
+      margin: 0;
+      font-family: 'Syne', sans-serif;
+      font-size: 1.06rem;
+      letter-spacing: -0.03em;
+    }
+
+    .panel-note {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.82rem;
+    }
+
+    .tab-switch {
+      display: inline-flex;
+      gap: 8px;
+      padding: 6px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      margin-bottom: 18px;
+    }
+
+    .tab-switch button {
+      border: 0;
+      background: transparent;
+      color: var(--muted);
+      padding: 10px 14px;
+      border-radius: 999px;
+      cursor: pointer;
+      font-family: 'Syne', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 700;
+    }
+
+    .tab-switch button[data-active="true"] {
+      background: var(--accent);
+      color: #000;
+    }
+
+    .card-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+
+    .tool-card {
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      background: color-mix(in srgb, var(--surface) 92%, transparent);
+      padding: 16px;
+    }
+
+    .tool-card-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    .tool-card-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 700;
+      margin: 0;
+    }
+
+    .tool-badge {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.66rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--accent);
+      padding: 4px 8px;
+      border-radius: 999px;
+      border: 1px solid color-mix(in srgb, var(--accent) 38%, var(--border));
+      background: color-mix(in srgb, var(--accent) 11%, var(--surface2));
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      color: var(--muted);
+      font-size: 0.82rem;
+    }
+
+    .field {
+      width: 100%;
+      padding: 14px 15px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: var(--surface3);
+      color: var(--text);
+      outline: none;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .field:focus {
+      border-color: color-mix(in srgb, var(--accent) 55%, var(--border));
+      box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 15%, transparent);
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .output-box {
+      margin-top: 14px;
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      background: linear-gradient(180deg, var(--surface2), var(--surface));
+      padding: 14px;
+      min-height: 114px;
+    }
+
+    .output-label {
+      font-size: 0.76rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+      margin-bottom: 10px;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .output-value {
+      margin: 0;
+      word-break: break-word;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.9rem;
+      line-height: 1.65;
+      color: var(--text);
+    }
+
+    .output-link {
+      display: inline-flex;
+      margin-top: 10px;
+      color: var(--accent);
+      text-decoration: none;
+      word-break: break-all;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.82rem;
+    }
+
+    .status {
+      margin-top: 10px;
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    .status.good { color: var(--good); }
+    .status.bad { color: var(--bad); }
+
+    .muted-link {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    .muted-link:hover {
+      text-decoration: underline;
+    }
+
+    @media (max-width: 920px) {
+      .hero {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .page {
+        width: min(100% - 20px, 1160px);
+        padding-top: 10px;
+      }
+
+      .topbar {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .toolbar {
+        justify-content: space-between;
+      }
+
+      .hero-copy,
+      .panel {
+        border-radius: 20px;
+      }
+
+      .hero-copy {
+        padding: 22px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header class="topbar">
+      <a class="brand" href="../index.html" aria-label="Back to portfolio home">
+        <span class="brand-mark">$</span>
+        <span class="brand-copy">
+          <span class="brand-title">Route36</span>
+          <span class="brand-subtitle">Endpoint encoder / decoder</span>
+        </span>
+      </a>
+      <div class="toolbar">
+        <a class="ghost-btn" href="../index.html">Portfolio</a>
+        <button id="theme-toggle" class="icon-btn" aria-label="Toggle theme" type="button">
+          <svg id="icon-sun" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>
+          </svg>
+          <svg id="icon-moon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <main class="hero">
+      <section class="hero-copy">
+        <span class="eyebrow">route36 / http only</span>
+        <h1>Encode a local endpoint, or jump straight to the decoded URL.</h1>
+        <p class="lede">
+          Paste a URL like <strong>http://10.227.9.50:5000</strong> to generate its Route36 code, or paste a Route36 token to resolve it back to the original endpoint.
+          If the page opens with <code>inp=</code>, it will auto-detect the value and either render the encoded link or redirect to the decoded URL.
+        </p>
+        <div class="meta-row">
+          <span class="meta-pill">Example: <span style="color:var(--text)">?inp=VO6P0S0UK</span></span>
+          <span class="meta-pill">Shareable endpoint: <span style="color:var(--text)">/route36/</span></span>
+        </div>
+      </section>
+
+      <section class="panel" aria-label="Route36 tools">
+        <div class="panel-head">
+          <div>
+            <p class="panel-title">Interactive tools</p>
+            <p class="panel-note">One input, two actions, and an auto-mode for query links.</p>
+          </div>
+          <span class="tool-badge" id="route-mode">Idle</span>
+        </div>
+
+        <div class="tab-switch" role="tablist" aria-label="Route36 mode switch">
+          <button type="button" id="tab-encode" data-active="true">Encode</button>
+          <button type="button" id="tab-decode" data-active="false">Decode</button>
+        </div>
+
+        <div class="card-grid">
+          <form id="encode-form" class="tool-card">
+            <div class="tool-card-head">
+              <h2 class="tool-card-title">Encode a URL</h2>
+              <span class="tool-badge">http:// only</span>
+            </div>
+            <label for="encode-input">Endpoint</label>
+            <input id="encode-input" class="field" type="text" spellcheck="false" autocomplete="off" placeholder="http://127.0.0.1:8000" />
+            <div class="actions">
+              <button class="primary-btn" type="submit">Encode URL</button>
+              <button class="ghost-btn" type="button" id="encode-fill-example">Use example</button>
+            </div>
+            <div class="output-box" aria-live="polite">
+              <div class="output-label">Encoded result</div>
+              <p class="output-value" id="encode-output">Awaiting a URL.</p>
+              <a class="output-link" id="encode-share-link" href="#" target="_blank" rel="noreferrer" hidden></a>
+              <div class="status" id="encode-status">The encoded token will appear here.</div>
+            </div>
+          </form>
+
+          <form id="decode-form" class="tool-card">
+            <div class="tool-card-head">
+              <h2 class="tool-card-title">Decode a Route36 token</h2>
+              <span class="tool-badge">token</span>
+            </div>
+            <label for="decode-input">Route36 code</label>
+            <input id="decode-input" class="field" type="text" spellcheck="false" autocomplete="off" placeholder="VO6P0S0UK" />
+            <div class="actions">
+              <button class="primary-btn" type="submit">Decode code</button>
+              <button class="ghost-btn" type="button" id="decode-fill-example">Use example</button>
+            </div>
+            <div class="output-box" aria-live="polite">
+              <div class="output-label">Decoded result</div>
+              <p class="output-value" id="decode-output">Awaiting a token.</p>
+              <a class="output-link" id="decode-link" href="#" target="_blank" rel="noreferrer" hidden></a>
+              <div class="status" id="decode-status">Decoded URLs can be opened directly from here.</div>
+            </div>
+          </form>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="../route36.js"></script>
+  <script>
+    const themeToggle = document.getElementById('theme-toggle');
+    const iconSun = document.getElementById('icon-sun');
+    const iconMoon = document.getElementById('icon-moon');
+    const html = document.documentElement;
+
+    function applyTheme(theme) {
+      html.setAttribute('data-theme', theme);
+      localStorage.setItem('route36-theme', theme);
+      iconSun.style.display = theme === 'dark' ? '' : 'none';
+      iconMoon.style.display = theme === 'dark' ? 'none' : '';
+    }
+
+    applyTheme(localStorage.getItem('route36-theme') || 'dark');
+    themeToggle.addEventListener('click', () => {
+      applyTheme(html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
+    });
+
+    const routeMode = document.getElementById('route-mode');
+    const encodeTab = document.getElementById('tab-encode');
+    const decodeTab = document.getElementById('tab-decode');
+    const encodeForm = document.getElementById('encode-form');
+    const decodeForm = document.getElementById('decode-form');
+    const encodeInput = document.getElementById('encode-input');
+    const decodeInput = document.getElementById('decode-input');
+    const encodeOutput = document.getElementById('encode-output');
+    const decodeOutput = document.getElementById('decode-output');
+    const encodeStatus = document.getElementById('encode-status');
+    const decodeStatus = document.getElementById('decode-status');
+    const encodeShareLink = document.getElementById('encode-share-link');
+    const decodeLink = document.getElementById('decode-link');
+    const encodeFillExample = document.getElementById('encode-fill-example');
+    const decodeFillExample = document.getElementById('decode-fill-example');
+
+    const EXAMPLE_URL = 'http://10.227.9.50:5000';
+    const EXAMPLE_CODE = Route36.encode(EXAMPLE_URL);
+
+    function setActiveTab(tab) {
+      const encodeActive = tab === 'encode';
+      encodeTab.dataset.active = encodeActive ? 'true' : 'false';
+      decodeTab.dataset.active = encodeActive ? 'false' : 'true';
+      encodeForm.style.opacity = encodeActive ? '1' : '0.7';
+      decodeForm.style.opacity = encodeActive ? '0.7' : '1';
+    }
+
+    encodeTab.addEventListener('click', () => setActiveTab('encode'));
+    decodeTab.addEventListener('click', () => setActiveTab('decode'));
+
+    function normalizeInput(value) {
+      return String(value || '').trim().replace(/^['"]+|['"]+$/g, '').trim();
+    }
+
+    function setOutput(kind, value, statusText, statusClass) {
+      const isEncode = kind === 'encode';
+      const outputNode = isEncode ? encodeOutput : decodeOutput;
+      const statusNode = isEncode ? encodeStatus : decodeStatus;
+      const linkNode = isEncode ? encodeShareLink : decodeLink;
+
+      outputNode.textContent = value || 'No result yet.';
+      statusNode.textContent = statusText || '';
+      statusNode.className = `status ${statusClass || ''}`.trim();
+
+      if (linkNode) {
+        linkNode.hidden = true;
+        linkNode.textContent = '';
+      }
+    }
+
+    function showLink(kind, href, label) {
+      const linkNode = kind === 'encode' ? encodeShareLink : decodeLink;
+      if (!linkNode) return;
+      linkNode.href = href;
+      linkNode.textContent = label || href;
+      linkNode.hidden = false;
+    }
+
+    function encodeValue(rawUrl, sourceLabel) {
+      const url = normalizeInput(rawUrl);
+      if (!url) {
+        setOutput('encode', 'Awaiting a URL.', 'Enter a value that starts with http://.', '');
+        encodeShareLink.hidden = true;
+        return null;
+      }
+
+      try {
+        const code = Route36.encode(url);
+        const shareLink = `${location.origin}${location.pathname}?inp=${encodeURIComponent(code)}`;
+        setOutput('encode', code, `${sourceLabel || 'URL'} encoded successfully.`, 'good');
+        showLink('encode', shareLink, shareLink);
+        routeMode.textContent = 'Encoded';
+        return { code, shareLink };
+      } catch (error) {
+        encodeShareLink.hidden = true;
+        setOutput('encode', 'Encoding failed.', error.message || String(error), 'bad');
+        routeMode.textContent = 'Error';
+        return null;
+      }
+    }
+
+    function decodeValue(rawCode, sourceLabel) {
+      const code = normalizeInput(rawCode).toUpperCase();
+      if (!code) {
+        setOutput('decode', 'Awaiting a token.', 'Enter a Route36 code to decode it.', '');
+        decodeLink.hidden = true;
+        return null;
+      }
+
+      try {
+        const url = Route36.decode(code);
+        setOutput('decode', url, `${sourceLabel || 'Code'} decoded successfully.`, 'good');
+        showLink('decode', url, 'Open decoded URL');
+        routeMode.textContent = 'Decoded';
+        return url;
+      } catch (error) {
+        decodeLink.hidden = true;
+        setOutput('decode', 'Decoding failed.', error.message || String(error), 'bad');
+        routeMode.textContent = 'Error';
+        return null;
+      }
+    }
+
+    encodeForm.addEventListener('submit', (event) => {
+      event.preventDefault();
+      setActiveTab('encode');
+      encodeValue(encodeInput.value, 'URL');
+    });
+
+    decodeForm.addEventListener('submit', (event) => {
+      event.preventDefault();
+      setActiveTab('decode');
+      decodeValue(decodeInput.value, 'Code');
+    });
+
+    encodeFillExample.addEventListener('click', () => {
+      encodeInput.value = EXAMPLE_URL;
+      encodeValue(EXAMPLE_URL, 'Example URL');
+      setActiveTab('encode');
+    });
+
+    decodeFillExample.addEventListener('click', () => {
+      decodeInput.value = EXAMPLE_CODE;
+      const url = decodeValue(EXAMPLE_CODE, 'Example code');
+      setActiveTab('decode');
+      if (url) {
+        decodeLink.textContent = 'Open decoded URL';
+      }
+    });
+
+    const params = new URLSearchParams(location.search);
+    const incoming = normalizeInput(params.get('inp'));
+
+    if (incoming) {
+      const maybeUrl = /^https?:\/\//i.test(incoming);
+      if (maybeUrl) {
+        encodeInput.value = incoming;
+        encodeValue(incoming, 'Query URL');
+        setActiveTab('encode');
+        routeMode.textContent = 'Query encoded';
+      } else {
+        try {
+          const decodedUrl = Route36.decode(incoming.toUpperCase());
+          routeMode.textContent = 'Redirecting';
+          document.title = `Redirecting to ${decodedUrl} — Route36`;
+          setTimeout(() => location.replace(decodedUrl), 80);
+        } catch (error) {
+          decodeInput.value = incoming;
+          decodeLink.hidden = true;
+          setActiveTab('decode');
+          setOutput('decode', 'Redirect failed.', error.message || String(error), 'bad');
+          routeMode.textContent = 'Error';
+        }
+      }
+    } else {
+      encodeInput.value = EXAMPLE_URL;
+      decodeInput.value = EXAMPLE_CODE;
+      setOutput('encode', 'Awaiting a URL.', 'Enter an endpoint or use the example.', '');
+      setOutput('decode', 'Awaiting a token.', 'Enter a Route36 code or use the example.', '');
+      routeMode.textContent = 'Idle';
+    }
+
+    window.addEventListener('keydown', (event) => {
+      if ((event.metaKey || event.ctrlKey) && event.key === 'k') {
+        event.preventDefault();
+        encodeInput.focus();
+        encodeInput.select();
+      }
+    });
+  </script>
+</body>
+</html>
