@@ -10,38 +10,21 @@
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=Syne:wght@600;700;800&display=swap" rel="stylesheet" />
   <style>
     :root {
-      --bg: #0c0c0d;
-      --surface: #121317;
-      --surface2: #1a1d24;
-      --surface3: #20242d;
-      --border: rgba(255,255,255,0.09);
-      --text: #f0ede8;
-      --muted: #9a9aa0;
-      --accent: #f59e0b;
-      --accent-soft: rgba(245,158,11,0.14);
-      --good: #22c55e;
-      --bad: #ef4444;
+      --bg: #0c0c0d; --surface: #121317; --surface2: #1a1d24; --surface3: #20242d;
+      --border: rgba(255,255,255,0.09); --text: #f0ede8; --muted: #9a9aa0;
+      --accent: #f59e0b; --accent-soft: rgba(245,158,11,0.14);
+      --good: #22c55e; --bad: #ef4444;
     }
-
     [data-theme="light"] {
-      --bg: #faf9f6;
-      --surface: #f4f1ea;
-      --surface2: #ece7de;
-      --surface3: #e2dbcf;
-      --border: rgba(0,0,0,0.08);
-      --text: #171717;
-      --muted: #626266;
-      --accent: #d97706;
-      --accent-soft: rgba(217,119,6,0.12);
-      --good: #15803d;
-      --bad: #dc2626;
+      --bg: #faf9f6; --surface: #f4f1ea; --surface2: #ece7de; --surface3: #e2dbcf;
+      --border: rgba(0,0,0,0.08); --text: #171717; --muted: #626266;
+      --accent: #d97706; --accent-soft: rgba(217,119,6,0.12);
+      --good: #15803d; --bad: #dc2626;
     }
-
     * { box-sizing: border-box; }
     html { scroll-behavior: smooth; }
     body {
-      margin: 0;
-      min-height: 100vh;
+      margin: 0; min-height: 100vh;
       font-family: 'Space Grotesk', sans-serif;
       color: var(--text);
       background:
@@ -49,12 +32,8 @@
         radial-gradient(640px 340px at 88% 0%, rgba(56,189,248,0.08), transparent 55%),
         linear-gradient(180deg, var(--bg), var(--bg));
     }
-
     body::before {
-      content: '';
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
+      content: ''; position: fixed; inset: 0; pointer-events: none;
       background-image:
         linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
         linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
@@ -62,228 +41,87 @@
       mask-image: linear-gradient(to bottom, rgba(0,0,0,0.35), transparent 88%);
       opacity: 0.4;
     }
+    a { color: inherit; } button, input { font: inherit; }
 
-    a { color: inherit; }
-    button, input { font: inherit; }
-
-    .page {
-      width: min(1160px, calc(100% - 32px));
-      margin: 0 auto;
-      padding: 18px 0 48px;
-      position: relative;
-      z-index: 1;
-    }
-
-    .topbar {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 16px;
-      padding: 10px 0 22px;
-    }
-
-    .brand {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      padding: 10px 14px;
-      border-radius: 14px;
-      border: 1px solid var(--border);
-      background: color-mix(in srgb, var(--surface) 88%, transparent);
-      text-decoration: none;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.16);
-    }
-
-    .brand-mark {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.9rem;
-      color: var(--accent);
-    }
-
-    .brand-copy {
-      display: flex;
-      flex-direction: column;
-      gap: 1px;
-    }
-
-    .brand-title {
-      font-family: 'Syne', sans-serif;
-      font-size: 0.96rem;
-      font-weight: 700;
-      letter-spacing: -0.02em;
-    }
-
-    .brand-subtitle {
-      font-size: 0.75rem;
-      color: var(--muted);
-    }
-
-    .toolbar {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .icon-btn,
-    .ghost-btn,
-    .primary-btn {
-      border: 1px solid var(--border);
-      border-radius: 999px;
-      background: var(--surface);
-      color: var(--text);
-      cursor: pointer;
+    .page { width: min(1160px, calc(100% - 32px)); margin: 0 auto; padding: 18px 0 48px; position: relative; z-index: 1; }
+    .topbar { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 10px 0 22px; }
+    .brand { display: inline-flex; align-items: center; gap: 10px; padding: 10px 14px; border-radius: 14px; border: 1px solid var(--border); background: color-mix(in srgb, var(--surface) 88%, transparent); text-decoration: none; box-shadow: 0 20px 60px rgba(0,0,0,0.16); }
+    .brand:hover { border-color: color-mix(in srgb, var(--accent) 50%, var(--border)); }
+    .brand-mark { font-family: 'JetBrains Mono', monospace; font-size: 0.9rem; color: var(--accent); }
+    .brand-copy { display: flex; flex-direction: column; gap: 1px; }
+    .brand-title { font-family: 'Syne', sans-serif; font-size: 0.96rem; font-weight: 700; letter-spacing: -0.02em; }
+    .brand-subtitle { font-size: 0.75rem; color: var(--muted); }
+    .toolbar { display: flex; align-items: center; gap: 10px; }
+    .icon-btn, .ghost-btn, .primary-btn {
+      border: 1px solid var(--border); border-radius: 999px; background: var(--surface);
+      color: var(--text); cursor: pointer;
       transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease, color 0.2s ease;
     }
+    .icon-btn { width: 42px; height: 42px; display: inline-flex; align-items: center; justify-content: center; }
+    .ghost-btn, .primary-btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 12px 16px; font-family: 'Syne', sans-serif; font-size: 0.82rem; font-weight: 700; text-decoration: none; }
+    .primary-btn { background: var(--accent); color: #000; border-color: var(--accent); }
+    .icon-btn:hover, .ghost-btn:hover, .primary-btn:hover { transform: translateY(-1px); border-color: color-mix(in srgb, var(--accent) 55%, var(--border)); }
 
-    .icon-btn {
-      width: 42px;
-      height: 42px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-    }
+    .tab-bar { display: flex; gap: 6px; margin-bottom: 16px; padding: 5px; border-radius: 999px; border: 1px solid var(--border); background: var(--surface); width: fit-content; }
+    .tab-btn { border: 0; background: transparent; color: var(--muted); padding: 8px 14px; border-radius: 999px; cursor: pointer; font-family: 'Syne', sans-serif; font-size: 0.8rem; font-weight: 700; transition: all 0.2s; }
+    .tab-btn[data-active="true"] { background: var(--accent); color: #000; }
+    .tab-btn:hover:not([data-active="true"]) { color: var(--text); }
 
-    .ghost-btn,
-    .primary-btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      padding: 12px 16px;
-      font-family: 'Syne', sans-serif;
-      font-size: 0.82rem;
-      font-weight: 700;
-      text-decoration: none;
-    }
+    .hero { display: grid; grid-template-columns: 1fr; gap: 24px; align-items: start; padding: 24px 0 32px; }
+    .panel { border: 1px solid var(--border); border-radius: 24px; background: linear-gradient(160deg, color-mix(in srgb, var(--surface) 90%, transparent), color-mix(in srgb, var(--surface2) 94%, transparent)); box-shadow: 0 28px 100px rgba(0,0,0,0.2); overflow: hidden; padding: 20px; }
+    .panel-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 16px; }
+    .panel-title { margin: 0; font-family: 'Syne', sans-serif; font-size: 1.06rem; letter-spacing: -0.03em; }
+    .panel-note { margin: 4px 0 0; color: var(--muted); font-size: 0.82rem; }
+    .tool-badge { font-family: 'JetBrains Mono', monospace; font-size: 0.66rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--accent); padding: 4px 8px; border-radius: 999px; border: 1px solid color-mix(in srgb, var(--accent) 38%, var(--border)); background: color-mix(in srgb, var(--accent) 11%, var(--surface2)); }
 
-    .primary-btn {
-      background: var(--accent);
-      color: #000;
-      border-color: var(--accent);
-    }
+    .output-box { margin-top: 14px; border-radius: 16px; border: 1px solid var(--border); background: linear-gradient(180deg, var(--surface2), var(--surface)); padding: 14px; min-height: 114px; }
+    .output-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+    .output-label { font-size: 0.76rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); font-family: 'JetBrains Mono', monospace; margin: 0; }
+    .output-value { margin: 0; word-break: break-word; font-family: 'JetBrains Mono', monospace; font-size: 0.9rem; line-height: 1.65; color: var(--text); white-space: pre-wrap; max-height: 65vh; overflow-y: auto; }
+    .output-value::-webkit-scrollbar { width: 8px; }
+    .output-value::-webkit-scrollbar-track { background: var(--surface2); border-radius: 4px; }
+    .output-value::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+    .output-value::-webkit-scrollbar-thumb:hover { background: color-mix(in srgb, var(--accent) 55%, var(--border)); }
 
-    .icon-btn:hover,
-    .ghost-btn:hover,
-    .primary-btn:hover {
-      transform: translateY(-1px);
-      border-color: color-mix(in srgb, var(--accent) 55%, var(--border));
-    }
+    /* Compile view */
+    #compile-view { display: none; flex-direction: column; min-height: calc(100vh - 120px); }
+    #compile-view.active { display: flex; }
 
-    .hero {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 24px;
-      align-items: start;
-      padding: 24px 0 32px;
-    }
+    .compile-loading { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 24px; padding: 60px 20px; min-height: 400px; }
+    .spinner-ring { width: 56px; height: 56px; border: 3px solid var(--border); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.9s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .loading-steps { display: flex; flex-direction: column; gap: 10px; width: 100%; max-width: 360px; }
+    .loading-step { display: flex; align-items: center; gap: 12px; padding: 10px 14px; border-radius: 10px; border: 1px solid var(--border); background: var(--surface2); font-size: 0.85rem; color: var(--muted); transition: all 0.3s ease; }
+    .loading-step.active { border-color: color-mix(in srgb, var(--accent) 50%, var(--border)); background: color-mix(in srgb, var(--accent) 10%, var(--surface2)); color: var(--text); }
+    .loading-step.done { color: var(--good); border-color: color-mix(in srgb, var(--good) 40%, var(--border)); }
+    .loading-step.err { color: var(--bad); border-color: color-mix(in srgb, var(--bad) 40%, var(--border)); }
+    .step-spinner { width: 14px; height: 14px; border: 2px solid currentColor; border-top-color: transparent; border-radius: 50%; animation: spin 0.7s linear infinite; display: none; flex-shrink: 0; }
+    .step-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--border); flex-shrink: 0; }
+    .loading-step.active .step-spinner { display: block; }
+    .loading-step.active .step-dot, .loading-step.active .step-check { display: none; }
+    .loading-step.done .step-spinner, .loading-step.done .step-dot { display: none; }
+    .step-check { display: none; flex-shrink: 0; }
+    .loading-step.done .step-check { display: block; color: var(--good); }
 
-    .panel {
-      border: 1px solid var(--border);
-      border-radius: 24px;
-      background: linear-gradient(160deg, color-mix(in srgb, var(--surface) 90%, transparent), color-mix(in srgb, var(--surface2) 94%, transparent));
-      box-shadow: 0 28px 100px rgba(0,0,0,0.2);
-      overflow: hidden;
-      padding: 20px;
-    }
+    #render-container { display: none; flex-direction: column; flex: 1; }
+    #render-container.visible { display: flex; }
+    .render-toolbar { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 16px; border-bottom: 1px solid var(--border); background: var(--surface); border-radius: 16px 16px 0 0; }
+    .render-title { font-family: 'Syne', sans-serif; font-size: 0.95rem; font-weight: 700; color: var(--text); margin: 0; display: flex; align-items: center; gap: 8px; }
+    .render-actions { display: flex; gap: 8px; }
+    #latex-frame-wrap { flex: 1; background: #fff; border: 1px solid var(--border); border-top: none; border-radius: 0 0 20px 20px; overflow: hidden; min-height: 700px; }
+    #latex-frame { width: 100%; height: 100%; border: none; min-height: 750px; }
 
-    .panel-head {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      margin-bottom: 16px;
-    }
-
-    .panel-title {
-      margin: 0;
-      font-family: 'Syne', sans-serif;
-      font-size: 1.06rem;
-      letter-spacing: -0.03em;
-    }
-
-    .panel-note {
-      margin: 0;
-      color: var(--muted);
-      font-size: 0.82rem;
-    }
-
-    .tool-badge {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.66rem;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: var(--accent);
-      padding: 4px 8px;
-      border-radius: 999px;
-      border: 1px solid color-mix(in srgb, var(--accent) 38%, var(--border));
-      background: color-mix(in srgb, var(--accent) 11%, var(--surface2));
-    }
-
-    .output-box {
-      margin-top: 14px;
-      border-radius: 16px;
-      border: 1px solid var(--border);
-      background: linear-gradient(180deg, var(--surface2), var(--surface));
-      padding: 14px;
-      min-height: 114px;
-    }
-
-    .output-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 10px;
-    }
-
-    .output-label {
-      font-size: 0.76rem;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: var(--muted);
-      font-family: 'JetBrains Mono', monospace;
-      margin: 0;
-    }
-
-    .output-value {
-      margin: 0;
-      word-break: break-word;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.9rem;
-      line-height: 1.65;
-      color: var(--text);
-      white-space: pre-wrap;
-      max-height: 65vh;
-      overflow-y: auto;
-    }
-    
-    /* Scrollbar styling for pre block */
-    .output-value::-webkit-scrollbar {
-      width: 8px;
-    }
-    .output-value::-webkit-scrollbar-track {
-      background: var(--surface2);
-      border-radius: 4px;
-    }
-    .output-value::-webkit-scrollbar-thumb {
-      background: var(--border);
-      border-radius: 4px;
-    }
-    .output-value::-webkit-scrollbar-thumb:hover {
-      background: color-mix(in srgb, var(--accent) 55%, var(--border));
-    }
+    .error-box { display: none; padding: 20px; border-radius: 14px; border: 1px solid color-mix(in srgb, var(--bad) 40%, var(--border)); background: color-mix(in srgb, var(--bad) 8%, var(--surface2)); color: var(--bad); margin-top: 16px; font-size: 0.88rem; line-height: 1.6; }
+    .error-box.visible { display: block; }
+    .error-box pre { white-space: pre-wrap; word-break: break-word; font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; margin: 8px 0 0; color: var(--muted); }
+    .warn-banner { display: flex; align-items: flex-start; gap: 10px; padding: 12px 16px; border-radius: 12px; margin-bottom: 16px; border: 1px solid color-mix(in srgb, var(--accent) 40%, var(--border)); background: color-mix(in srgb, var(--accent) 10%, var(--surface2)); font-size: 0.82rem; color: var(--muted); line-height: 1.5; }
+    .warn-banner svg { flex-shrink: 0; color: var(--accent); margin-top: 1px; }
+    .warn-banner strong { color: var(--accent); }
 
     @media (max-width: 640px) {
-      .page {
-        width: min(100% - 20px, 1160px);
-        padding-top: 10px;
-      }
-      .topbar {
-        flex-direction: column;
-        align-items: stretch;
-      }
-      .panel {
-        border-radius: 20px;
-      }
+      .page { width: min(100% - 20px, 1160px); padding-top: 10px; }
+      .topbar { flex-direction: column; align-items: stretch; }
+      .panel { border-radius: 20px; }
     }
   </style>
 </head>
@@ -294,22 +132,28 @@
         <span class="brand-mark">$</span>
         <span class="brand-copy">
           <span class="brand-title">Resume LaTeX</span>
-          <span class="brand-subtitle">Source code viewer</span>
+          <span class="brand-subtitle">Source &amp; Compiler</span>
         </span>
       </a>
       <div class="toolbar">
+        <a class="ghost-btn" href="../" title="View compiled PDF">
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          View PDF
+        </a>
         <button id="theme-toggle" class="icon-btn" aria-label="Toggle theme" type="button">
-          <svg id="icon-sun" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>
-          </svg>
-          <svg id="icon-moon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none">
-            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
-          </svg>
+          <svg id="icon-sun" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+          <svg id="icon-moon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
         </button>
       </div>
     </header>
 
-    <main class="hero">
+    <div class="tab-bar">
+      <button class="tab-btn" id="tab-source" data-active="false" type="button">Source</button>
+      <button class="tab-btn" id="tab-compile" data-active="false" type="button">Compile</button>
+    </div>
+
+    <!-- Source View -->
+    <main class="hero" id="source-view">
       <section class="panel" aria-label="Source code">
         <div class="panel-head">
           <div>
@@ -318,93 +162,521 @@
           </div>
           <span class="tool-badge">LaTeX</span>
         </div>
-
         <div class="output-box">
           <div class="output-header">
             <div class="output-label">Source Content</div>
-            <button class="ghost-btn" id="copy-btn" type="button" style="padding: 6px 12px; font-size: 0.75rem;">
+            <button class="ghost-btn" id="copy-btn" type="button" style="padding:6px 12px;font-size:0.75rem;">
               <span>Copy</span>
-              <svg id="icon-copy" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-              </svg>
-              <svg id="icon-check" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none; color: var(--good);">
-                <polyline points="20 6 9 17 4 12"></polyline>
-              </svg>
+              <svg id="icon-copy" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+              <svg id="icon-check" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none;color:var(--good)"><polyline points="20 6 9 17 4 12"/></svg>
             </button>
           </div>
           <pre class="output-value" id="tex-content">Loading...</pre>
         </div>
       </section>
     </main>
+
+    <!-- Compile View -->
+    <div id="compile-view">
+      <section class="panel" aria-label="Compile output" style="flex:1;display:flex;flex-direction:column;">
+        <div class="warn-banner">
+          <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          <span><strong>In-browser Preview</strong> — Rendered via a custom JS parser (not a full TeX engine). Layout approximates the source; for the authoritative output use the <a href="../" style="color:var(--accent)">compiled PDF</a>.</span>
+        </div>
+
+        <div class="compile-loading" id="compile-loading">
+          <div class="spinner-ring"></div>
+          <div class="loading-steps">
+            <div class="loading-step" id="step-fetch">
+              <div class="step-spinner"></div><div class="step-dot"></div>
+              <svg class="step-check" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              Fetching resume.tex…
+            </div>
+            <div class="loading-step" id="step-parse">
+              <div class="step-spinner"></div><div class="step-dot"></div>
+              <svg class="step-check" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              Parsing LaTeX structure…
+            </div>
+            <div class="loading-step" id="step-render">
+              <div class="step-spinner"></div><div class="step-dot"></div>
+              <svg class="step-check" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              Rendering output…
+            </div>
+          </div>
+        </div>
+
+        <div class="error-box" id="error-box">
+          <strong>Render Error</strong>
+          <pre id="error-msg"></pre>
+          <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap;">
+            <a href="../" class="ghost-btn" style="padding:8px 14px;font-size:0.8rem;text-decoration:none;">View PDF instead</a>
+            <button class="ghost-btn" id="retry-btn" style="padding:8px 14px;font-size:0.8rem;" type="button">Retry</button>
+          </div>
+        </div>
+
+        <div id="render-container">
+          <div class="render-toolbar">
+            <p class="render-title">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--good)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              Rendered — Custom JS Parser
+            </p>
+            <div class="render-actions">
+              <button class="ghost-btn" id="recompile-btn" type="button" style="padding:8px 14px;font-size:0.8rem;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+                Re-compile
+              </button>
+              <a href="../" class="ghost-btn" style="padding:8px 14px;font-size:0.8rem;text-decoration:none;">View PDF</a>
+            </div>
+          </div>
+          <div id="latex-frame-wrap">
+            <iframe id="latex-frame" title="Rendered resume"></iframe>
+          </div>
+        </div>
+      </section>
+    </div>
   </div>
 
   <script>
+    // ── Theme ──
+    const html = document.documentElement;
     const themeToggle = document.getElementById('theme-toggle');
     const iconSun = document.getElementById('icon-sun');
     const iconMoon = document.getElementById('icon-moon');
-    const html = document.documentElement;
+    function applyTheme(t) {
+      html.setAttribute('data-theme', t);
+      localStorage.setItem('route36-theme', t);
+      iconSun.style.display = t === 'dark' ? '' : 'none';
+      iconMoon.style.display = t === 'dark' ? 'none' : '';
+    }
+    applyTheme(localStorage.getItem('route36-theme') || 'dark');
+    themeToggle.addEventListener('click', () =>
+      applyTheme(html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark'));
 
-    function applyTheme(theme) {
-      html.setAttribute('data-theme', theme);
-      localStorage.setItem('route36-theme', theme);
-      iconSun.style.display = theme === 'dark' ? '' : 'none';
-      iconMoon.style.display = theme === 'dark' ? 'none' : '';
+    // ── Elements ──
+    const sourceView      = document.getElementById('source-view');
+    const compileView     = document.getElementById('compile-view');
+    const tabSource       = document.getElementById('tab-source');
+    const tabCompile      = document.getElementById('tab-compile');
+    const texContentEl    = document.getElementById('tex-content');
+    const copyBtn         = document.getElementById('copy-btn');
+    const iconCopy        = document.getElementById('icon-copy');
+    const iconCheck       = document.getElementById('icon-check');
+    const copyBtnText     = copyBtn.querySelector('span');
+    const compileLoading  = document.getElementById('compile-loading');
+    const renderContainer = document.getElementById('render-container');
+    const errorBox        = document.getElementById('error-box');
+    const errorMsg        = document.getElementById('error-msg');
+    const latexFrame      = document.getElementById('latex-frame');
+    const recompileBtn    = document.getElementById('recompile-btn');
+    const retryBtn        = document.getElementById('retry-btn');
+    const steps = {
+      fetch:  document.getElementById('step-fetch'),
+      parse:  document.getElementById('step-parse'),
+      render: document.getElementById('step-render'),
+    };
+    let cachedTex = null;
+
+    function setStep(id, state) { steps[id].className = 'loading-step' + (state ? ' ' + state : ''); }
+    function resetSteps() { Object.keys(steps).forEach(k => setStep(k, '')); }
+
+    // ── Tab control ──
+    function showSource() {
+      sourceView.style.display = '';
+      compileView.classList.remove('active');
+      tabSource.dataset.active = 'true';
+      tabCompile.dataset.active = 'false';
+      const u = new URL(location.href); u.searchParams.delete('compile');
+      history.replaceState({}, '', u.toString());
+    }
+    function showCompile() {
+      sourceView.style.display = 'none';
+      compileView.classList.add('active');
+      tabSource.dataset.active = 'false';
+      tabCompile.dataset.active = 'true';
+    }
+    tabSource.addEventListener('click', showSource);
+    tabCompile.addEventListener('click', () => { showCompile(); startCompile(); });
+    recompileBtn.addEventListener('click', () => { renderContainer.classList.remove('visible'); startCompile(); });
+    retryBtn.addEventListener('click',     () => { errorBox.classList.remove('visible'); startCompile(); });
+
+    // ── Fetch ──
+    async function fetchTex() {
+      if (cachedTex) return cachedTex;
+      const r = await fetch('./resume.tex');
+      if (!r.ok) throw new Error(`HTTP ${r.status}: could not fetch resume.tex`);
+      cachedTex = await r.text();
+      texContentEl.textContent = cachedTex;
+      return cachedTex;
     }
 
-    applyTheme(localStorage.getItem('route36-theme') || 'dark');
-    themeToggle.addEventListener('click', () => {
-      applyTheme(html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
+    // ══════════════════════════════════════════════════════════════
+    // CUSTOM LaTeX → HTML PARSER  (resume-specific, no latex.js)
+    // ══════════════════════════════════════════════════════════════
+    function latexToHtml(src) {
+      // ── helpers ──
+      // Strip LaTeX % comments
+      src = src.replace(/%[^\n]*/g, '');
+
+      // Inline macro converter (operates on a string fragment)
+      function inlineTeX(s) {
+        if (!s) return '';
+        s = s
+          .replace(/\\textbf\{([^{}]*(?:\{[^{}]*\}[^{}]*)*)\}/g, '<strong>$1</strong>')
+          .replace(/\\textit\{([^{}]*(?:\{[^{}]*\}[^{}]*)*)\}/g, '<em>$1</em>')
+          .replace(/\\underline\{([^{}]*)\}/g, '<u>$1</u>')
+          .replace(/\\emph\{([^{}]*)\}/g, '<em>$1</em>')
+          .replace(/\\href\s*\{[^}]*\}\s*\{([^}]*)\}/g, '$1')
+          .replace(/\\textsuperscript\{([^}]*)\}/g, '<sup>$1</sup>')
+          .replace(/\\hfill/g, '<span style="float:right">')
+          .replace(/---/g, '—')
+          .replace(/--/g, '–')
+          .replace(/\\&/g, '&amp;')
+          .replace(/\\%/g, '%')
+          .replace(/\\\$/g, '$')
+          .replace(/\\#/g, '#')
+          .replace(/~~/g, '&nbsp;&nbsp;')
+          .replace(/~/g, '&nbsp;')
+          .replace(/\\;/g, '&thinsp;')
+          .replace(/\\,/g, '&thinsp;')
+          .replace(/\s*\\par\s*/g, '')
+          .replace(/\\noindent\s*/g, '')
+          .replace(/\s*\|\s*/g, ' &nbsp;|&nbsp; ');
+        // Close any unclosed hfill spans
+        const opens = (s.match(/<span style="float:right">/g) || []).length;
+        for (let i = 0; i < opens; i++) s += '</span>';
+        return s;
+      }
+
+      // Extract document body
+      const bodyMatch = src.match(/\\begin\{document\}([\s\S]*?)\\end\{document\}/);
+      if (!bodyMatch) throw new Error('Could not find \\begin{document}...\\end{document}');
+      let body = bodyMatch[1].trim();
+
+      // Remove textblock* environments (photo box)
+      body = body.replace(/\\begin\{textblock\*?\}[\s\S]*?\\end\{textblock\*?\}/g, '');
+
+      // Unwrap minipage (keep content)
+      body = body.replace(/\\begin\{minipage\}[^}]*\{[^}]*\}/g, '');
+      body = body.replace(/\\end\{minipage\}%?/g, '\n');
+
+      // Remove \vspace{8pt} etc.  (keep around for paragraph breaks)
+      body = body.replace(/\\vspace\*?\s*\{[^}]*\}/g, '\n');
+
+      // Process \section{} and the Skills-style raw section
+      // Resume has: {\normalsize\bfseries SECTION} and \section{SECTION}
+      body = body.replace(/\{\\normalsize\\bfseries\s+([A-Z &\\]+)\}\\\\(\[-?\d+pt\])?/g,
+        (_, title) => `\n__SECTION__${title.trim()}\n`);
+      body = body.replace(/\\section\s*\{([^}]*)\}/g, (_, title) => `\n__SECTION__${title.trim()}\n`);
+
+      // Process \projentry{title}{tech}
+      body = body.replace(/\\projentry\s*\{([^}]*)\}\s*\{([^}]*)\}/g,
+        (_, title, tech) => `\n__PROJENTRY__${title}||${tech}\n`);
+
+      // Process tabularx/tabular blocks → key-value list
+      body = body.replace(
+        /\\begin\{tabular[x]?\}[\s\S]*?\n([\s\S]*?)\\end\{tabular[x]?\}/g,
+        (_, tableBody) => {
+          const rows = tableBody.split(/\s*\\\\(?:\[-?\d*\.?\d*pt\])?\s*/);
+          let html = '\n__TABLE_START__\n';
+          for (const row of rows) {
+            const clean = row.trim().replace(/\\hline/g, '').trim();
+            if (!clean) continue;
+            const cells = clean.split(/\s*&\s*/);
+            if (cells.length === 0 || !cells[0].trim()) continue;
+            if (cells.length === 1) {
+              html += `__TROW1__${cells[0].trim()}\n`;
+            } else {
+              html += `__TROW__${cells[0].trim()}||${cells.slice(1).join(' | ').trim()}\n`;
+            }
+          }
+          html += '__TABLE_END__\n';
+          return html;
+        }
+      );
+
+      // Process dashlist / itemize
+      body = body.replace(/\\begin\{dashlist\}|\\begin\{itemize\}/g, '\n__LIST_START__\n');
+      body = body.replace(/\\end\{dashlist\}|\\end\{itemize\}/g,   '\n__LIST_END__\n');
+      body = body.replace(/\\item\s*/g, '\n__ITEM__');
+
+      // Remove fbox, includegraphics, setlength etc.
+      body = body.replace(/\\setlength\{[^}]*\}\{[^}]*\}/g, '');
+      body = body.replace(/\\fbox\s*\{([\s\S]*?)\}/g, '$1');
+      body = body.replace(/\\includegraphics\s*(\[[^\]]*\])?\s*\{[^}]*\}/g, '');
+
+      // Remove remaining LaTeX commands that are purely structural
+      body = body.replace(/\\rule\s*\{[^}]*\}\s*\{[^}]*\}/g, '<hr>');
+      body = body.replace(/\\hspace\*?\s*\{[^}]*\}/g, ' ');
+      body = body.replace(/\\fontsize\s*\{[^}]*\}\s*\{[^}]*\}\s*\\selectfont/g, '');
+      body = body.replace(/\\bfseries/g, '');
+      body = body.replace(/\\normalsize/g, '');
+      body = body.replace(/\\noindent\s*/g, '');
+      body = body.replace(/\\hfill/g, ' __HFILL__ ');
+
+      // ── Now render line by line into HTML ──
+      const lines = body.split('\n');
+      let htmlOut = '';
+      let inList = false;
+      let inTable = false;
+
+      for (let i = 0; i < lines.length; i++) {
+        const line = lines[i];
+        const t = line.trim();
+
+        if (!t) {
+          if (inList) { htmlOut += '</ul>'; inList = false; }
+          htmlOut += '';
+          continue;
+        }
+
+        // Section header
+        if (t.startsWith('__SECTION__')) {
+          if (inList) { htmlOut += '</ul>'; inList = false; }
+          if (inTable) { htmlOut += '</div>'; inTable = false; }
+          const title = t.replace('__SECTION__', '').replace(/\\/g, '').trim();
+          htmlOut += `<div class="r-section"><h2 class="r-section-title">${title}</h2>`;
+          htmlOut += `</div>`;
+          continue;
+        }
+
+        // Project entry
+        if (t.startsWith('__PROJENTRY__')) {
+          if (inList) { htmlOut += '</ul>'; inList = false; }
+          const [title, tech] = t.replace('__PROJENTRY__', '').split('||');
+          htmlOut += `<div class="r-proj-entry"><span class="r-proj-title">${inlineTeX(title)}</span><span class="r-proj-tech">${inlineTeX(tech)}</span></div>`;
+          continue;
+        }
+
+        // Table
+        if (t === '__TABLE_START__') { inTable = true; htmlOut += '<div class="r-table">'; continue; }
+        if (t === '__TABLE_END__')   { inTable = false; htmlOut += '</div>'; continue; }
+        if (t.startsWith('__TROW__')) {
+          const [key, val] = t.replace('__TROW__', '').split('||');
+          htmlOut += `<div class="r-table-row"><span class="r-table-key">${inlineTeX(key)}</span><span class="r-table-val">${inlineTeX(val)}</span></div>`;
+          continue;
+        }
+        if (t.startsWith('__TROW1__')) {
+          const val = t.replace('__TROW1__', '');
+          htmlOut += `<div class="r-table-row1">${inlineTeX(val)}</div>`;
+          continue;
+        }
+
+        // List
+        if (t === '__LIST_START__') { inList = true; htmlOut += '<ul class="r-list">'; continue; }
+        if (t === '__LIST_END__')   { if (inList) htmlOut += '</ul>'; inList = false; continue; }
+        if (t.startsWith('__ITEM__')) {
+          const content = t.replace('__ITEM__', '').trim();
+          htmlOut += `<li>${inlineTeX(content)}</li>`;
+          continue;
+        }
+
+        // hfill lines (experience date/org lines)
+        if (t.includes('__HFILL__')) {
+          const parts = t.split('__HFILL__');
+          const left  = inlineTeX(parts[0].trim());
+          const right = inlineTeX(parts.slice(1).join('').trim());
+          if (left || right) {
+            htmlOut += `<div class="r-hfill"><span>${left}</span><span>${right}</span></div>`;
+          }
+          continue;
+        }
+
+        // Stray \\ row-end markers
+        if (t === '\\\\' || t === '\\' || t === '\\[-8pt]' || /^\\\\/.test(t)) continue;
+
+        // Plain paragraph text
+        const rendered = inlineTeX(t);
+        if (rendered.trim()) {
+          htmlOut += `<p class="r-para">${rendered}</p>`;
+        }
+      }
+      if (inList) htmlOut += '</ul>';
+
+      return htmlOut;
+    }
+
+    // ── Build full iframe HTML ──
+    function buildIframeHtml(bodyHtml) {
+      return `<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Resume — Rendered Preview</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 10.5pt;
+    line-height: 1.5;
+    color: #111;
+    background: #fff;
+    padding: 32px 48px;
+    max-width: 860px;
+    margin: 0 auto;
+  }
+  hr { border: none; border-top: 1px solid #ccc; margin: 8px 0; }
+
+  .r-section { margin: 18px 0 6px; }
+  .r-section-title {
+    font-size: 9.5pt;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #111;
+    border-bottom: 1.5px solid #555;
+    padding-bottom: 3px;
+    margin-bottom: 6px;
+  }
+
+  .r-proj-entry {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin: 10px 0 2px;
+    gap: 8px;
+  }
+  .r-proj-title { font-weight: 700; font-size: 10pt; }
+  .r-proj-tech  { font-style: italic; font-size: 9pt; color: #555; white-space: nowrap; }
+
+  .r-table { margin: 4px 0 8px; }
+  .r-table-row {
+    display: flex;
+    gap: 12px;
+    padding: 2px 0;
+    font-size: 9.8pt;
+    border-bottom: 1px dashed #f0f0f0;
+  }
+  .r-table-key { font-weight: 700; min-width: 90px; color: #222; flex-shrink: 0; }
+  .r-table-val { color: #333; }
+  .r-table-row1 { font-size: 9.8pt; padding: 2px 0; }
+
+  .r-list {
+    margin: 4px 0 4px 18px;
+    padding: 0;
+    list-style: disc;
+    font-size: 9.5pt;
+  }
+  .r-list li { margin: 3px 0; color: #222; }
+
+  .r-hfill {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin: 8px 0 2px;
+    gap: 8px;
+    font-weight: 600;
+    font-size: 9.8pt;
+  }
+
+  .r-para {
+    font-size: 10pt;
+    margin: 3px 0;
+    color: #222;
+  }
+
+  strong { font-weight: 700; }
+  em     { font-style: italic; }
+  u      { text-decoration: underline; }
+  sup    { font-size: 0.7em; vertical-align: super; }
+
+  /* hfill inside inline content */
+  span[style*="float:right"] {
+    float: right;
+    font-style: italic;
+    color: #555;
+  }
+</style>
+</head>
+<body>
+${bodyHtml}
+</body>
+</html>`;
+    }
+
+    // ── Compile pipeline ──
+    async function startCompile() {
+      compileLoading.style.display = 'flex';
+      renderContainer.classList.remove('visible');
+      errorBox.classList.remove('visible');
+      resetSteps();
+
+      try {
+        setStep('fetch', 'active');
+        const src = await fetchTex();
+        setStep('fetch', 'done');
+
+        setStep('parse', 'active');
+        await new Promise(r => setTimeout(r, 80)); // let UI breathe
+        const bodyHtml = latexToHtml(src);
+        setStep('parse', 'done');
+
+        setStep('render', 'active');
+        await new Promise(r => setTimeout(r, 60));
+        const iframeSrc = buildIframeHtml(bodyHtml);
+        latexFrame.srcdoc = iframeSrc;
+
+        await new Promise(resolve => {
+          latexFrame.onload = resolve;
+          setTimeout(resolve, 3000);
+        });
+
+        latexFrame.style.height = '800px';
+        // Try to auto-size to content
+        try {
+          const innerH = latexFrame.contentDocument.documentElement.scrollHeight;
+          if (innerH > 100) latexFrame.style.height = (innerH + 32) + 'px';
+        } catch(_) {}
+
+        setStep('render', 'done');
+        await new Promise(r => setTimeout(r, 200));
+        compileLoading.style.display = 'none';
+        renderContainer.classList.add('visible');
+
+      } catch (err) {
+        console.error('[Compile]', err);
+        Object.keys(steps).forEach(k => {
+          if (steps[k].classList.contains('active')) setStep(k, 'err');
+        });
+        await new Promise(r => setTimeout(r, 500));
+        compileLoading.style.display = 'none';
+        errorMsg.textContent = err.message || String(err);
+        errorBox.classList.add('visible');
+      }
+    }
+
+    // ── Source view init ──
+    fetchTex().catch(err => {
+      texContentEl.textContent = 'Failed to load resume.tex.\n\n' + err.message;
+      texContentEl.style.color = 'var(--bad)';
     });
 
-    const texContent = document.getElementById('tex-content');
-    const copyBtn = document.getElementById('copy-btn');
-    const iconCopy = document.getElementById('icon-copy');
-    const iconCheck = document.getElementById('icon-check');
-    const copyBtnText = copyBtn.querySelector('span');
-    
-    // Fetch the .tex file content
-    fetch('./resume.tex')
-      .then(response => {
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        return response.text();
-      })
-      .then(text => {
-        texContent.textContent = text;
-      })
-      .catch(error => {
-        console.error('Error fetching the TeX file:', error);
-        texContent.textContent = 'Failed to load resume.tex. Ensure the file exists and is accessible.';
-        texContent.style.color = 'var(--bad)';
-      });
-
-    // Copy to clipboard functionality
+    // ── Copy ──
     copyBtn.addEventListener('click', async () => {
       try {
-        const textToCopy = texContent.textContent;
-        await navigator.clipboard.writeText(textToCopy);
-        
-        // Show success state
+        await navigator.clipboard.writeText(texContentEl.textContent);
         iconCopy.style.display = 'none';
         iconCheck.style.display = 'inline-block';
         copyBtnText.textContent = 'Copied!';
-        
-        // Reset after 2 seconds
         setTimeout(() => {
           iconCopy.style.display = 'inline-block';
           iconCheck.style.display = 'none';
           copyBtnText.textContent = 'Copy';
         }, 2000);
-      } catch (err) {
-        console.error('Failed to copy text: ', err);
+      } catch {
         copyBtnText.textContent = 'Error';
-        setTimeout(() => {
-          copyBtnText.textContent = 'Copy';
-        }, 2000);
+        setTimeout(() => copyBtnText.textContent = 'Copy', 2000);
       }
     });
+
+    // ── Auto-trigger on ?compile=true ──
+    if (new URLSearchParams(location.search).get('compile') === 'true') {
+      showCompile();
+      startCompile();
+    } else {
+      showSource();
+    }
   </script>
 </body>
 </html>
