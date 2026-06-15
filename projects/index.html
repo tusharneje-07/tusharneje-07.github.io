@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Projects</title>
+  <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=Syne:wght@600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #0c0c0d;
+      --surface: #121317;
+      --surface2: #1a1d24;
+      --surface3: #20242d;
+      --border: rgba(255,255,255,0.09);
+      --text: #f0ede8;
+      --muted: #9a9aa0;
+      --accent: #f59e0b;
+      --accent-soft: rgba(245,158,11,0.14);
+      --good: #22c55e;
+      --bad: #ef4444;
+    }
+
+    [data-theme="light"] {
+      --bg: #faf9f6;
+      --surface: #f4f1ea;
+      --surface2: #ece7de;
+      --surface3: #e2dbcf;
+      --border: rgba(0,0,0,0.08);
+      --text: #171717;
+      --muted: #626266;
+      --accent: #d97706;
+      --accent-soft: rgba(217,119,6,0.12);
+      --good: #15803d;
+      --bad: #dc2626;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: 'Space Grotesk', sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(900px 420px at 12% -8%, var(--accent-soft), transparent 62%),
+        radial-gradient(640px 340px at 88% 0%, rgba(56,189,248,0.08), transparent 55%),
+        linear-gradient(180deg, var(--bg), var(--bg));
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+      background-size: 48px 48px;
+      mask-image: linear-gradient(to bottom, rgba(0,0,0,0.35), transparent 88%);
+      opacity: 0.4;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    button, input { font: inherit; }
+
+    .page {
+      width: min(1160px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 18px 0 48px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 10px 0 22px;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: color-mix(in srgb, var(--surface) 88%, transparent);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.16);
+    }
+
+    .brand-mark {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.9rem;
+      color: var(--accent);
+    }
+
+    .brand-copy {
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+    }
+
+    .brand-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 0.96rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    .brand-subtitle {
+      font-size: 0.75rem;
+      color: var(--muted);
+    }
+
+    .toolbar {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .icon-btn,
+    .ghost-btn,
+    .primary-btn {
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      background: var(--surface);
+      color: var(--text);
+      cursor: pointer;
+      transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease, color 0.2s ease;
+    }
+
+    .icon-btn {
+      width: 42px;
+      height: 42px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .ghost-btn,
+    .primary-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 12px 16px;
+      font-family: 'Syne', sans-serif;
+      font-size: 0.82rem;
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    .primary-btn {
+      background: var(--accent);
+      color: #000;
+      border-color: var(--accent);
+    }
+
+    .icon-btn:hover,
+    .ghost-btn:hover,
+    .primary-btn:hover {
+      transform: translateY(-1px);
+      border-color: color-mix(in srgb, var(--accent) 55%, var(--border));
+    }
+
+    .hero-head {
+      margin-bottom: 40px;
+      padding: 24px 0 16px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: var(--surface2);
+      color: var(--muted);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.74rem;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: 18px 0 14px;
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(2.2rem, 4vw, 4.4rem);
+      line-height: 0.98;
+      letter-spacing: -0.05em;
+    }
+
+    .lede {
+      margin: 0;
+      max-width: 60ch;
+      color: var(--muted);
+      font-size: 1rem;
+      line-height: 1.75;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 16px;
+      margin-top: 24px;
+    }
+
+    .search-wrapper {
+      position: relative;
+      flex-grow: 1;
+      max-width: 320px;
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--muted);
+      pointer-events: none;
+    }
+
+    .search-field {
+      width: 100%;
+      padding: 11px 16px 11px 42px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: color-mix(in srgb, var(--surface) 60%, transparent);
+      color: var(--text);
+      outline: none;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+      font-family: inherit;
+    }
+
+    .search-field:focus {
+      background: var(--surface2);
+      border-color: color-mix(in srgb, var(--accent) 55%, var(--border));
+      box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 15%, transparent);
+    }
+
+    .project-card.hidden {
+      display: none !important;
+    }
+
+    /* Projects Grid Styles */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 24px;
+    }
+
+    .project-card {
+      display: flex;
+      flex-direction: column;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      background: color-mix(in srgb, var(--surface) 92%, transparent);
+      overflow: hidden;
+      transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), border-color 0.3s ease, box-shadow 0.3s ease;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .project-card:hover {
+      transform: translateY(-4px);
+      border-color: color-mix(in srgb, var(--accent) 50%, var(--border));
+      box-shadow: 0 16px 40px rgba(0,0,0,0.15);
+    }
+
+    .project-img-wrapper {
+      position: relative;
+      width: 100%;
+      height: 200px;
+      background: var(--surface2);
+      border-bottom: 1px solid var(--border);
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .project-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+
+    .project-card:hover .project-img {
+      transform: scale(1.03);
+    }
+
+    .img-placeholder {
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--muted);
+      font-size: 0.8rem;
+    }
+
+    .project-content {
+      padding: 22px;
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+    }
+
+    .project-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 12px;
+    }
+
+    .project-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin: 0;
+      letter-spacing: -0.02em;
+      color: var(--text);
+    }
+
+    .tool-badge {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.66rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--accent);
+      padding: 4px 8px;
+      border-radius: 999px;
+      border: 1px solid color-mix(in srgb, var(--accent) 38%, var(--border));
+      background: color-mix(in srgb, var(--accent) 11%, var(--surface2));
+    }
+
+    .project-desc {
+      margin: 0 0 20px 0;
+      color: var(--muted);
+      font-size: 0.9rem;
+      line-height: 1.6;
+      flex-grow: 1;
+    }
+
+    .project-link-label {
+      align-self: flex-start;
+      font-family: 'Syne', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--accent);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .project-link-label svg {
+      transition: transform 0.2s ease;
+    }
+
+    .project-card:hover .project-link-label svg {
+      transform: translateX(3px);
+    }
+
+    @media (max-width: 640px) {
+      .page {
+        width: min(100% - 20px, 1160px);
+        padding-top: 10px;
+      }
+      .topbar {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .toolbar {
+        justify-content: space-between;
+      }
+      .grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header class="topbar">
+      <a class="brand" href="../index.html" aria-label="Back to portfolio home">
+        <span class="brand-mark">$</span>
+        <span class="brand-copy">
+          <span class="brand-title">Workspace</span>
+          <span class="brand-subtitle">Projects & Applications</span>
+        </span>
+      </a>
+      <div class="toolbar">
+        <a class="ghost-btn" href="../index.html">Portfolio</a>
+        <button id="theme-toggle" class="icon-btn" aria-label="Toggle theme" type="button">
+          <svg id="icon-sun" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>
+          </svg>
+          <svg id="icon-moon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <div class="hero-head">
+      <span class="eyebrow">/projects</span>
+      <h1>Featured Work</h1>
+      <p class="lede">Explore my library of static webpages, interactive applications, and open source repositories.</p>
+      <div class="hero-actions">
+        <div class="search-wrapper">
+          <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+          <input type="text" id="project-search" class="search-field" placeholder="Search projects..." autocomplete="off">
+        </div>
+      </div>
+    </div>
+
+    <main class="grid" id="project-list">
+      <!-- To dynamically or manually add projects, just duplicate this block -->
+      
+      <!-- Static Web Page Project -->
+      <a href="photoarranger/SinglePageLayout.html" class="project-card">
+        <div class="project-img-wrapper">
+          <!-- Replace src with your relative screenshot path -->
+          <img src="photoarranger/SinglePageLayout.png" alt="Project Screenshot" class="project-img" />
+        </div>
+        <div class="project-content">
+          <div class="project-header">
+            <h2 class="project-title">Photo Arranger</h2>
+            <span class="tool-badge">Static UI</span>
+          </div>
+          <p class="project-desc">A Simple Images Collage Maker for Professional and Printing Use. Single Page Layout with Description and Title Design.</p>
+          <span class="project-link-label">
+            Single Page Layout
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </span>
+        </div>
+      </a>
+
+      
+      <a href="photoarranger/MultiPageLayout.html" class="project-card">
+        <div class="project-img-wrapper">
+          <!-- Replace src with your relative screenshot path -->
+          <img src="photoarranger/MultiPageLayout.png" alt="Project Screenshot" class="project-img" />
+        </div>
+        <div class="project-content">
+          <div class="project-header">
+            <h2 class="project-title">Photo Arranger</h2>
+            <span class="tool-badge">Static UI</span>
+          </div>
+          <p class="project-desc">A Simple Images Collage Maker for Professional and Printing Use. Multi Page Design which support wide area of printing paper sizes and arrangment options.</p>
+          <span class="project-link-label">
+            Multi Page Layout
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </span>
+        </div>
+      </a>
+
+      <!-- Hosted/External Repository Project -->
+      <!-- We pass the repository url into the query parameter for redirect.html -->
+      <a href="redirect.html?url=https://github.com/tusharneje-07/filebrowser" class="project-card">
+        <div class="project-img-wrapper">
+          <img src="fileserver/fileserver.png" alt="Project Screenshot" class="project-img" />
+        </div>
+        <div class="project-content">
+          <div class="project-header">
+            <h2 class="project-title">File Browser</h2>
+            <span class="tool-badge">Code / Repo / Setup</span>
+          </div>
+          <p class="project-desc">Filebrowser lets you browse, preview, and upload local files directly from your browser sidepanel.</p>
+          <span class="project-link-label">
+            View on GitHub
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+          </span>
+        </div>
+      </a>
+
+      <!-- You can add more project cards here following the templates -->
+    </main>
+  </div>
+
+  <script>
+    const themeToggle = document.getElementById('theme-toggle');
+    const iconSun = document.getElementById('icon-sun');
+    const iconMoon = document.getElementById('icon-moon');
+    const html = document.documentElement;
+
+    function applyTheme(theme) {
+      html.setAttribute('data-theme', theme);
+      localStorage.setItem('route36-theme', theme);
+      iconSun.style.display = theme === 'dark' ? '' : 'none';
+      iconMoon.style.display = theme === 'dark' ? 'none' : '';
+    }
+
+    applyTheme(localStorage.getItem('route36-theme') || 'dark');
+    themeToggle.addEventListener('click', () => {
+      applyTheme(html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
+    });
+
+    const searchInput = document.getElementById('project-search');
+    const projectCards = document.querySelectorAll('.project-card');
+
+    searchInput.addEventListener('input', (e) => {
+      const query = e.target.value.toLowerCase().trim();
+      
+      projectCards.forEach(card => {
+        const title = card.querySelector('.project-title')?.textContent.toLowerCase() || '';
+        const desc = card.querySelector('.project-desc')?.textContent.toLowerCase() || '';
+        const badge = card.querySelector('.tool-badge')?.textContent.toLowerCase() || '';
+        
+        if (title.includes(query) || desc.includes(query) || badge.includes(query)) {
+          card.classList.remove('hidden');
+        } else {
+          card.classList.add('hidden');
+        }
+      });
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Redirecting... — Tushar Neje</title>
+  <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=Syne:wght@600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #0c0c0d;
+      --surface: #121317;
+      --surface2: #1a1d24;
+      --surface3: #20242d;
+      --border: rgba(255,255,255,0.09);
+      --text: #f0ede8;
+      --muted: #9a9aa0;
+      --accent: #f59e0b;
+      --accent-soft: rgba(245,158,11,0.14);
+      --good: #22c55e;
+      --bad: #ef4444;
+    }
+
+    [data-theme="light"] {
+      --bg: #faf9f6;
+      --surface: #f4f1ea;
+      --surface2: #ece7de;
+      --surface3: #e2dbcf;
+      --border: rgba(0,0,0,0.08);
+      --text: #171717;
+      --muted: #626266;
+      --accent: #d97706;
+      --accent-soft: rgba(217,119,6,0.12);
+      --good: #15803d;
+      --bad: #dc2626;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: 'Space Grotesk', sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(900px 420px at 50% 50%, var(--accent-soft), transparent 62%),
+        linear-gradient(180deg, var(--bg), var(--bg));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+      background-size: 48px 48px;
+      mask-image: radial-gradient(circle at center, rgba(0,0,0,0.3) 0%, transparent 80%);
+      opacity: 0.5;
+    }
+
+    .panel {
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      background: color-mix(in srgb, var(--surface) 92%, transparent);
+      box-shadow: 0 28px 100px rgba(0,0,0,0.2);
+      padding: 40px;
+      max-width: 480px;
+      width: 90%;
+      text-align: center;
+      position: relative;
+      z-index: 10;
+      animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    @keyframes slideUp {
+      0% { opacity: 0; transform: translateY(20px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    .icon-wrapper {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: color-mix(in srgb, var(--accent) 15%, var(--surface2));
+      border: 1px solid color-mix(in srgb, var(--accent) 40%, var(--border));
+      color: var(--accent);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 24px;
+    }
+
+    .title {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin: 0 0 12px;
+      letter-spacing: -0.02em;
+    }
+
+    .message {
+      color: var(--muted);
+      line-height: 1.6;
+      margin: 0 0 24px;
+    }
+
+    .repo-link {
+      display: block;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 14px 16px;
+      color: var(--text);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.85rem;
+      text-decoration: none;
+      word-wrap: break-word;
+      transition: border-color 0.2s, background 0.2s;
+    }
+
+    .repo-link:hover {
+      border-color: var(--accent);
+      background: color-mix(in srgb, var(--accent) 10%, var(--surface2));
+    }
+
+    .actions {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      margin-top: 30px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 12px 24px;
+      border-radius: 999px;
+      font-family: 'Syne', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 700;
+      text-decoration: none;
+      cursor: pointer;
+      transition: transform 0.2s, filter 0.2s;
+      border: none;
+    }
+
+    .btn-primary {
+      background: var(--text);
+      color: var(--bg);
+    }
+
+    .btn-secondary {
+      background: var(--surface2);
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      filter: brightness(1.1);
+    }
+  </style>
+</head>
+<body>
+  
+  <div class="panel">
+    <div class="icon-wrapper">
+      <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+      </svg>
+    </div>
+    <h1 class="title">External Project</h1>
+    <p class="message" id="redirect-msg">This project is not hosted statically. You are being redirected to the source code on GitHub.</p>
+    
+    <a href="https://github.com/TusharNeje" id="target-link" class="repo-link">
+      Loading URL...
+    </a>
+
+    <div class="actions">
+      <button class="btn btn-secondary" onclick="window.history.back()">Go Back</button>
+      <a href="#" id="direct-btn" class="btn btn-primary">Continue to GitHub</a>
+    </div>
+  </div>
+
+  <script>
+    // Apply consistent theme
+    const html = document.documentElement;
+    const currentTheme = localStorage.getItem('route36-theme') || 'dark';
+    html.setAttribute('data-theme', currentTheme);
+
+    // Parse URL parameter and manage redirection
+    const urlParams = new URLSearchParams(window.location.search);
+    const targetUrl = urlParams.get('url') || 'https://github.com/TusharNeje';
+
+    const targetLinkEl = document.getElementById('target-link');
+    const directBtnEl = document.getElementById('direct-btn');
+
+    targetLinkEl.textContent = targetUrl;
+    targetLinkEl.href = targetUrl;
+    directBtnEl.href = targetUrl;
+
+    // Optional: auto redirect after some seconds
+    let secondsLeft = 5;
+    const msgEl = document.getElementById('redirect-msg');
+
+    const countdown = setInterval(() => {
+      secondsLeft--;
+      if(secondsLeft <= 0) {
+        clearInterval(countdown);
+        msgEl.textContent = "Redirecting now...";
+        window.location.href = targetUrl;
+      } else {
+        msgEl.textContent = `This project is not hosted statically. You will be automatically redirected to GitHub in ${secondsLeft} second${secondsLeft > 1 ? 's' : ''}...`;
+      }
+    }, 1000);
+
+  </script>
+</body>
+</html>

@@ -1,0 +1,3691 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SnapGrid - Single Page Designer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Akshar:wght@300;400;500;600;700&family=Anek+Devanagari:wght@300;400;500;600;700;800&family=Baloo+2:wght@400;500;600;700;800&family=Eczar:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700&family=Noto+Sans:wght@300;400;500;600;700;800&family=Noto+Sans+Devanagari:wght@300;400;500;600;700;800&family=Noto+Serif+Devanagari:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.1/cropper.min.css" />
+    <style>
+        :root {
+            --bg-primary: #0a0a0a;
+            --bg-secondary: #1a1a1a;
+            --bg-tertiary: #2a2a2a;
+            --accent-primary: #3b82f6;
+            --accent-hover: #2563eb;
+            --border-color: #333;
+            --text-primary: #ffffff;
+            --text-secondary: #a0a0a0;
+            --success: #10b981;
+            --danger: #ef4444;
+            
+            /* A4 Dimensions in mm */
+            --a4-width-portrait: 210;
+            --a4-height-portrait: 297;
+            --a4-width-landscape: 297;
+            --a4-height-landscape: 210;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--bg-primary) 0%, #1a1a2e 100%);
+            color: var(--text-primary);
+            font-family: 'Inter', 'Noto Sans Devanagari', sans-serif;
+            min-height: 100vh;
+        }
+
+        .main-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Control Panel - Left Sidebar */
+        .control-panel {
+            width: 380px;
+            min-width: 380px;
+            background: var(--bg-secondary);
+            border-right: 1px solid var(--border-color);
+            padding: 20px;
+            overflow-y: auto;
+            max-height: 100vh;
+            position: sticky;
+            top: 0;
+        }
+
+        .control-panel::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .control-panel::-webkit-scrollbar-track {
+            background: var(--bg-tertiary);
+            border-radius: 4px;
+        }
+
+        .control-panel::-webkit-scrollbar-thumb {
+            background: var(--accent-primary);
+            border-radius: 4px;
+        }
+
+        .panel-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 25px;
+            background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section {
+            background: var(--bg-tertiary);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 1px solid var(--border-color);
+        }
+
+        .section-title {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .section-title i {
+            color: var(--accent-primary);
+        }
+
+        /* Form Controls */
+        .form-label {
+            font-weight: 500;
+            margin-bottom: 8px;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            display: block;
+        }
+
+        .form-control, .form-select {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            border-radius: 8px;
+            padding: 10px 14px;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+            width: 100%;
+        }
+
+        .form-control:focus, .form-select:focus {
+            background: var(--bg-secondary);
+            border-color: var(--accent-primary);
+            color: var(--text-primary);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+            outline: none;
+        }
+
+        .form-control::placeholder {
+            color: var(--text-secondary);
+        }
+
+        /* Orientation Toggle */
+        .orientation-toggle {
+            display: flex;
+            gap: 10px;
+            background: var(--bg-secondary);
+            padding: 5px;
+            border-radius: 10px;
+        }
+
+        .orientation-btn {
+            flex: 1;
+            padding: 12px 16px;
+            border: none;
+            background: transparent;
+            color: var(--text-secondary);
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-size: 0.9rem;
+        }
+
+        .orientation-btn:hover {
+            color: var(--text-primary);
+            background: rgba(59, 130, 246, 0.1);
+        }
+
+        .orientation-btn.active {
+            background: var(--accent-primary);
+            color: white;
+        }
+
+        /* Row/Column Inputs */
+        .grid-inputs {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .input-group-custom {
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Artboard Area */
+        .artboard-container {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
+            background: var(--bg-primary);
+            overflow: auto;
+        }
+
+        .artboard-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .artboard-info {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .artboard-info span {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        /* A4 Artboard */
+        .artboard {
+            background: #ffffff;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .artboard.portrait {
+            width: 595px;  /* A4 at 72 DPI */
+            height: 842px;
+        }
+
+        .artboard.landscape {
+            width: 842px;
+            height: 595px;
+        }
+
+        .artboard-content {
+            width: 100%;
+            height: 100%;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        /* Empty State */
+        .empty-artboard {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #999;
+            text-align: center;
+        }
+
+        .empty-artboard i {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            opacity: 0.3;
+        }
+
+        .empty-artboard h3 {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            color: #666;
+        }
+
+        .empty-artboard p {
+            font-size: 0.9rem;
+            color: #999;
+        }
+
+        /* Action Buttons */
+        .btn-modern {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-size: 0.9rem;
+        }
+
+        .btn-primary-modern {
+            background: var(--accent-primary);
+            color: white;
+        }
+
+        .btn-primary-modern:hover {
+            background: var(--accent-hover);
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary-modern {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+        }
+
+        .btn-secondary-modern:hover {
+            background: var(--bg-secondary);
+            border-color: var(--accent-primary);
+        }
+
+        .btn-success-modern {
+            background: var(--success);
+            color: white;
+        }
+
+        .btn-success-modern:hover {
+            background: #0d9669;
+            transform: translateY(-2px);
+        }
+
+        .btn-danger-modern {
+            background: var(--danger);
+            color: white;
+        }
+
+        .btn-danger-modern:hover {
+            background: #dc2626;
+        }
+
+        /* File Upload */
+        .file-upload-wrapper {
+            position: relative;
+        }
+
+        .file-upload-label {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 25px 20px;
+            background: var(--bg-secondary);
+            border: 2px dashed var(--border-color);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .file-upload-label:hover {
+            border-color: var(--accent-primary);
+            background: rgba(59, 130, 246, 0.05);
+        }
+
+        .file-upload-label i {
+            font-size: 2rem;
+            color: var(--accent-primary);
+        }
+
+        .file-upload-label span {
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        .file-upload-label small {
+            color: var(--text-secondary);
+            font-size: 0.8rem;
+        }
+
+        #imageUpload {
+            display: none;
+        }
+
+        /* Photo Count Badge */
+        .photo-count-badge {
+            background: var(--accent-primary);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        /* Margin & Spacing Controls */
+        .spacing-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+        .spacing-grid-3 {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 15px;
+        }
+
+        /* Grid System */
+        .artboard-grid-container {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .grid-row {
+            display: flex;
+            gap: 10px;
+        }
+
+        .grid-cell {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            min-width: 0;
+        }
+
+        .grid-slot {
+            flex: 1;
+            background: #f5f5f5;
+            border: 2px dashed #ccc;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .grid-slot:hover {
+            border-color: var(--accent-primary);
+            background: #eef4ff;
+        }
+
+        .grid-slot.filled {
+            border-style: solid;
+            border-color: var(--accent-primary);
+            background: #fff;
+        }
+
+        .grid-slot .placeholder {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #aaa;
+            font-size: 0.8rem;
+            text-align: center;
+            padding: 10px;
+        }
+
+        .grid-slot .placeholder i {
+            font-size: 1.5rem;
+            margin-bottom: 5px;
+            opacity: 0.5;
+        }
+
+        .grid-slot img {
+            width: 100%;
+            height: 100%;
+            box-sizing: border-box;
+            border: var(--img-border-size, 0px) solid var(--img-border-color, #000000);
+            transition: object-fit 0.3s ease;
+        }
+
+        .grid-slot.fit-cover img { object-fit: cover; }
+        .grid-slot.fit-contain img { object-fit: contain; background: #f0f0f0; }
+        .grid-slot.fit-fill img { object-fit: fill; }
+        .grid-slot.fit-scale-down img { object-fit: scale-down; background: #f0f0f0; }
+
+        /* Grid slot controls */
+        .grid-slot .slot-controls {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            display: flex;
+            gap: 5px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .grid-slot:hover .slot-controls {
+            opacity: 1;
+        }
+
+        .slot-btn {
+            width: 28px;
+            height: 28px;
+            border-radius: 6px;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: all 0.2s ease;
+        }
+
+        .slot-btn.edit-btn {
+            background: var(--accent-primary);
+            color: white;
+        }
+
+        .slot-btn.edit-btn:hover {
+            background: var(--accent-hover);
+        }
+
+        .slot-btn.remove-btn {
+            background: var(--danger);
+            color: white;
+        }
+
+        .slot-btn.remove-btn:hover {
+            background: #dc2626;
+        }
+
+        /* Slot index badge */
+        .slot-index {
+            position: absolute;
+            bottom: 5px;
+            left: 5px;
+            background: rgba(0, 0, 0, 0.6);
+            color: white;
+            font-size: 0.7rem;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-weight: 600;
+        }
+
+        /* Caption below grid slot */
+        .grid-caption {
+            margin-top: 5px;
+            min-height: 20px;
+        }
+
+        .grid-caption .grid-caption-input:empty::before {
+            content: attr(data-placeholder);
+            color: #bbb;
+            pointer-events: none;
+            display: inline-block;
+        }
+
+        .grid-caption-input {
+            width: 100%;
+            padding: 6px 10px;
+            border: 1px solid transparent;
+            border-radius: 4px;
+            font-size: 12px;
+            font-family: 'Noto Sans Devanagari', 'Inter', sans-serif;
+            background: transparent;
+            color: #555;
+            text-align: center;
+            line-height: 1.4;
+            white-space: pre-wrap;
+            word-break: break-word;
+            min-height: 24px;
+            transition: all 0.2s ease;
+        }
+
+        .grid-caption-input:hover {
+            background: #f5f5f5;
+            border-color: #ddd;
+        }
+
+        .grid-caption-input:focus {
+            outline: none;
+            border-color: var(--accent-primary);
+            background: #fff;
+            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
+        }
+
+        .grid-caption-input::placeholder {
+            color: #bbb;
+        }
+
+        /* Overview/General Caption at Bottom */
+        .artboard-overview-caption {
+            width: 100%;
+            margin-top: 20px;
+            flex-shrink: 0;
+        }
+
+        .overview-caption-input:empty::before {
+            content: attr(data-placeholder);
+            color: #bbb;
+            pointer-events: none;
+            display: inline-block;
+        }
+
+        .overview-caption-input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px dashed #ccc;
+            border-radius: 6px;
+            background: transparent;
+            font-family: 'Noto Sans Devanagari', 'Inter', sans-serif;
+            font-size: 14px;
+            color: #444;
+            text-align: center;
+            outline: none;
+            transition: all 0.3s ease;
+            white-space: pre-wrap;
+            word-break: break-word;
+            min-height: 40px;
+            line-height: 1.5;
+        }
+
+        .overview-caption-input:hover {
+            border-color: #aaa;
+        }
+
+        .overview-caption-input:focus {
+            border-color: var(--accent-primary);
+            border-style: solid;
+            background: rgba(59, 130, 246, 0.02);
+        }
+
+        /* Aspect Ratio Classes for Slots */
+        .grid-slot.ratio-16-9 { aspect-ratio: 16/9; flex: none; }
+        .grid-slot.ratio-4-3 { aspect-ratio: 4/3; flex: none; }
+        .grid-slot.ratio-3-2 { aspect-ratio: 3/2; flex: none; }
+        .grid-slot.ratio-1-1 { aspect-ratio: 1/1; flex: none; }
+        .grid-slot.ratio-2-3 { aspect-ratio: 2/3; flex: none; }
+        .grid-slot.ratio-9-16 { aspect-ratio: 9/16; flex: none; }
+        .grid-slot.ratio-21-9 { aspect-ratio: 21/9; flex: none; }
+        .grid-slot.ratio-free { aspect-ratio: auto; flex: 1; }
+
+        /* Drag over states */
+        .grid-slot.drag-over {
+            border-color: var(--accent-primary) !important;
+            border-style: solid !important;
+            background: rgba(59, 130, 246, 0.15) !important;
+            transform: scale(1.02);
+        }
+
+        .file-upload-label.drag-over {
+            border-color: var(--accent-primary);
+            background: rgba(59, 130, 246, 0.1);
+            transform: scale(1.02);
+        }
+
+        /* ==================== IMAGE EDITOR MODAL ==================== */
+        .editor-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 10000;
+            overflow-y: auto;
+        }
+
+        .editor-modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .editor-container {
+            background: var(--bg-secondary);
+            border-radius: 16px;
+            width: 95%;
+            max-width: 1400px;
+            height: 90vh;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid var(--border-color);
+            overflow: hidden;
+        }
+
+        .editor-header {
+            padding: 15px 20px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--bg-tertiary);
+        }
+
+        .editor-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--text-primary);
+        }
+
+        .editor-title i {
+            color: var(--accent-primary);
+        }
+
+        .editor-close {
+            background: transparent;
+            border: none;
+            color: var(--text-primary);
+            font-size: 1.3rem;
+            cursor: pointer;
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+
+        .editor-close:hover {
+            background: var(--danger);
+        }
+
+        .editor-body {
+            display: flex;
+            flex: 1;
+            overflow: hidden;
+        }
+
+        .editor-canvas-area {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 30px;
+            background: #0a0a0a;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .editor-canvas-wrapper {
+            position: relative;
+            max-width: 100%;
+            max-height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #editorCanvas {
+            display: block;
+            border-radius: 4px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+            max-width: 100%;
+            max-height: calc(90vh - 150px);
+        }
+
+        .editor-controls {
+            width: 300px;
+            background: var(--bg-secondary);
+            border-left: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .editor-tabs {
+            display: flex;
+            background: var(--bg-tertiary);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .editor-tab {
+            flex: 1;
+            padding: 12px 10px;
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-size: 0.8rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .editor-tab:hover {
+            color: var(--text-primary);
+            background: rgba(59, 130, 246, 0.1);
+        }
+
+        .editor-tab.active {
+            color: var(--accent-primary);
+            background: var(--bg-secondary);
+            border-bottom: 2px solid var(--accent-primary);
+        }
+
+        .editor-tab i {
+            font-size: 1.1rem;
+        }
+
+        .editor-panel {
+            display: none;
+            padding: 20px;
+            overflow-y: auto;
+            flex: 1;
+        }
+
+        .editor-panel.active {
+            display: block;
+        }
+
+        .editor-panel::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .editor-panel::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .editor-panel::-webkit-scrollbar-thumb {
+            background: var(--accent-primary);
+            border-radius: 3px;
+        }
+
+        .control-group {
+            margin-bottom: 25px;
+        }
+
+        .control-group-title {
+            font-size: 0.75rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .control-item {
+            margin-bottom: 15px;
+        }
+
+        .control-label {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 6px;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        .control-value {
+            color: var(--accent-primary);
+            font-weight: 600;
+            font-size: 0.8rem;
+        }
+
+        .control-slider {
+            width: 100%;
+            height: 6px;
+            border-radius: 3px;
+            background: var(--bg-tertiary);
+            outline: none;
+            -webkit-appearance: none;
+            cursor: pointer;
+        }
+
+        .control-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: var(--accent-primary);
+            cursor: pointer;
+            box-shadow: 0 2px 6px rgba(59, 130, 246, 0.4);
+        }
+
+        .rotate-controls {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .rotate-btn {
+            padding: 10px;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            font-size: 0.85rem;
+        }
+
+        .rotate-btn:hover {
+            background: var(--accent-primary);
+            border-color: var(--accent-primary);
+        }
+
+        .editor-footer {
+            padding: 15px 20px;
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+            background: var(--bg-tertiary);
+        }
+
+        .editor-footer .btn-modern {
+            padding: 10px 20px;
+        }
+
+        /* ==================== PDF PREVIEW MODAL ==================== */
+        .pdf-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 10000;
+            padding: 20px;
+        }
+
+        .pdf-modal.active {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .pdf-modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            background: var(--bg-secondary);
+            border-radius: 12px 12px 0 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .pdf-modal-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .pdf-modal-title i {
+            color: var(--accent-primary);
+        }
+
+        .pdf-modal-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .pdf-modal-body {
+            flex: 1;
+            background: var(--bg-tertiary);
+            border-radius: 0 0 12px 12px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #pdfPreviewFrame {
+            width: 100%;
+            height: 100%;
+            border: none;
+            background: white;
+        }
+
+        .pdf-loading {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            color: var(--text-secondary);
+        }
+
+        .pdf-loading i {
+            font-size: 3rem;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* Photo Pool */
+        .photo-pool {
+            max-height: 200px;
+            overflow-y: auto;
+            background: var(--bg-secondary);
+            border-radius: 8px;
+            padding: 10px;
+            margin-bottom: 15px;
+        }
+
+        .photo-pool::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .photo-pool::-webkit-scrollbar-track {
+            background: var(--bg-tertiary);
+            border-radius: 3px;
+        }
+
+        .photo-pool::-webkit-scrollbar-thumb {
+            background: var(--accent-primary);
+            border-radius: 3px;
+        }
+
+        .photo-pool-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
+            gap: 8px;
+        }
+
+        .photo-pool-item {
+            aspect-ratio: 1;
+            border-radius: 6px;
+            overflow: hidden;
+            cursor: grab;
+            border: 2px solid transparent;
+            transition: all 0.2s ease;
+            position: relative;
+        }
+
+        .photo-pool-item:hover {
+            border-color: var(--accent-primary);
+            transform: scale(1.05);
+        }
+
+        .photo-pool-item.dragging {
+            opacity: 0.5;
+            cursor: grabbing;
+        }
+
+        .photo-pool-item.used {
+            opacity: 0.4;
+        }
+
+        .photo-pool-item.used::after {
+            content: '\f26e';
+            font-family: 'bootstrap-icons';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: var(--success);
+            color: white;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+        }
+
+        .photo-pool-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .photo-pool-empty {
+            text-align: center;
+            padding: 20px;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+        }
+
+        .photo-pool-empty i {
+            font-size: 1.5rem;
+            margin-bottom: 8px;
+            display: block;
+            opacity: 0.5;
+        }
+
+        /* Title Bar on Artboard */
+        .artboard-title-bar {
+            width: 100%;
+            margin-bottom: 15px;
+            flex-shrink: 0;
+        }
+
+        .title-input:empty::before {
+            content: attr(data-placeholder);
+            color: #bbb;
+            pointer-events: none;
+            display: inline-block;
+        }
+
+        .title-input {
+            width: 100%;
+            padding: 10px 15px;
+            border: 2px dashed #ccc;
+            border-radius: 6px;
+            background: transparent;
+            font-family: 'Noto Sans Devanagari', 'Inter', sans-serif;
+            font-size: 24px;
+            font-weight: 700;
+            color: #333;
+            text-align: center;
+            outline: none;
+            transition: all 0.3s ease;
+            white-space: pre-wrap;
+            word-break: break-word;
+            min-height: 50px;
+        }
+
+        .title-input:focus {
+            border-color: var(--accent-primary);
+            border-style: solid;
+            background: rgba(59, 130, 246, 0.02);
+        }
+
+        /* Text Formatting Controls */
+        .text-controls {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .text-control-row {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .text-control-group {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            flex-wrap: wrap;
+        }
+
+        .text-control-group label {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            min-width: 40px;
+        }
+
+        .text-btn {
+            width: 34px;
+            height: 34px;
+            border: 1px solid var(--border-color);
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+            font-size: 0.9rem;
+        }
+
+        .text-btn:hover {
+            background: var(--bg-tertiary);
+            border-color: var(--accent-primary);
+        }
+
+        .text-btn.active {
+            background: var(--accent-primary);
+            border-color: var(--accent-primary);
+            color: white;
+        }
+
+        .text-select {
+            padding: 6px 10px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            border-radius: 6px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            min-width: 100px;
+        }
+
+        .text-select:focus {
+            outline: none;
+            border-color: var(--accent-primary);
+        }
+
+        .text-input-small {
+            width: 60px;
+            padding: 6px 8px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            border-radius: 6px;
+            font-size: 0.8rem;
+            text-align: center;
+        }
+
+        .text-input-small:focus {
+            outline: none;
+            border-color: var(--accent-primary);
+        }
+
+        .color-picker-wrapper {
+            position: relative;
+            width: 34px;
+            height: 34px;
+        }
+
+        .color-picker-btn {
+            width: 100%;
+            height: 100%;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            cursor: pointer;
+            padding: 4px;
+            background: var(--bg-secondary);
+        }
+
+        .color-picker-btn .color-preview {
+            width: 100%;
+            height: 100%;
+            border-radius: 4px;
+            background: #333333;
+        }
+
+        .color-picker-input {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        .control-divider {
+            width: 1px;
+            height: 24px;
+            background: var(--border-color);
+            margin: 0 5px;
+        }
+
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .control-panel {
+                width: 340px;
+                min-width: 340px;
+            }
+        }
+
+        @media (max-width: 992px) {
+            .main-container {
+                flex-direction: column;
+            }
+            
+            .control-panel {
+                width: 100%;
+                min-width: 100%;
+                max-height: none;
+                position: relative;
+            }
+
+            .artboard-container {
+                min-height: 80vh;
+            }
+
+            .artboard.portrait,
+            .artboard.landscape {
+                transform: scale(0.7);
+                transform-origin: top center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="main-container">
+        <!-- Control Panel - Left Sidebar -->
+        <div class="control-panel">
+            <div class="panel-title">
+                <i class="bi bi-grid-3x3-gap-fill"></i>
+                Single Page Designer
+            </div>
+
+            <!-- Page Settings Section -->
+            <div class="section">
+                <div class="section-title">
+                    <i class="bi bi-file-earmark"></i>
+                    Page Settings
+                </div>
+                
+                <!-- Orientation Toggle -->
+                <div class="mb-3">
+                    <label class="form-label">Page Orientation</label>
+                    <div class="orientation-toggle">
+                        <button class="orientation-btn" data-orientation="portrait" id="portraitBtn">
+                            <i class="bi bi-phone"></i>
+                            Portrait
+                        </button>
+                        <button class="orientation-btn active" data-orientation="landscape" id="landscapeBtn">
+                            <i class="bi bi-phone-landscape"></i>
+                            Landscape
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Page Margins -->
+                <div class="spacing-grid-3">
+                    <div class="input-group-custom">
+                        <label class="form-label">Page Margin</label>
+                        <input type="number" class="form-control" id="pageMargin" value="20" min="0" max="100">
+                    </div>
+                    <div class="input-group-custom">
+                        <label class="form-label">Row Spacing</label>
+                        <input type="number" class="form-control" id="gridRowSpacing" value="10" min="0" max="50">
+                    </div>
+                    <div class="input-group-custom">
+                        <label class="form-label">Col Spacing</label>
+                        <input type="number" class="form-control" id="gridColSpacing" value="10" min="0" max="50">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Grid Settings Section -->
+            <div class="section">
+                <div class="section-title">
+                    <i class="bi bi-grid"></i>
+                    Grid Settings
+                </div>
+                
+                <!-- Rows and Columns -->
+                <div class="grid-inputs mb-3">
+                    <div class="input-group-custom">
+                        <label class="form-label">Rows</label>
+                        <input type="number" class="form-control" id="gridRows" value="2" min="1" max="10">
+                    </div>
+                    <div class="input-group-custom">
+                        <label class="form-label">Columns</label>
+                        <input type="number" class="form-control" id="gridCols" value="2" min="1" max="10">
+                    </div>
+                </div>
+
+                <!-- Box Aspect Ratio -->
+                <div class="mb-3">
+                    <label class="form-label">Box Aspect Ratio</label>
+                    <select class="form-select" id="boxAspectRatio">
+                        <option value="16-9">16:9 (Widescreen)</option>
+                        <option value="4-3">4:3 (Standard)</option>
+                        <option value="3-2">3:2 (Classic)</option>
+                        <option value="1-1">1:1 (Square)</option>
+                        <option value="2-3">2:3 (Portrait)</option>
+                        <option value="9-16">9:16 (Tall)</option>
+                        <option value="21-9">21:9 (Ultrawide)</option>
+                        <option value="free">Free (Auto)</option>
+                    </select>
+                </div>
+
+                <!-- Image Fit Mode -->
+                <div class="mb-0">
+                    <label class="form-label">Image Fit Mode</label>
+                    <select class="form-select" id="imageFitMode">
+                        <option value="cover">Cover (Fill & Crop)</option>
+                        <option value="contain">Contain (Fit Inside)</option>
+                        <option value="fill">Fill (Stretch)</option>
+                        <option value="scale-down">Scale Down</option>
+                    </select>
+                </div>
+                
+                <!-- Image Border -->
+                <div class="spacing-grid mt-3 mb-0">
+                    <div class="input-group-custom">
+                        <label class="form-label">Image Border (px)</label>
+                        <input type="number" class="form-control" id="imageBorderSize" value="0" min="0" max="50">
+                    </div>
+                    <div class="input-group-custom">
+                        <label class="form-label">Border Color</label>
+                        <input type="color" class="form-control form-control-color w-100" id="imageBorderColor" value="#000000">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Image Upload Section -->
+            <div class="section">
+                <div class="section-title">
+                    <i class="bi bi-images"></i>
+                    Images
+                    <span class="photo-count-badge" id="photoCountBadge">0 photos</span>
+                </div>
+                
+                <div class="file-upload-wrapper mb-3">
+                    <label for="imageUpload" class="file-upload-label" id="uploadLabel">
+                        <i class="bi bi-cloud-upload"></i>
+                        <span>Click to upload images</span>
+                        <small>or drag and drop</small>
+                    </label>
+                    <input type="file" id="imageUpload" multiple accept="image/*">
+                </div>
+
+                <!-- Photo Pool -->
+                <div class="photo-pool" id="photoPool">
+                    <div class="photo-pool-empty" id="photoPoolEmpty">
+                        <i class="bi bi-images"></i>
+                        <span>No images uploaded yet</span>
+                    </div>
+                    <div class="photo-pool-grid" id="photoPoolGrid"></div>
+                </div>
+
+                <div class="d-flex gap-2">
+                    <button class="btn-modern btn-primary-modern flex-grow-1" id="autoFillBtn">
+                        <i class="bi bi-magic"></i>
+                        Auto Fill
+                    </button>
+                    <button class="btn-modern btn-secondary-modern" id="clearImagesBtn">
+                        <i class="bi bi-trash"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Text Margins Section -->
+            <div class="section">
+                <div class="section-title">
+                    <i class="bi bi-text-paragraph"></i>
+                    Text Margins
+                </div>
+                
+                <div class="spacing-grid">
+                    <div class="input-group-custom">
+                        <label class="form-label">Top-Bottom (px)</label>
+                        <input type="number" class="form-control" id="textMarginTB" value="10" min="0" max="50">
+                    </div>
+                    <div class="input-group-custom">
+                        <label class="form-label">Left-Right (px)</label>
+                        <input type="number" class="form-control" id="textMarginLR" value="10" min="0" max="50">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Title Settings Section -->
+            <div class="section">
+                <div class="section-title">
+                    <i class="bi bi-type"></i>
+                    Title Settings
+                </div>
+                
+                <div class="text-controls">
+                    <!-- Font Family -->
+                    <div class="text-control-row">
+                        <select class="text-select flex-grow-1" id="titleFontFamily">
+                            <option value="'Noto Sans Devanagari', sans-serif">Noto Sans Devanagari</option>
+                            <option value="'Akshar', sans-serif">Akshar</option>
+                            <option value="'Anek Devanagari', sans-serif">Anek Devanagari</option>
+                            <option value="'Baloo 2', sans-serif">Baloo 2</option>
+                            <option value="'Eczar', serif">Eczar</option>
+                            <option value="'Google Sans', 'Open Sans', sans-serif">Google Sans</option>
+                            <option value="'Noto Sans', sans-serif">Noto Sans</option>
+                            <option value="'Noto Serif Devanagari', serif">Noto Serif Devanagari</option>
+                            <option value="'Inter', sans-serif">Inter</option>
+                            <option value="Arial, sans-serif">Arial</option>
+                            <option value="'Times New Roman', serif">Times New Roman</option>
+                            <option value="Georgia, serif">Georgia</option>
+                            <option value="'Courier New', monospace">Courier New</option>
+                            <option value="Verdana, sans-serif">Verdana</option>
+                            <option value="Tahoma, sans-serif">Tahoma</option>
+                        </select>
+                    </div>
+                    
+                    <!-- Size and Color -->
+                    <div class="text-control-row">
+                        <div class="text-control-group">
+                            <label>Size</label>
+                            <input type="number" class="text-input-small" id="titleFontSize" value="24" min="8" max="72">
+                            <span style="color: var(--text-secondary); font-size: 0.75rem;">px</span>
+                        </div>
+                        
+                        <div class="control-divider"></div>
+                        
+                        <div class="text-control-group">
+                            <label>Color</label>
+                            <div class="color-picker-wrapper">
+                                <div class="color-picker-btn">
+                                    <div class="color-preview" id="titleColorPreview"></div>
+                                </div>
+                                <input type="color" class="color-picker-input" id="titleColor" value="#333333">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Style Buttons -->
+                    <div class="text-control-row">
+                        <button class="text-btn" id="titleBold" title="Bold">
+                            <i class="bi bi-type-bold"></i>
+                        </button>
+                        <button class="text-btn" id="titleItalic" title="Italic">
+                            <i class="bi bi-type-italic"></i>
+                        </button>
+                        <button class="text-btn" id="titleUnderline" title="Underline">
+                            <i class="bi bi-type-underline"></i>
+                        </button>
+                        
+                        <div class="control-divider"></div>
+                        
+                        <button class="text-btn" id="titleAlignLeft" title="Align Left">
+                            <i class="bi bi-text-left"></i>
+                        </button>
+                        <button class="text-btn active" id="titleAlignCenter" title="Align Center">
+                            <i class="bi bi-text-center"></i>
+                        </button>
+                        <button class="text-btn" id="titleAlignRight" title="Align Right">
+                            <i class="bi bi-text-right"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Caption Settings Section -->
+            <div class="section">
+                <div class="section-title">
+                    <i class="bi bi-chat-square-text"></i>
+                    Caption Settings
+                </div>
+                
+                <div class="text-controls">
+                    <!-- Font Family -->
+                    <div class="text-control-row">
+                        <select class="text-select flex-grow-1" id="captionFontFamily">
+                            <option value="'Noto Sans Devanagari', sans-serif">Noto Sans Devanagari</option>
+                            <option value="'Akshar', sans-serif">Akshar</option>
+                            <option value="'Anek Devanagari', sans-serif">Anek Devanagari</option>
+                            <option value="'Baloo 2', sans-serif">Baloo 2</option>
+                            <option value="'Eczar', serif">Eczar</option>
+                            <option value="'Google Sans', 'Open Sans', sans-serif">Google Sans</option>
+                            <option value="'Noto Sans', sans-serif">Noto Sans</option>
+                            <option value="'Noto Serif Devanagari', serif">Noto Serif Devanagari</option>
+                            <option value="'Inter', sans-serif">Inter</option>
+                            <option value="Arial, sans-serif">Arial</option>
+                            <option value="'Times New Roman', serif">Times New Roman</option>
+                            <option value="Georgia, serif">Georgia</option>
+                            <option value="'Courier New', monospace">Courier New</option>
+                            <option value="Verdana, sans-serif">Verdana</option>
+                            <option value="Tahoma, sans-serif">Tahoma</option>
+                        </select>
+                    </div>
+                    
+                    <!-- Size and Color -->
+                    <div class="text-control-row">
+                        <div class="text-control-group">
+                            <label>Size</label>
+                            <input type="number" class="text-input-small" id="captionFontSize" value="12" min="8" max="36">
+                            <span style="color: var(--text-secondary); font-size: 0.75rem;">px</span>
+                        </div>
+                        
+                        <div class="control-divider"></div>
+                        
+                        <div class="text-control-group">
+                            <label>Color</label>
+                            <div class="color-picker-wrapper">
+                                <div class="color-picker-btn">
+                                    <div class="color-preview" id="captionColorPreview" style="background: #555555;"></div>
+                                </div>
+                                <input type="color" class="color-picker-input" id="captionColor" value="#555555">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Style Buttons -->
+                    <div class="text-control-row">
+                        <button class="text-btn" id="captionBold" title="Bold">
+                            <i class="bi bi-type-bold"></i>
+                        </button>
+                        <button class="text-btn" id="captionItalic" title="Italic">
+                            <i class="bi bi-type-italic"></i>
+                        </button>
+                        <button class="text-btn" id="captionUnderline" title="Underline">
+                            <i class="bi bi-type-underline"></i>
+                        </button>
+                        
+                        <div class="control-divider"></div>
+                        
+                        <button class="text-btn" id="captionAlignLeft" title="Align Left">
+                            <i class="bi bi-text-left"></i>
+                        </button>
+                        <button class="text-btn active" id="captionAlignCenter" title="Align Center">
+                            <i class="bi bi-text-center"></i>
+                        </button>
+                        <button class="text-btn" id="captionAlignRight" title="Align Right">
+                            <i class="bi bi-text-right"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Overview Caption Settings Section -->
+            <div class="section">
+                <div class="section-title">
+                    <i class="bi bi-card-text"></i>
+                    Overview Caption Settings
+                </div>
+                
+                <div class="text-controls">
+                    <!-- Font Family -->
+                    <div class="text-control-row">
+                        <select class="text-select flex-grow-1" id="overviewFontFamily">
+                            <option value="'Noto Sans Devanagari', sans-serif">Noto Sans Devanagari</option>
+                            <option value="'Akshar', sans-serif">Akshar</option>
+                            <option value="'Anek Devanagari', sans-serif">Anek Devanagari</option>
+                            <option value="'Baloo 2', sans-serif">Baloo 2</option>
+                            <option value="'Eczar', serif">Eczar</option>
+                            <option value="'Google Sans', 'Open Sans', sans-serif">Google Sans</option>
+                            <option value="'Noto Sans', sans-serif">Noto Sans</option>
+                            <option value="'Noto Serif Devanagari', serif">Noto Serif Devanagari</option>
+                            <option value="'Inter', sans-serif">Inter</option>
+                            <option value="Arial, sans-serif">Arial</option>
+                            <option value="'Times New Roman', serif">Times New Roman</option>
+                            <option value="Georgia, serif">Georgia</option>
+                            <option value="'Courier New', monospace">Courier New</option>
+                            <option value="Verdana, sans-serif">Verdana</option>
+                            <option value="Tahoma, sans-serif">Tahoma</option>
+                        </select>
+                    </div>
+                    
+                    <!-- Size and Color -->
+                    <div class="text-control-row">
+                        <div class="text-control-group">
+                            <label>Size</label>
+                            <input type="number" class="text-input-small" id="overviewFontSize" value="14" min="8" max="36">
+                            <span style="color: var(--text-secondary); font-size: 0.75rem;">px</span>
+                        </div>
+                        
+                        <div class="control-divider"></div>
+                        
+                        <div class="text-control-group">
+                            <label>Color</label>
+                            <div class="color-picker-wrapper">
+                                <div class="color-picker-btn">
+                                    <div class="color-preview" id="overviewColorPreview" style="background: #444444;"></div>
+                                </div>
+                                <input type="color" class="color-picker-input" id="overviewColor" value="#444444">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Style Buttons -->
+                    <div class="text-control-row">
+                        <button class="text-btn" id="overviewBold" title="Bold">
+                            <i class="bi bi-type-bold"></i>
+                        </button>
+                        <button class="text-btn" id="overviewItalic" title="Italic">
+                            <i class="bi bi-type-italic"></i>
+                        </button>
+                        <button class="text-btn" id="overviewUnderline" title="Underline">
+                            <i class="bi bi-type-underline"></i>
+                        </button>
+                        
+                        <div class="control-divider"></div>
+                        
+                        <button class="text-btn" id="overviewAlignLeft" title="Align Left">
+                            <i class="bi bi-text-left"></i>
+                        </button>
+                        <button class="text-btn active" id="overviewAlignCenter" title="Align Center">
+                            <i class="bi bi-text-center"></i>
+                        </button>
+                        <button class="text-btn" id="overviewAlignRight" title="Align Right">
+                            <i class="bi bi-text-right"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="section">
+                <div class="section-title">
+                    <i class="bi bi-download"></i>
+                    Export
+                </div>
+                
+                <div class="d-flex flex-column gap-2">
+                    <button class="btn-modern btn-primary-modern" id="previewPdfBtn">
+                        <i class="bi bi-eye"></i>
+                        Preview PDF
+                    </button>
+                    <button class="btn-modern btn-success-modern" id="downloadPdfBtn">
+                        <i class="bi bi-file-pdf"></i>
+                        Download PDF
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Artboard Area -->
+        <div class="artboard-container">
+            <div class="artboard-wrapper">
+                <div class="artboard-info">
+                    <span><i class="bi bi-file-earmark"></i> A4</span>
+                    <span id="artboardDimensions">297 × 210 mm</span>
+                    <span id="artboardOrientation">Landscape</span>
+                </div>
+                
+                <div class="artboard landscape" id="artboard">
+                    <div class="artboard-content" id="artboardContent">
+                        <!-- Empty State -->
+                        <div class="empty-artboard" id="emptyState">
+                            <i class="bi bi-easel"></i>
+                            <h3>Your Artboard is Empty</h3>
+                            <p>Configure grid settings and upload images to get started</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== IMAGE EDITOR MODAL ==================== -->
+    <div class="editor-modal" id="editorModal">
+        <div class="editor-container">
+            <div class="editor-header">
+                <div class="editor-title">
+                    <i class="bi bi-pencil-square"></i>
+                    <span>Image Editor</span>
+                    <span id="editingSlotInfo" style="color: var(--text-secondary); font-weight: 400;"></span>
+                </div>
+                <button class="editor-close" onclick="closeImageEditor()">
+                    <i class="bi bi-x-lg"></i>
+                </button>
+            </div>
+            
+            <div class="editor-body">
+                <div class="editor-canvas-area">
+                    <div class="editor-canvas-wrapper">
+                        <canvas id="editorCanvas"></canvas>
+                        <img id="cropperImage" style="display: none; max-width: 100%; max-height: calc(90vh - 150px);" />
+                    </div>
+                </div>
+                
+                <div class="editor-controls">
+                    <div class="editor-tabs">
+                        <button class="editor-tab" data-tab="crop">
+                            <i class="bi bi-aspect-ratio"></i>
+                            Crop
+                        </button>
+                        <button class="editor-tab active" data-tab="transform">
+                            <i class="bi bi-arrows-move"></i>
+                            Transform
+                        </button>
+                        <button class="editor-tab" data-tab="light">
+                            <i class="bi bi-brightness-high"></i>
+                            Light
+                        </button>
+                        <button class="editor-tab" data-tab="color">
+                            <i class="bi bi-palette"></i>
+                            Color
+                        </button>
+                    </div>
+                    
+                    <!-- Crop Panel -->
+                    <div class="editor-panel" data-panel="crop">
+                        <div class="control-group">
+                            <div class="control-group-title">Aspect Ratios</div>
+                            <div class="rotate-controls" style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+                                <button class="btn-modern btn-secondary-modern" onclick="setCropRatio(16/9)">16:9</button>
+                                <button class="btn-modern btn-secondary-modern" onclick="setCropRatio(4/3)">4:3</button>
+                                <button class="btn-modern btn-secondary-modern" onclick="setCropRatio(1/1)">1:1</button>
+                                <button class="btn-modern btn-secondary-modern" onclick="setCropRatio(2/3)">2:3</button>
+                                <button class="btn-modern btn-secondary-modern" onclick="setCropRatio(9/16)">9:16</button>
+                                <button class="btn-modern btn-secondary-modern" onclick="setCropRatio(NaN)">Free</button>
+                            </div>
+                        </div>
+                        <div class="control-group" style="margin-top: 15px;">
+                            <button class="btn-modern btn-success-modern w-100" onclick="applyCrop()">
+                                <i class="bi bi-check-lg"></i> Apply Crop
+                            </button>
+                            <button class="btn-modern btn-danger-modern w-100 mt-2" onclick="cancelCrop()">
+                                <i class="bi bi-x-lg"></i> Cancel
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Transform Panel -->
+                    <div class="editor-panel active" data-panel="transform">
+                        <div class="control-group">
+                            <div class="control-group-title">Rotate & Flip</div>
+                            <div class="rotate-controls">
+                                <button class="rotate-btn" onclick="rotateImage(-90)">
+                                    <i class="bi bi-arrow-counterclockwise"></i> -90°
+                                </button>
+                                <button class="rotate-btn" onclick="rotateImage(90)">
+                                    <i class="bi bi-arrow-clockwise"></i> +90°
+                                </button>
+                                <button class="rotate-btn" onclick="flipImage('horizontal')">
+                                    <i class="bi bi-symmetry-vertical"></i> Flip H
+                                </button>
+                                <button class="rotate-btn" onclick="flipImage('vertical')">
+                                    <i class="bi bi-symmetry-horizontal"></i> Flip V
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="control-group">
+                            <div class="control-group-title">Zoom</div>
+                            <div class="control-item">
+                                <div class="control-label">
+                                    <span>Scale</span>
+                                    <span class="control-value" id="zoomValue">100%</span>
+                                </div>
+                                <input type="range" class="control-slider" id="zoomSlider" min="50" max="200" value="100">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Light Panel -->
+                    <div class="editor-panel" data-panel="light">
+                        <div class="control-group">
+                            <div class="control-group-title">Exposure</div>
+                            <div class="control-item">
+                                <div class="control-label">
+                                    <span>Brightness</span>
+                                    <span class="control-value" id="brightnessValue">0</span>
+                                </div>
+                                <input type="range" class="control-slider" id="brightnessSlider" min="-100" max="100" value="0">
+                            </div>
+                            <div class="control-item">
+                                <div class="control-label">
+                                    <span>Contrast</span>
+                                    <span class="control-value" id="contrastValue">0</span>
+                                </div>
+                                <input type="range" class="control-slider" id="contrastSlider" min="-100" max="100" value="0">
+                            </div>
+                            <div class="control-item">
+                                <div class="control-label">
+                                    <span>Exposure</span>
+                                    <span class="control-value" id="exposureValue">0</span>
+                                </div>
+                                <input type="range" class="control-slider" id="exposureSlider" min="-100" max="100" value="0">
+                            </div>
+                        </div>
+                        
+                        <div class="control-group">
+                            <div class="control-group-title">Tones</div>
+                            <div class="control-item">
+                                <div class="control-label">
+                                    <span>Shadows</span>
+                                    <span class="control-value" id="shadowValue">0</span>
+                                </div>
+                                <input type="range" class="control-slider" id="shadowSlider" min="-100" max="100" value="0">
+                            </div>
+                            <div class="control-item">
+                                <div class="control-label">
+                                    <span>Highlights</span>
+                                    <span class="control-value" id="highlightValue">0</span>
+                                </div>
+                                <input type="range" class="control-slider" id="highlightSlider" min="-100" max="100" value="0">
+                            </div>
+                        </div>
+                        
+                        <div class="control-group">
+                            <div class="control-group-title">Effects</div>
+                            <div class="control-item">
+                                <div class="control-label">
+                                    <span>Sharpen</span>
+                                    <span class="control-value" id="sharpenValue">0</span>
+                                </div>
+                                <input type="range" class="control-slider" id="sharpenSlider" min="0" max="100" value="0">
+                            </div>
+                            <div class="control-item">
+                                <div class="control-label">
+                                    <span>Vignette</span>
+                                    <span class="control-value" id="vignetteValue">0</span>
+                                </div>
+                                <input type="range" class="control-slider" id="vignetteSlider" min="0" max="100" value="0">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Color Panel -->
+                    <div class="editor-panel" data-panel="color">
+                        <div class="control-group">
+                            <div class="control-group-title">White Balance</div>
+                            <div class="control-item">
+                                <div class="control-label">
+                                    <span>Temperature</span>
+                                    <span class="control-value" id="temperatureValue">0</span>
+                                </div>
+                                <input type="range" class="control-slider" id="temperatureSlider" min="-100" max="100" value="0">
+                            </div>
+                            <div class="control-item">
+                                <div class="control-label">
+                                    <span>Tint</span>
+                                    <span class="control-value" id="tintValue">0</span>
+                                </div>
+                                <input type="range" class="control-slider" id="tintSlider" min="-100" max="100" value="0">
+                            </div>
+                        </div>
+                        
+                        <div class="control-group">
+                            <div class="control-group-title">Color</div>
+                            <div class="control-item">
+                                <div class="control-label">
+                                    <span>Saturation</span>
+                                    <span class="control-value" id="saturationValue">0</span>
+                                </div>
+                                <input type="range" class="control-slider" id="saturationSlider" min="-100" max="100" value="0">
+                            </div>
+                            <div class="control-item">
+                                <div class="control-label">
+                                    <span>Vibrance</span>
+                                    <span class="control-value" id="vibranceValue">0</span>
+                                </div>
+                                <input type="range" class="control-slider" id="vibranceSlider" min="-100" max="100" value="0">
+                            </div>
+                            <div class="control-item">
+                                <div class="control-label">
+                                    <span>Hue</span>
+                                    <span class="control-value" id="hueValue">0</span>
+                                </div>
+                                <input type="range" class="control-slider" id="hueSlider" min="-180" max="180" value="0">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="editor-footer">
+                <button class="btn-modern btn-secondary-modern" onclick="resetEdits()">
+                    <i class="bi bi-arrow-counterclockwise"></i> Reset
+                </button>
+                <button class="btn-modern btn-secondary-modern" onclick="closeImageEditor()">
+                    <i class="bi bi-x"></i> Cancel
+                </button>
+                <button class="btn-modern btn-primary-modern" onclick="saveEditedImage()">
+                    <i class="bi bi-check-lg"></i> Apply Changes
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== PDF PREVIEW MODAL ==================== -->
+    <div class="pdf-modal" id="pdfModal">
+        <div class="pdf-modal-header">
+            <div class="pdf-modal-title">
+                <i class="bi bi-file-pdf"></i>
+                <span>PDF Preview</span>
+            </div>
+            <div class="pdf-modal-actions">
+                <button class="btn-modern btn-success-modern" id="downloadFromPreview">
+                    <i class="bi bi-download"></i> Download PDF
+                </button>
+                <button class="btn-modern btn-secondary-modern" onclick="closePdfPreview()">
+                    <i class="bi bi-x-lg"></i> Close
+                </button>
+            </div>
+        </div>
+        <div class="pdf-modal-body">
+            <div class="pdf-loading" id="pdfLoading">
+                <i class="bi bi-arrow-repeat"></i>
+                <span>Generating PDF Preview...</span>
+            </div>
+            <iframe id="pdfPreviewFrame" style="display: none;"></iframe>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.1/cropper.min.js"></script>
+    <script>
+        // ==================== STATE MANAGEMENT ====================
+        const state = {
+            orientation: 'landscape',
+            pageMargin: 20,
+            gridRowSpacing: 10,
+            gridColSpacing: 10,
+            rows: 2,
+            cols: 2,
+            boxAspectRatio: '16-9',
+            imageFitMode: 'cover',
+            imageBorderSize: 0,
+            imageBorderColor: '#000000',
+            textMarginTB: 10,
+            textMarginLR: 10,
+            uploadedImages: [],
+            gridImages: [], // Will store image data for each grid slot
+            gridCaptions: [], // Will store captions for each grid slot
+            
+            // Title settings
+            title: {
+                text: '',
+                fontFamily: "'Noto Sans Devanagari', sans-serif",
+                fontSize: 24,
+                color: '#333333',
+                bold: false,
+                italic: false,
+                underline: false,
+                align: 'center'
+            },
+            
+            // Caption settings (applies to all captions)
+            caption: {
+                fontFamily: "'Noto Sans Devanagari', sans-serif",
+                fontSize: 12,
+                color: '#555555',
+                bold: false,
+                italic: false,
+                underline: false,
+                align: 'center'
+            },
+            
+            // Overview caption settings
+            overview: {
+                text: '',
+                fontFamily: "'Noto Sans Devanagari', sans-serif",
+                fontSize: 14,
+                color: '#444444',
+                bold: false,
+                italic: false,
+                underline: false,
+                align: 'center'
+            }
+        };
+
+        // ==================== DOM ELEMENTS ====================
+        const elements = {
+            artboard: document.getElementById('artboard'),
+            artboardContent: document.getElementById('artboardContent'),
+            artboardDimensions: document.getElementById('artboardDimensions'),
+            artboardOrientation: document.getElementById('artboardOrientation'),
+            emptyState: document.getElementById('emptyState'),
+            portraitBtn: document.getElementById('portraitBtn'),
+            landscapeBtn: document.getElementById('landscapeBtn'),
+            pageMargin: document.getElementById('pageMargin'),
+            gridRowSpacing: document.getElementById('gridRowSpacing'),
+            gridColSpacing: document.getElementById('gridColSpacing'),
+            gridRows: document.getElementById('gridRows'),
+            gridCols: document.getElementById('gridCols'),
+            boxAspectRatio: document.getElementById('boxAspectRatio'),
+            imageFitMode: document.getElementById('imageFitMode'),
+            imageBorderSize: document.getElementById('imageBorderSize'),
+            imageBorderColor: document.getElementById('imageBorderColor'),
+            textMarginTB: document.getElementById('textMarginTB'),
+            textMarginLR: document.getElementById('textMarginLR'),
+            imageUpload: document.getElementById('imageUpload'),
+            photoCountBadge: document.getElementById('photoCountBadge'),
+            autoFillBtn: document.getElementById('autoFillBtn'),
+            clearImagesBtn: document.getElementById('clearImagesBtn'),
+            previewPdfBtn: document.getElementById('previewPdfBtn'),
+            downloadPdfBtn: document.getElementById('downloadPdfBtn')
+        };
+
+        // ==================== ORIENTATION HANDLING ====================
+        function setOrientation(orientation) {
+            state.orientation = orientation;
+            
+            // Update buttons
+            elements.portraitBtn.classList.toggle('active', orientation === 'portrait');
+            elements.landscapeBtn.classList.toggle('active', orientation === 'landscape');
+            
+            // Update artboard
+            elements.artboard.classList.remove('portrait', 'landscape');
+            elements.artboard.classList.add(orientation);
+            
+            // Update info display
+            if (orientation === 'portrait') {
+                elements.artboardDimensions.textContent = '210 × 297 mm';
+                elements.artboardOrientation.textContent = 'Portrait';
+            } else {
+                elements.artboardDimensions.textContent = '297 × 210 mm';
+                elements.artboardOrientation.textContent = 'Landscape';
+            }
+            
+            // Rebuild artboard content
+            buildArtboard();
+        }
+
+        // Orientation button events
+        elements.portraitBtn.addEventListener('click', () => setOrientation('portrait'));
+        elements.landscapeBtn.addEventListener('click', () => setOrientation('landscape'));
+
+        // ==================== INPUT HANDLERS ====================
+        elements.pageMargin.addEventListener('change', (e) => {
+            state.pageMargin = parseInt(e.target.value) || 20;
+            buildArtboard();
+        });
+
+        elements.gridRowSpacing.addEventListener('change', (e) => {
+            state.gridRowSpacing = parseInt(e.target.value) || 10;
+            buildArtboard();
+        });
+
+        elements.gridColSpacing.addEventListener('change', (e) => {
+            state.gridColSpacing = parseInt(e.target.value) || 10;
+            buildArtboard();
+        });
+
+        elements.gridRows.addEventListener('change', (e) => {
+            state.rows = parseInt(e.target.value) || 2;
+            buildArtboard();
+        });
+
+        elements.gridCols.addEventListener('change', (e) => {
+            state.cols = parseInt(e.target.value) || 2;
+            buildArtboard();
+        });
+
+        elements.boxAspectRatio.addEventListener('change', (e) => {
+            state.boxAspectRatio = e.target.value;
+            buildArtboard();
+        });
+
+        elements.imageFitMode.addEventListener('change', (e) => {
+            state.imageFitMode = e.target.value;
+            applyFitModeToImages();
+            saveToLocalStorage();
+        });
+
+        elements.imageBorderSize.addEventListener('change', (e) => {
+            state.imageBorderSize = parseInt(e.target.value) || 0;
+            updateImageBorders();
+            saveToLocalStorage();
+        });
+
+        elements.imageBorderColor.addEventListener('input', (e) => {
+            state.imageBorderColor = e.target.value;
+            updateImageBorders();
+            saveToLocalStorage();
+        });
+        
+        function updateImageBorders() {
+            const gridContainer = document.querySelector('.artboard-grid-container');
+            if (gridContainer) {
+                gridContainer.style.setProperty('--img-border-size', state.imageBorderSize + 'px');
+                gridContainer.style.setProperty('--img-border-color', state.imageBorderColor);
+            }
+        }
+
+        elements.textMarginTB.addEventListener('change', (e) => {
+            state.textMarginTB = parseInt(e.target.value) || 10;
+            buildArtboard();
+        });
+
+        elements.textMarginLR.addEventListener('change', (e) => {
+            state.textMarginLR = parseInt(e.target.value) || 10;
+            buildArtboard();
+        });
+
+        // ==================== TITLE CONTROLS ====================
+        const titleControls = {
+            fontFamily: document.getElementById('titleFontFamily'),
+            fontSize: document.getElementById('titleFontSize'),
+            color: document.getElementById('titleColor'),
+            colorPreview: document.getElementById('titleColorPreview'),
+            bold: document.getElementById('titleBold'),
+            italic: document.getElementById('titleItalic'),
+            underline: document.getElementById('titleUnderline'),
+            alignLeft: document.getElementById('titleAlignLeft'),
+            alignCenter: document.getElementById('titleAlignCenter'),
+            alignRight: document.getElementById('titleAlignRight')
+        };
+
+        // Font Family
+        titleControls.fontFamily.addEventListener('change', (e) => {
+            state.title.fontFamily = e.target.value;
+            applyTitleStyles();
+        });
+
+        // Font Size
+        titleControls.fontSize.addEventListener('change', (e) => {
+            state.title.fontSize = parseInt(e.target.value) || 24;
+            applyTitleStyles();
+        });
+
+        // Color
+        titleControls.color.addEventListener('input', (e) => {
+            state.title.color = e.target.value;
+            titleControls.colorPreview.style.background = e.target.value;
+            applyTitleStyles();
+        });
+
+        // Bold
+        titleControls.bold.addEventListener('click', () => {
+            state.title.bold = !state.title.bold;
+            titleControls.bold.classList.toggle('active', state.title.bold);
+            applyTitleStyles();
+        });
+
+        // Italic
+        titleControls.italic.addEventListener('click', () => {
+            state.title.italic = !state.title.italic;
+            titleControls.italic.classList.toggle('active', state.title.italic);
+            applyTitleStyles();
+        });
+
+        // Underline
+        titleControls.underline.addEventListener('click', () => {
+            state.title.underline = !state.title.underline;
+            titleControls.underline.classList.toggle('active', state.title.underline);
+            applyTitleStyles();
+        });
+
+        // Alignment
+        function setTitleAlign(align) {
+            state.title.align = align;
+            titleControls.alignLeft.classList.toggle('active', align === 'left');
+            titleControls.alignCenter.classList.toggle('active', align === 'center');
+            titleControls.alignRight.classList.toggle('active', align === 'right');
+            applyTitleStyles();
+        }
+
+        titleControls.alignLeft.addEventListener('click', () => setTitleAlign('left'));
+        titleControls.alignCenter.addEventListener('click', () => setTitleAlign('center'));
+        titleControls.alignRight.addEventListener('click', () => setTitleAlign('right'));
+
+        // Apply title styles to the input
+        function applyTitleStyles() {
+            const titleInput = document.getElementById('artboardTitle');
+            if (titleInput) {
+                titleInput.style.fontFamily = state.title.fontFamily;
+                titleInput.style.fontSize = state.title.fontSize + 'px';
+                titleInput.style.color = state.title.color;
+                titleInput.style.fontWeight = state.title.bold ? '700' : '400';
+                titleInput.style.fontStyle = state.title.italic ? 'italic' : 'normal';
+                titleInput.style.textDecoration = state.title.underline ? 'underline' : 'none';
+                titleInput.style.textAlign = state.title.align;
+            }
+            saveToLocalStorage();
+        }
+
+        // ==================== CAPTION CONTROLS ====================
+        const captionControls = {
+            fontFamily: document.getElementById('captionFontFamily'),
+            fontSize: document.getElementById('captionFontSize'),
+            color: document.getElementById('captionColor'),
+            colorPreview: document.getElementById('captionColorPreview'),
+            bold: document.getElementById('captionBold'),
+            italic: document.getElementById('captionItalic'),
+            underline: document.getElementById('captionUnderline'),
+            alignLeft: document.getElementById('captionAlignLeft'),
+            alignCenter: document.getElementById('captionAlignCenter'),
+            alignRight: document.getElementById('captionAlignRight')
+        };
+
+        // Font Family
+        captionControls.fontFamily.addEventListener('change', (e) => {
+            state.caption.fontFamily = e.target.value;
+            applyCaptionStyles();
+        });
+
+        // Font Size
+        captionControls.fontSize.addEventListener('change', (e) => {
+            state.caption.fontSize = parseInt(e.target.value) || 12;
+            applyCaptionStyles();
+        });
+
+        // Color
+        captionControls.color.addEventListener('input', (e) => {
+            state.caption.color = e.target.value;
+            captionControls.colorPreview.style.background = e.target.value;
+            applyCaptionStyles();
+        });
+
+        // Bold
+        captionControls.bold.addEventListener('click', () => {
+            state.caption.bold = !state.caption.bold;
+            captionControls.bold.classList.toggle('active', state.caption.bold);
+            applyCaptionStyles();
+        });
+
+        // Italic
+        captionControls.italic.addEventListener('click', () => {
+            state.caption.italic = !state.caption.italic;
+            captionControls.italic.classList.toggle('active', state.caption.italic);
+            applyCaptionStyles();
+        });
+
+        // Underline
+        captionControls.underline.addEventListener('click', () => {
+            state.caption.underline = !state.caption.underline;
+            captionControls.underline.classList.toggle('active', state.caption.underline);
+            applyCaptionStyles();
+        });
+
+        // Alignment
+        function setCaptionAlign(align) {
+            state.caption.align = align;
+            captionControls.alignLeft.classList.toggle('active', align === 'left');
+            captionControls.alignCenter.classList.toggle('active', align === 'center');
+            captionControls.alignRight.classList.toggle('active', align === 'right');
+            applyCaptionStyles();
+        }
+
+        captionControls.alignLeft.addEventListener('click', () => setCaptionAlign('left'));
+        captionControls.alignCenter.addEventListener('click', () => setCaptionAlign('center'));
+        captionControls.alignRight.addEventListener('click', () => setCaptionAlign('right'));
+
+        // Apply caption styles to all caption inputs
+        function applyCaptionStyles() {
+            document.querySelectorAll('.grid-caption-input').forEach(input => {
+                input.style.fontFamily = state.caption.fontFamily;
+                input.style.fontSize = state.caption.fontSize + 'px';
+                input.style.color = state.caption.color;
+                input.style.fontWeight = state.caption.bold ? '700' : '400';
+                input.style.fontStyle = state.caption.italic ? 'italic' : 'normal';
+                input.style.textDecoration = state.caption.underline ? 'underline' : 'none';
+                input.style.textAlign = state.caption.align;
+            });
+            saveToLocalStorage();
+        }
+
+        // ==================== OVERVIEW CAPTION CONTROLS ====================
+        const overviewControls = {
+            fontFamily: document.getElementById('overviewFontFamily'),
+            fontSize: document.getElementById('overviewFontSize'),
+            color: document.getElementById('overviewColor'),
+            colorPreview: document.getElementById('overviewColorPreview'),
+            bold: document.getElementById('overviewBold'),
+            italic: document.getElementById('overviewItalic'),
+            underline: document.getElementById('overviewUnderline'),
+            alignLeft: document.getElementById('overviewAlignLeft'),
+            alignCenter: document.getElementById('overviewAlignCenter'),
+            alignRight: document.getElementById('overviewAlignRight')
+        };
+
+        // Font Family
+        overviewControls.fontFamily.addEventListener('change', (e) => {
+            state.overview.fontFamily = e.target.value;
+            applyOverviewStyles();
+        });
+
+        // Font Size
+        overviewControls.fontSize.addEventListener('change', (e) => {
+            state.overview.fontSize = parseInt(e.target.value) || 14;
+            applyOverviewStyles();
+        });
+
+        // Color
+        overviewControls.color.addEventListener('input', (e) => {
+            state.overview.color = e.target.value;
+            overviewControls.colorPreview.style.background = e.target.value;
+            applyOverviewStyles();
+        });
+
+        // Bold
+        overviewControls.bold.addEventListener('click', () => {
+            state.overview.bold = !state.overview.bold;
+            overviewControls.bold.classList.toggle('active', state.overview.bold);
+            applyOverviewStyles();
+        });
+
+        // Italic
+        overviewControls.italic.addEventListener('click', () => {
+            state.overview.italic = !state.overview.italic;
+            overviewControls.italic.classList.toggle('active', state.overview.italic);
+            applyOverviewStyles();
+        });
+
+        // Underline
+        overviewControls.underline.addEventListener('click', () => {
+            state.overview.underline = !state.overview.underline;
+            overviewControls.underline.classList.toggle('active', state.overview.underline);
+            applyOverviewStyles();
+        });
+
+        // Alignment
+        function setOverviewAlign(align) {
+            state.overview.align = align;
+            overviewControls.alignLeft.classList.toggle('active', align === 'left');
+            overviewControls.alignCenter.classList.toggle('active', align === 'center');
+            overviewControls.alignRight.classList.toggle('active', align === 'right');
+            applyOverviewStyles();
+        }
+
+        overviewControls.alignLeft.addEventListener('click', () => setOverviewAlign('left'));
+        overviewControls.alignCenter.addEventListener('click', () => setOverviewAlign('center'));
+        overviewControls.alignRight.addEventListener('click', () => setOverviewAlign('right'));
+
+        // Apply overview styles to the input
+        function applyOverviewStyles() {
+            const overviewInput = document.getElementById('artboardOverview');
+            if (overviewInput) {
+                overviewInput.style.fontFamily = state.overview.fontFamily;
+                overviewInput.style.fontSize = state.overview.fontSize + 'px';
+                overviewInput.style.color = state.overview.color;
+                overviewInput.style.fontWeight = state.overview.bold ? '700' : '400';
+                overviewInput.style.fontStyle = state.overview.italic ? 'italic' : 'normal';
+                overviewInput.style.textDecoration = state.overview.underline ? 'underline' : 'none';
+                overviewInput.style.textAlign = state.overview.align;
+            }
+            saveToLocalStorage();
+        }
+
+        // ==================== IMAGE UPLOAD HANDLING ====================
+        const uploadLabel = document.getElementById('uploadLabel');
+        const photoPool = document.getElementById('photoPool');
+        const photoPoolGrid = document.getElementById('photoPoolGrid');
+        const photoPoolEmpty = document.getElementById('photoPoolEmpty');
+
+        // File input change
+        elements.imageUpload.addEventListener('change', (e) => {
+            const files = Array.from(e.target.files);
+            loadImages(files);
+        });
+
+        // Drag and drop on upload area
+        uploadLabel.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadLabel.classList.add('drag-over');
+        });
+
+        uploadLabel.addEventListener('dragleave', (e) => {
+            e.preventDefault();
+            uploadLabel.classList.remove('drag-over');
+        });
+
+        uploadLabel.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadLabel.classList.remove('drag-over');
+            
+            const files = Array.from(e.dataTransfer.files).filter(f => f.type.startsWith('image/'));
+            if (files.length > 0) {
+                loadImages(files);
+            }
+        });
+
+        function loadImages(files) {
+            let loadedCount = 0;
+            const totalFiles = files.length;
+            
+            files.forEach((file, index) => {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    state.uploadedImages.push({
+                        id: `img-${Date.now()}-${index}`,
+                        src: e.target.result,
+                        file: file,
+                        name: file.name
+                    });
+                    
+                    loadedCount++;
+                    if (loadedCount === totalFiles) {
+                        updatePhotoCount();
+                        renderPhotoPool();
+                    }
+                };
+                reader.readAsDataURL(file);
+            });
+        }
+
+        function updatePhotoCount() {
+            elements.photoCountBadge.textContent = `${state.uploadedImages.length} photos`;
+        }
+
+        // ==================== PHOTO POOL RENDERING ====================
+        let draggedImage = null;
+
+        function renderPhotoPool() {
+            photoPoolGrid.innerHTML = '';
+            
+            if (state.uploadedImages.length === 0) {
+                photoPoolEmpty.style.display = 'block';
+                return;
+            }
+            
+            photoPoolEmpty.style.display = 'none';
+            
+            // Get list of used image sources
+            const usedSrcs = state.gridImages.filter(img => img).map(img => img.src);
+            
+            state.uploadedImages.forEach((imageData, index) => {
+                const item = document.createElement('div');
+                item.className = 'photo-pool-item';
+                item.draggable = true;
+                item.dataset.imageIndex = index;
+                
+                // Mark as used if already in grid
+                if (usedSrcs.includes(imageData.src)) {
+                    item.classList.add('used');
+                }
+                
+                const img = document.createElement('img');
+                img.src = imageData.src;
+                img.alt = imageData.name || `Image ${index + 1}`;
+                item.appendChild(img);
+                
+                // Drag events
+                item.addEventListener('dragstart', (e) => {
+                    draggedImage = imageData;
+                    item.classList.add('dragging');
+                    e.dataTransfer.effectAllowed = 'copy';
+                });
+                
+                item.addEventListener('dragend', () => {
+                    item.classList.remove('dragging');
+                    draggedImage = null;
+                });
+                
+                photoPoolGrid.appendChild(item);
+            });
+        }
+
+        // Auto Fill Button
+        elements.autoFillBtn.addEventListener('click', autoFillGrid);
+
+        // Clear Images Button
+        elements.clearImagesBtn.addEventListener('click', () => {
+            if (confirm('Clear all images from the pool and grid?')) {
+                state.uploadedImages = [];
+                state.gridImages = [];
+                updatePhotoCount();
+                renderPhotoPool();
+                buildArtboard();
+            }
+        });
+
+        // ==================== ARTBOARD BUILDING ====================
+        function buildArtboard() {
+            // Update content padding based on page margin
+            elements.artboardContent.style.padding = `${state.pageMargin}px`;
+            
+            // Clear existing content
+            elements.artboardContent.innerHTML = '';
+            
+            // Initialize gridImages array if needed
+            const totalSlots = state.rows * state.cols;
+            if (state.gridImages.length !== totalSlots) {
+                state.gridImages = new Array(totalSlots).fill(null);
+                state.gridCaptions = new Array(totalSlots).fill('');
+            }
+            
+            // ===== CREATE TITLE BAR =====
+            const titleBar = document.createElement('div');
+            titleBar.className = 'artboard-title-bar';
+            titleBar.style.margin = `0 ${state.textMarginLR}px ${state.textMarginTB}px`;
+            
+            const titleInput = document.createElement('div');
+            titleInput.contentEditable = "true";
+            titleInput.id = 'artboardTitle';
+            titleInput.className = 'title-input';
+            titleInput.dataset.placeholder = 'Enter title here... / शीर्षक येथे टाका...';
+            titleInput.innerHTML = state.title.text;
+            
+            // Apply saved styles
+            titleInput.style.fontFamily = state.title.fontFamily;
+            titleInput.style.fontSize = state.title.fontSize + 'px';
+            titleInput.style.color = state.title.color;
+            titleInput.style.fontWeight = state.title.bold ? '700' : '400';
+            titleInput.style.fontStyle = state.title.italic ? 'italic' : 'normal';
+            titleInput.style.textDecoration = state.title.underline ? 'underline' : 'none';
+            titleInput.style.textAlign = state.title.align;
+            
+            // Auto-resize natively via contenteditable
+            titleInput.addEventListener('input', function() {
+                state.title.text = this.innerHTML;
+            });
+            titleInput.addEventListener('blur', function() {
+                if (this.innerText.includes('<') && this.innerText.includes('>')) {
+                    this.innerHTML = this.innerText;
+                }
+                state.title.text = this.innerHTML;
+            });
+            
+            titleBar.appendChild(titleInput);
+            elements.artboardContent.appendChild(titleBar);
+            
+            // ===== CREATE GRID CONTAINER =====
+            const gridContainer = document.createElement('div');
+            gridContainer.className = 'artboard-grid-container';
+            gridContainer.style.gap = `${state.gridRowSpacing}px`;
+            gridContainer.style.setProperty('--img-border-size', state.imageBorderSize + 'px');
+            gridContainer.style.setProperty('--img-border-color', state.imageBorderColor);
+            
+            let slotIndex = 0;
+            
+            // Create rows
+            for (let row = 0; row < state.rows; row++) {
+                const rowDiv = document.createElement('div');
+                rowDiv.className = 'grid-row';
+                rowDiv.style.gap = `${state.gridColSpacing}px`;
+                
+                // Create columns in this row
+                for (let col = 0; col < state.cols; col++) {
+                    const cellDiv = document.createElement('div');
+                    cellDiv.className = 'grid-cell';
+                    
+                    // Create the grid slot
+                    const slot = createGridSlot(slotIndex);
+                    cellDiv.appendChild(slot);
+                    
+                    // Create caption input below slot
+                    const captionDiv = document.createElement('div');
+                    captionDiv.className = 'grid-caption';
+                    captionDiv.style.margin = `${state.textMarginTB}px ${state.textMarginLR}px 0`;
+                    
+                    const captionInput = document.createElement('div');
+                    captionInput.contentEditable = "true";
+                    captionInput.className = 'grid-caption-input';
+                    captionInput.dataset.placeholder = 'Add caption... / वर्णन जोडा...';
+                    captionInput.dataset.slotIndex = slotIndex;
+                    captionInput.innerHTML = state.gridCaptions[slotIndex] || '';
+                    
+                    // Apply caption styles
+                    captionInput.style.fontFamily = state.caption.fontFamily;
+                    captionInput.style.fontSize = state.caption.fontSize + 'px';
+                    captionInput.style.color = state.caption.color;
+                    captionInput.style.fontWeight = state.caption.bold ? '700' : '400';
+                    captionInput.style.fontStyle = state.caption.italic ? 'italic' : 'normal';
+                    captionInput.style.textDecoration = state.caption.underline ? 'underline' : 'none';
+                    captionInput.style.textAlign = state.caption.align;
+                    
+                    // Save text
+                    captionInput.addEventListener('input', function() {
+                        state.gridCaptions[parseInt(this.dataset.slotIndex)] = this.innerHTML;
+                    });
+                    
+                    captionInput.addEventListener('blur', function() {
+                        if (this.innerText.includes('<') && this.innerText.includes('>')) {
+                            this.innerHTML = this.innerText;
+                        }
+                        state.gridCaptions[parseInt(this.dataset.slotIndex)] = this.innerHTML;
+                    });
+                    
+                    captionDiv.appendChild(captionInput);
+                    cellDiv.appendChild(captionDiv);
+                    
+                    rowDiv.appendChild(cellDiv);
+                    slotIndex++;
+                }
+                
+                gridContainer.appendChild(rowDiv);
+            }
+            
+            elements.artboardContent.appendChild(gridContainer);
+            
+            // ===== CREATE OVERVIEW CAPTION =====
+            const overviewSection = document.createElement('div');
+            overviewSection.className = 'artboard-overview-caption';
+            overviewSection.style.margin = `${state.textMarginTB}px ${state.textMarginLR}px 0`;
+            
+            const overviewInput = document.createElement('div');
+            overviewInput.contentEditable = "true";
+            overviewInput.id = 'artboardOverview';
+            overviewInput.className = 'overview-caption-input';
+            overviewInput.dataset.placeholder = 'Enter overview/general caption here... / सामान्य वर्णन येथे टाका...';
+            overviewInput.innerHTML = state.overview.text;
+            
+            // Apply saved styles
+            overviewInput.style.fontFamily = state.overview.fontFamily;
+            overviewInput.style.fontSize = state.overview.fontSize + 'px';
+            overviewInput.style.color = state.overview.color;
+            overviewInput.style.fontWeight = state.overview.bold ? '700' : '400';
+            overviewInput.style.fontStyle = state.overview.italic ? 'italic' : 'normal';
+            overviewInput.style.textDecoration = state.overview.underline ? 'underline' : 'none';
+            overviewInput.style.textAlign = state.overview.align;
+            
+            // Save state
+            overviewInput.addEventListener('input', function() {
+                state.overview.text = this.innerHTML;
+            });
+            overviewInput.addEventListener('blur', function() {
+                if (this.innerText.includes('<') && this.innerText.includes('>')) {
+                    this.innerHTML = this.innerText;
+                }
+                state.overview.text = this.innerHTML;
+            });
+            
+            overviewSection.appendChild(overviewInput);
+            elements.artboardContent.appendChild(overviewSection);
+            
+            // Save settings to localStorage
+            saveToLocalStorage();
+        }
+
+        // ==================== CREATE GRID SLOT ====================
+        function createGridSlot(index) {
+            const slot = document.createElement('div');
+            slot.className = `grid-slot ratio-${state.boxAspectRatio} fit-${state.imageFitMode}`;
+            slot.dataset.slotIndex = index;
+            
+            // Check if there's an image for this slot
+            const imageData = state.gridImages[index];
+            
+            if (imageData) {
+                // Filled slot with image
+                slot.classList.add('filled');
+                
+                const img = document.createElement('img');
+                img.src = imageData.src;
+                img.alt = `Image ${index + 1}`;
+                slot.appendChild(img);
+                
+                // Add controls
+                const controls = document.createElement('div');
+                controls.className = 'slot-controls';
+                
+                const editBtn = document.createElement('button');
+                editBtn.className = 'slot-btn edit-btn';
+                editBtn.innerHTML = '<i class="bi bi-pencil"></i>';
+                editBtn.title = 'Edit Image';
+                editBtn.onclick = (e) => {
+                    e.stopPropagation();
+                    openImageEditor(index);
+                };
+                
+                const removeBtn = document.createElement('button');
+                removeBtn.className = 'slot-btn remove-btn';
+                removeBtn.innerHTML = '<i class="bi bi-x-lg"></i>';
+                removeBtn.title = 'Remove Image';
+                removeBtn.onclick = (e) => {
+                    e.stopPropagation();
+                    removeImageFromSlot(index);
+                };
+                
+                controls.appendChild(editBtn);
+                controls.appendChild(removeBtn);
+                slot.appendChild(controls);
+            } else {
+                // Empty slot placeholder
+                const placeholder = document.createElement('div');
+                placeholder.className = 'placeholder';
+                placeholder.innerHTML = `<i class="bi bi-image"></i><span>Slot ${index + 1}</span>`;
+                slot.appendChild(placeholder);
+            }
+            
+            // Add slot index badge
+            const indexBadge = document.createElement('div');
+            indexBadge.className = 'slot-index';
+            indexBadge.textContent = index + 1;
+            slot.appendChild(indexBadge);
+            
+            // Drag and drop events
+            slot.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                e.dataTransfer.dropEffect = 'copy';
+                slot.classList.add('drag-over');
+            });
+            
+            slot.addEventListener('dragleave', (e) => {
+                e.preventDefault();
+                slot.classList.remove('drag-over');
+            });
+            
+            slot.addEventListener('drop', (e) => {
+                e.preventDefault();
+                slot.classList.remove('drag-over');
+                
+                if (draggedImage) {
+                    addImageToSlot(index, draggedImage);
+                }
+            });
+            
+            // Click to add image from pool
+            slot.addEventListener('click', () => {
+                if (!state.gridImages[index] && state.uploadedImages.length > 0) {
+                    // Find first unused image
+                    const usedSrcs = state.gridImages.filter(img => img).map(img => img.src);
+                    const availableImg = state.uploadedImages.find(img => !usedSrcs.includes(img.src));
+                    
+                    if (availableImg) {
+                        addImageToSlot(index, availableImg);
+                    }
+                }
+            });
+            
+            return slot;
+        }
+
+        // ==================== IMAGE SLOT FUNCTIONS ====================
+        function addImageToSlot(index, imageData) {
+            state.gridImages[index] = imageData;
+            buildArtboard();
+            renderPhotoPool(); // Update pool to show used status
+        }
+
+        function removeImageFromSlot(index) {
+            state.gridImages[index] = null;
+            buildArtboard();
+            renderPhotoPool(); // Update pool to show available status
+        }
+
+        // ==================== IMAGE EDITOR ====================
+        let editorCanvas, editorCtx;
+        let originalImage = null;
+        let editingSlotIndex = null;
+        let editorSettings = {
+            zoom: 100,
+            rotation: 0,
+            flipH: 1,
+            flipV: 1,
+            brightness: 0,
+            contrast: 0,
+            exposure: 0,
+            shadow: 0,
+            highlight: 0,
+            sharpen: 0,
+            vignette: 0,
+            temperature: 0,
+            tint: 0,
+            saturation: 0,
+            vibrance: 0,
+            hue: 0
+        };
+
+        // Crop logic
+        let cropper = null;
+
+        function startCropMode() {
+            if (!originalImage) return;
+            const canvas = document.getElementById('editorCanvas');
+            const cropperImg = document.getElementById('cropperImage');
+            
+            canvas.style.display = 'none';
+            cropperImg.style.display = 'block';
+            cropperImg.src = originalImage.src;
+            
+            if (cropper) cropper.destroy();
+            cropper = new Cropper(cropperImg, {
+                viewMode: 2,
+                dragMode: 'crop',
+                autoCropArea: 0.8,
+                responsive: true,
+                background: false
+            });
+        }
+
+        function exitCropMode() {
+            if (cropper) {
+                cropper.destroy();
+                cropper = null;
+            }
+            document.getElementById('editorCanvas').style.display = 'block';
+            document.getElementById('cropperImage').style.display = 'none';
+        }
+
+        function setCropRatio(ratio) {
+            if (cropper) cropper.setAspectRatio(ratio);
+        }
+
+        function cancelCrop() {
+            document.querySelector('[data-tab="transform"]').click(); // Returns to transform
+        }
+
+        function applyCrop() {
+            if (!cropper) return;
+            const croppedCanvas = cropper.getCroppedCanvas();
+            if (!croppedCanvas) return;
+            
+            const croppedDataUrl = croppedCanvas.toDataURL('image/jpeg', 0.95);
+            
+            const img = new Image();
+            img.onload = function() {
+                originalImage = img;
+                const maxWidth = window.innerWidth * 0.55;
+                const maxHeight = window.innerHeight * 0.7;
+                
+                let width = img.width;
+                let height = img.height;
+                if (width > maxWidth || height > maxHeight) {
+                    const ratio = Math.min(maxWidth / width, maxHeight / height);
+                    width = Math.floor(width * ratio);
+                    height = Math.floor(height * ratio);
+                }
+                
+                editorCanvas.width = width;
+                editorCanvas.height = height;
+                
+                editorSettings.zoom = 100;
+                editorSettings.rotation = 0;
+                document.getElementById('zoomSlider').value = 100;
+                document.getElementById('zoomValue').textContent = '100%';
+                
+                document.querySelector('[data-tab="transform"]').click(); // exits crop mode & applies edits
+            };
+            img.src = croppedDataUrl;
+        }
+
+        function initEditor() {
+            editorCanvas = document.getElementById('editorCanvas');
+            editorCtx = editorCanvas.getContext('2d', { willReadFrequently: true });
+
+            // Tab switching
+            document.querySelectorAll('.editor-tab').forEach(tab => {
+                tab.addEventListener('click', function() {
+                    const tabName = this.dataset.tab;
+                    document.querySelectorAll('.editor-tab').forEach(t => t.classList.remove('active'));
+                    document.querySelectorAll('.editor-panel').forEach(p => p.classList.remove('active'));
+                    this.classList.add('active');
+                    document.querySelector(`[data-panel="${tabName}"]`).classList.add('active');
+                    
+                    if (tabName === 'crop') {
+                        startCropMode();
+                    } else {
+                        exitCropMode();
+                        // Re-run edits to show correct canvas (esp if returning without saving crop)
+                        if (originalImage) applyEdits();
+                    }
+                });
+            });
+
+            // Attach slider listeners
+            attachEditorSliderListeners();
+        }
+
+        function attachEditorSliderListeners() {
+            const sliders = [
+                { id: 'zoomSlider', setting: 'zoom', suffix: '%', valueId: 'zoomValue' },
+                { id: 'brightnessSlider', setting: 'brightness', suffix: '', valueId: 'brightnessValue' },
+                { id: 'contrastSlider', setting: 'contrast', suffix: '', valueId: 'contrastValue' },
+                { id: 'exposureSlider', setting: 'exposure', suffix: '', valueId: 'exposureValue' },
+                { id: 'shadowSlider', setting: 'shadow', suffix: '', valueId: 'shadowValue' },
+                { id: 'highlightSlider', setting: 'highlight', suffix: '', valueId: 'highlightValue' },
+                { id: 'sharpenSlider', setting: 'sharpen', suffix: '', valueId: 'sharpenValue' },
+                { id: 'vignetteSlider', setting: 'vignette', suffix: '', valueId: 'vignetteValue' },
+                { id: 'temperatureSlider', setting: 'temperature', suffix: '', valueId: 'temperatureValue' },
+                { id: 'tintSlider', setting: 'tint', suffix: '', valueId: 'tintValue' },
+                { id: 'saturationSlider', setting: 'saturation', suffix: '', valueId: 'saturationValue' },
+                { id: 'vibranceSlider', setting: 'vibrance', suffix: '', valueId: 'vibranceValue' },
+                { id: 'hueSlider', setting: 'hue', suffix: '°', valueId: 'hueValue' }
+            ];
+
+            sliders.forEach(({ id, setting, suffix, valueId }) => {
+                const slider = document.getElementById(id);
+                const valueDisplay = document.getElementById(valueId);
+                
+                if (slider && valueDisplay) {
+                    slider.addEventListener('input', function() {
+                        editorSettings[setting] = parseFloat(this.value);
+                        valueDisplay.textContent = this.value + suffix;
+                        applyEdits();
+                    });
+                }
+            });
+        }
+
+        function openImageEditor(index) {
+            if (!editorCanvas) initEditor();
+            
+            editingSlotIndex = index;
+            const imageData = state.gridImages[index];
+            
+            if (!imageData) return;
+            
+            // Show modal
+            document.getElementById('editorModal').classList.add('active');
+            document.getElementById('editingSlotInfo').textContent = `- Slot ${index + 1}`;
+            
+            // Reset settings
+            resetEditorSettings();
+            
+            // Load image
+            const img = new Image();
+            img.onload = function() {
+                originalImage = img;
+                
+                // Calculate canvas size to fit in editor area
+                const maxWidth = window.innerWidth * 0.55;
+                const maxHeight = window.innerHeight * 0.7;
+                
+                let width = img.width;
+                let height = img.height;
+                
+                if (width > maxWidth || height > maxHeight) {
+                    const ratio = Math.min(maxWidth / width, maxHeight / height);
+                    width = Math.floor(width * ratio);
+                    height = Math.floor(height * ratio);
+                }
+                
+                editorCanvas.width = width;
+                editorCanvas.height = height;
+                applyEdits();
+            };
+            img.src = imageData.src;
+        }
+
+        function closeImageEditor() {
+            document.getElementById('editorModal').classList.remove('active');
+            originalImage = null;
+            editingSlotIndex = null;
+        }
+
+        function resetEditorSettings() {
+            editorSettings = {
+                zoom: 100,
+                rotation: 0,
+                flipH: 1,
+                flipV: 1,
+                brightness: 0,
+                contrast: 0,
+                exposure: 0,
+                shadow: 0,
+                highlight: 0,
+                sharpen: 0,
+                vignette: 0,
+                temperature: 0,
+                tint: 0,
+                saturation: 0,
+                vibrance: 0,
+                hue: 0
+            };
+            
+            // Reset all sliders
+            document.getElementById('zoomSlider').value = 100;
+            document.getElementById('zoomValue').textContent = '100%';
+            
+            ['brightness', 'contrast', 'exposure', 'shadow', 'highlight', 'sharpen', 'vignette', 'temperature', 'tint', 'saturation', 'vibrance'].forEach(name => {
+                const slider = document.getElementById(name + 'Slider');
+                const value = document.getElementById(name + 'Value');
+                if (slider) slider.value = 0;
+                if (value) value.textContent = '0';
+            });
+            
+            document.getElementById('hueSlider').value = 0;
+            document.getElementById('hueValue').textContent = '0°';
+        }
+
+        function resetEdits() {
+            resetEditorSettings();
+            applyEdits();
+        }
+
+        function rotateImage(degrees) {
+            editorSettings.rotation = (editorSettings.rotation + degrees) % 360;
+            if (editorSettings.rotation < 0) editorSettings.rotation += 360;
+            applyEdits();
+        }
+
+        function flipImage(direction) {
+            if (direction === 'horizontal') {
+                editorSettings.flipH *= -1;
+            } else {
+                editorSettings.flipV *= -1;
+            }
+            applyEdits();
+        }
+
+        function applyEdits() {
+            if (!originalImage) return;
+            
+            const width = editorCanvas.width;
+            const height = editorCanvas.height;
+            
+            editorCtx.clearRect(0, 0, width, height);
+            editorCtx.save();
+            
+            // Apply transformations
+            editorCtx.translate(width / 2, height / 2);
+            editorCtx.scale(editorSettings.flipH, editorSettings.flipV);
+            editorCtx.rotate((editorSettings.rotation * Math.PI) / 180);
+            editorCtx.scale(editorSettings.zoom / 100, editorSettings.zoom / 100);
+            editorCtx.drawImage(originalImage, -width / 2, -height / 2, width, height);
+            editorCtx.restore();
+            
+            // Apply filters
+            applyFilters();
+        }
+
+        function applyFilters() {
+            const imageData = editorCtx.getImageData(0, 0, editorCanvas.width, editorCanvas.height);
+            const data = imageData.data;
+            
+            for (let i = 0; i < data.length; i += 4) {
+                let r = data[i];
+                let g = data[i + 1];
+                let b = data[i + 2];
+                
+                // Exposure
+                if (editorSettings.exposure !== 0) {
+                    const exposure = Math.pow(2, editorSettings.exposure / 50);
+                    r *= exposure;
+                    g *= exposure;
+                    b *= exposure;
+                }
+                
+                // Brightness
+                if (editorSettings.brightness !== 0) {
+                    r += editorSettings.brightness * 2.55;
+                    g += editorSettings.brightness * 2.55;
+                    b += editorSettings.brightness * 2.55;
+                }
+                
+                // Shadows
+                if (editorSettings.shadow !== 0) {
+                    const lum = (r + g + b) / 3;
+                    if (lum < 128) {
+                        const adjust = (128 - lum) / 128 * editorSettings.shadow * 0.5;
+                        r += adjust;
+                        g += adjust;
+                        b += adjust;
+                    }
+                }
+                
+                // Highlights
+                if (editorSettings.highlight !== 0) {
+                    const lum = (r + g + b) / 3;
+                    if (lum > 127) {
+                        const adjust = ((lum - 127) / 128) * editorSettings.highlight * 0.5;
+                        r += adjust;
+                        g += adjust;
+                        b += adjust;
+                    }
+                }
+                
+                // Contrast
+                if (editorSettings.contrast !== 0) {
+                    const factor = (259 * (editorSettings.contrast + 255)) / (255 * (259 - editorSettings.contrast));
+                    r = factor * (r - 128) + 128;
+                    g = factor * (g - 128) + 128;
+                    b = factor * (b - 128) + 128;
+                }
+                
+                // Temperature
+                if (editorSettings.temperature !== 0) {
+                    r += editorSettings.temperature * 1.5;
+                    b -= editorSettings.temperature * 1.5;
+                }
+                
+                // Tint
+                if (editorSettings.tint !== 0) {
+                    g += editorSettings.tint * 1.5;
+                }
+                
+                // Saturation
+                if (editorSettings.saturation !== 0) {
+                    const gray = 0.2989 * r + 0.5870 * g + 0.1140 * b;
+                    const sat = 1 + editorSettings.saturation / 100;
+                    r = gray + (r - gray) * sat;
+                    g = gray + (g - gray) * sat;
+                    b = gray + (b - gray) * sat;
+                }
+                
+                // Vibrance
+                if (editorSettings.vibrance !== 0) {
+                    const avg = (r + g + b) / 3;
+                    const maxC = Math.max(r, g, b);
+                    const amt = (Math.abs(maxC - avg) * 2 / 255) * (editorSettings.vibrance / 100);
+                    if (r !== maxC) r += (maxC - r) * amt * 0.5;
+                    if (g !== maxC) g += (maxC - g) * amt * 0.5;
+                    if (b !== maxC) b += (maxC - b) * amt * 0.5;
+                }
+                
+                // Hue rotation
+                if (editorSettings.hue !== 0) {
+                    const hueShift = editorSettings.hue / 360;
+                    const vsu = Math.cos(hueShift * Math.PI * 2);
+                    const vsw = Math.sin(hueShift * Math.PI * 2);
+                    const nr = (.299 + .701 * vsu + .168 * vsw) * r + (.587 - .587 * vsu + .330 * vsw) * g + (.114 - .114 * vsu - .497 * vsw) * b;
+                    const ng = (.299 - .299 * vsu - .328 * vsw) * r + (.587 + .413 * vsu + .035 * vsw) * g + (.114 - .114 * vsu + .292 * vsw) * b;
+                    const nb = (.299 - .3 * vsu + 1.25 * vsw) * r + (.587 - .588 * vsu - 1.05 * vsw) * g + (.114 + .886 * vsu - .203 * vsw) * b;
+                    r = nr; g = ng; b = nb;
+                }
+                
+                // Sharpen (simplified)
+                if (editorSettings.sharpen !== 0) {
+                    const lum = 0.299 * r + 0.587 * g + 0.114 * b;
+                    const deviation = lum - 128;
+                    const adjust = deviation * editorSettings.sharpen / 100 * 0.3;
+                    r += adjust;
+                    g += adjust;
+                    b += adjust;
+                }
+                
+                // Vignette
+                if (editorSettings.vignette !== 0) {
+                    const x = (i / 4) % editorCanvas.width;
+                    const y = Math.floor((i / 4) / editorCanvas.width);
+                    const dx = x / editorCanvas.width - 0.5;
+                    const dy = y / editorCanvas.height - 0.5;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+                    const vignette = 1 - (dist * (editorSettings.vignette / 100) * 1.5);
+                    r *= Math.max(0, vignette);
+                    g *= Math.max(0, vignette);
+                    b *= Math.max(0, vignette);
+                }
+                
+                // Clamp values
+                data[i] = Math.max(0, Math.min(255, r));
+                data[i + 1] = Math.max(0, Math.min(255, g));
+                data[i + 2] = Math.max(0, Math.min(255, b));
+            }
+            
+            editorCtx.putImageData(imageData, 0, 0);
+        }
+
+        function saveEditedImage() {
+            if (!originalImage || editingSlotIndex === null) return;
+            
+            // Create high-res output canvas
+            const outputCanvas = document.createElement('canvas');
+            outputCanvas.width = originalImage.width;
+            outputCanvas.height = originalImage.height;
+            const outputCtx = outputCanvas.getContext('2d', { willReadFrequently: true });
+            
+            // Apply transformations at full resolution
+            outputCtx.save();
+            outputCtx.translate(outputCanvas.width / 2, outputCanvas.height / 2);
+            outputCtx.scale(editorSettings.flipH, editorSettings.flipV);
+            outputCtx.rotate((editorSettings.rotation * Math.PI) / 180);
+            outputCtx.scale(editorSettings.zoom / 100, editorSettings.zoom / 100);
+            outputCtx.drawImage(originalImage, -outputCanvas.width / 2, -outputCanvas.height / 2, outputCanvas.width, outputCanvas.height);
+            outputCtx.restore();
+            
+            // Apply filters at full resolution
+            const imageData = outputCtx.getImageData(0, 0, outputCanvas.width, outputCanvas.height);
+            const data = imageData.data;
+            
+            for (let i = 0; i < data.length; i += 4) {
+                let r = data[i], g = data[i + 1], b = data[i + 2];
+                
+                // Apply same filters as preview
+                if (editorSettings.exposure !== 0) {
+                    const exposure = Math.pow(2, editorSettings.exposure / 50);
+                    r *= exposure; g *= exposure; b *= exposure;
+                }
+                if (editorSettings.brightness !== 0) {
+                    r += editorSettings.brightness * 2.55;
+                    g += editorSettings.brightness * 2.55;
+                    b += editorSettings.brightness * 2.55;
+                }
+                if (editorSettings.shadow !== 0) {
+                    const lum = (r + g + b) / 3;
+                    if (lum < 128) {
+                        const adjust = (128 - lum) / 128 * editorSettings.shadow * 0.5;
+                        r += adjust; g += adjust; b += adjust;
+                    }
+                }
+                if (editorSettings.highlight !== 0) {
+                    const lum = (r + g + b) / 3;
+                    if (lum > 127) {
+                        const adjust = ((lum - 127) / 128) * editorSettings.highlight * 0.5;
+                        r += adjust; g += adjust; b += adjust;
+                    }
+                }
+                if (editorSettings.contrast !== 0) {
+                    const factor = (259 * (editorSettings.contrast + 255)) / (255 * (259 - editorSettings.contrast));
+                    r = factor * (r - 128) + 128;
+                    g = factor * (g - 128) + 128;
+                    b = factor * (b - 128) + 128;
+                }
+                if (editorSettings.temperature !== 0) {
+                    r += editorSettings.temperature * 1.5;
+                    b -= editorSettings.temperature * 1.5;
+                }
+                if (editorSettings.tint !== 0) {
+                    g += editorSettings.tint * 1.5;
+                }
+                if (editorSettings.saturation !== 0) {
+                    const gray = 0.2989 * r + 0.5870 * g + 0.1140 * b;
+                    const sat = 1 + editorSettings.saturation / 100;
+                    r = gray + (r - gray) * sat;
+                    g = gray + (g - gray) * sat;
+                    b = gray + (b - gray) * sat;
+                }
+                if (editorSettings.vibrance !== 0) {
+                    const avg = (r + g + b) / 3;
+                    const maxC = Math.max(r, g, b);
+                    const amt = (Math.abs(maxC - avg) * 2 / 255) * (editorSettings.vibrance / 100);
+                    if (r !== maxC) r += (maxC - r) * amt * 0.5;
+                    if (g !== maxC) g += (maxC - g) * amt * 0.5;
+                    if (b !== maxC) b += (maxC - b) * amt * 0.5;
+                }
+                if (editorSettings.hue !== 0) {
+                    const hueShift = editorSettings.hue / 360;
+                    const vsu = Math.cos(hueShift * Math.PI * 2);
+                    const vsw = Math.sin(hueShift * Math.PI * 2);
+                    const nr = (.299 + .701 * vsu + .168 * vsw) * r + (.587 - .587 * vsu + .330 * vsw) * g + (.114 - .114 * vsu - .497 * vsw) * b;
+                    const ng = (.299 - .299 * vsu - .328 * vsw) * r + (.587 + .413 * vsu + .035 * vsw) * g + (.114 - .114 * vsu + .292 * vsw) * b;
+                    const nb = (.299 - .3 * vsu + 1.25 * vsw) * r + (.587 - .588 * vsu - 1.05 * vsw) * g + (.114 + .886 * vsu - .203 * vsw) * b;
+                    r = nr; g = ng; b = nb;
+                }
+                if (editorSettings.sharpen !== 0) {
+                    const lum = 0.299 * r + 0.587 * g + 0.114 * b;
+                    const deviation = lum - 128;
+                    const adjust = deviation * editorSettings.sharpen / 100 * 0.3;
+                    r += adjust; g += adjust; b += adjust;
+                }
+                if (editorSettings.vignette !== 0) {
+                    const x = (i / 4) % outputCanvas.width;
+                    const y = Math.floor((i / 4) / outputCanvas.width);
+                    const dx = x / outputCanvas.width - 0.5;
+                    const dy = y / outputCanvas.height - 0.5;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+                    const vignette = 1 - (dist * (editorSettings.vignette / 100) * 1.5);
+                    r *= Math.max(0, vignette);
+                    g *= Math.max(0, vignette);
+                    b *= Math.max(0, vignette);
+                }
+                
+                data[i] = Math.max(0, Math.min(255, r));
+                data[i + 1] = Math.max(0, Math.min(255, g));
+                data[i + 2] = Math.max(0, Math.min(255, b));
+            }
+            
+            outputCtx.putImageData(imageData, 0, 0);
+            
+            // Update image in state
+            const editedSrc = outputCanvas.toDataURL('image/jpeg', 0.92);
+            state.gridImages[editingSlotIndex].src = editedSrc;
+            
+            // Rebuild artboard to show changes
+            buildArtboard();
+            renderPhotoPool();
+            closeImageEditor();
+        }
+
+        function autoFillGrid() {
+            if (state.uploadedImages.length === 0) {
+                alert('Please upload images first!');
+                return;
+            }
+            
+            const totalSlots = state.rows * state.cols;
+            
+            for (let i = 0; i < totalSlots && i < state.uploadedImages.length; i++) {
+                state.gridImages[i] = state.uploadedImages[i];
+            }
+            
+            buildArtboard();
+        }
+
+        function applyFitModeToImages() {
+            document.querySelectorAll('.grid-slot').forEach(slot => {
+                slot.classList.remove('fit-cover', 'fit-contain', 'fit-fill', 'fit-scale-down');
+                slot.classList.add(`fit-${state.imageFitMode}`);
+            });
+        }
+
+        // ==================== ASPECT RATIO HELPER ====================
+        function getAspectRatioValue(ratio) {
+            const ratios = {
+                '16-9': 16/9,
+                '4-3': 4/3,
+                '3-2': 3/2,
+                '1-1': 1/1,
+                '2-3': 2/3,
+                '9-16': 9/16,
+                '21-9': 21/9,
+                'free': null
+            };
+            return ratios[ratio] || 16/9;
+        }
+
+        // ==================== LOCAL STORAGE ====================
+        const STORAGE_KEY = 'snapgrid_settings';
+
+        function saveToLocalStorage() {
+            const dataToSave = {
+                orientation: state.orientation,
+                pageMargin: state.pageMargin,
+                gridRowSpacing: state.gridRowSpacing,
+                gridColSpacing: state.gridColSpacing,
+                rows: state.rows,
+                cols: state.cols,
+                boxAspectRatio: state.boxAspectRatio,
+                imageFitMode: state.imageFitMode,
+                imageBorderSize: state.imageBorderSize,
+                imageBorderColor: state.imageBorderColor,
+                textMarginTB: state.textMarginTB,
+                textMarginLR: state.textMarginLR,
+                title: { ...state.title },
+                caption: { ...state.caption },
+                overview: { ...state.overview }
+            };
+            
+            try {
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(dataToSave));
+            } catch (e) {
+                console.warn('Could not save to localStorage:', e);
+            }
+        }
+
+        function loadFromLocalStorage() {
+            try {
+                const saved = localStorage.getItem(STORAGE_KEY);
+                if (saved) {
+                    const data = JSON.parse(saved);
+                    
+                    // Restore state values
+                    if (data.orientation) state.orientation = data.orientation;
+                    if (data.pageMargin !== undefined) state.pageMargin = data.pageMargin;
+                    if (data.gridRowSpacing !== undefined) state.gridRowSpacing = data.gridRowSpacing;
+                    else if (data.gridSpacing !== undefined) {
+                        state.gridRowSpacing = data.gridSpacing;
+                        state.gridColSpacing = data.gridSpacing;
+                    }
+                    if (data.gridColSpacing !== undefined) state.gridColSpacing = data.gridColSpacing;
+                    if (data.rows !== undefined) state.rows = data.rows;
+                    if (data.cols !== undefined) state.cols = data.cols;
+                    if (data.boxAspectRatio) state.boxAspectRatio = data.boxAspectRatio;
+                    if (data.imageFitMode) state.imageFitMode = data.imageFitMode;
+                    if (data.imageBorderSize !== undefined) state.imageBorderSize = data.imageBorderSize;
+                    if (data.imageBorderColor) state.imageBorderColor = data.imageBorderColor;
+                    if (data.textMarginTB !== undefined) state.textMarginTB = data.textMarginTB;
+                    if (data.textMarginLR !== undefined) state.textMarginLR = data.textMarginLR;
+                    
+                    // Restore title settings
+                    if (data.title) {
+                        Object.assign(state.title, data.title);
+                    }
+                    
+                    // Restore caption settings
+                    if (data.caption) {
+                        Object.assign(state.caption, data.caption);
+                    }
+                    
+                    // Restore overview settings
+                    if (data.overview) {
+                        Object.assign(state.overview, data.overview);
+                    }
+                    
+                    return true;
+                }
+            } catch (e) {
+                console.warn('Could not load from localStorage:', e);
+            }
+            return false;
+        }
+
+        function applySettingsToUI() {
+            // Apply orientation
+            elements.portraitBtn.classList.toggle('active', state.orientation === 'portrait');
+            elements.landscapeBtn.classList.toggle('active', state.orientation === 'landscape');
+            
+            // Apply margin and spacing inputs
+            elements.pageMargin.value = state.pageMargin;
+            elements.gridRowSpacing.value = state.gridRowSpacing;
+            elements.gridColSpacing.value = state.gridColSpacing;
+            elements.textMarginTB.value = state.textMarginTB;
+            elements.textMarginLR.value = state.textMarginLR;
+            
+            // Apply grid settings
+            elements.gridRows.value = state.rows;
+            elements.gridCols.value = state.cols;
+            
+            // Apply aspect ratio
+            elements.boxAspectRatio.value = state.boxAspectRatio;
+            
+            // Apply image fit mode
+            elements.imageFitMode.value = state.imageFitMode;
+            if (elements.imageBorderSize) elements.imageBorderSize.value = state.imageBorderSize;
+            if (elements.imageBorderColor) elements.imageBorderColor.value = state.imageBorderColor;
+            
+            // Apply title settings
+            titleControls.fontFamily.value = state.title.fontFamily;
+            titleControls.fontSize.value = state.title.fontSize;
+            titleControls.color.value = state.title.color;
+            titleControls.colorPreview.style.background = state.title.color;
+            titleControls.bold.classList.toggle('active', state.title.bold);
+            titleControls.italic.classList.toggle('active', state.title.italic);
+            titleControls.underline.classList.toggle('active', state.title.underline);
+            titleControls.alignLeft.classList.toggle('active', state.title.align === 'left');
+            titleControls.alignCenter.classList.toggle('active', state.title.align === 'center');
+            titleControls.alignRight.classList.toggle('active', state.title.align === 'right');
+            
+            // Apply caption settings
+            captionControls.fontFamily.value = state.caption.fontFamily;
+            captionControls.fontSize.value = state.caption.fontSize;
+            captionControls.color.value = state.caption.color;
+            captionControls.colorPreview.style.background = state.caption.color;
+            captionControls.bold.classList.toggle('active', state.caption.bold);
+            captionControls.italic.classList.toggle('active', state.caption.italic);
+            captionControls.underline.classList.toggle('active', state.caption.underline);
+            captionControls.alignLeft.classList.toggle('active', state.caption.align === 'left');
+            captionControls.alignCenter.classList.toggle('active', state.caption.align === 'center');
+            captionControls.alignRight.classList.toggle('active', state.caption.align === 'right');
+            
+            // Apply overview settings
+            overviewControls.fontFamily.value = state.overview.fontFamily;
+            overviewControls.fontSize.value = state.overview.fontSize;
+            overviewControls.color.value = state.overview.color;
+            overviewControls.colorPreview.style.background = state.overview.color;
+            overviewControls.bold.classList.toggle('active', state.overview.bold);
+            overviewControls.italic.classList.toggle('active', state.overview.italic);
+            overviewControls.underline.classList.toggle('active', state.overview.underline);
+            overviewControls.alignLeft.classList.toggle('active', state.overview.align === 'left');
+            overviewControls.alignCenter.classList.toggle('active', state.overview.align === 'center');
+            overviewControls.alignRight.classList.toggle('active', state.overview.align === 'right');
+        }
+
+        // ==================== INITIALIZATION ====================
+        function init() {
+            // Load saved settings
+            const hasSettings = loadFromLocalStorage();
+            
+            if (hasSettings) {
+                // Apply loaded settings to UI
+                applySettingsToUI();
+                // Set orientation and build artboard
+                setOrientation(state.orientation);
+            } else {
+                // Set default orientation
+                setOrientation('landscape');
+            }
+            
+            updatePhotoCount();
+        }
+
+        // Initialize on load
+        init();
+
+        // ==================== PDF GENERATION ====================
+        let generatedPdfBytes = null;
+
+        // PDF Preview Button
+        elements.previewPdfBtn.addEventListener('click', generatePdfPreview);
+        elements.downloadPdfBtn.addEventListener('click', downloadPdf);
+        document.getElementById('downloadFromPreview').addEventListener('click', downloadPdf);
+
+        async function generatePdfPreview() {
+            try {
+                // Show modal with loading
+                document.getElementById('pdfModal').classList.add('active');
+                document.getElementById('pdfLoading').style.display = 'flex';
+                document.getElementById('pdfPreviewFrame').style.display = 'none';
+                
+                // Generate PDF
+                const pdfBytes = await generatePdfDocument();
+                generatedPdfBytes = pdfBytes;
+                
+                // Create blob URL and display
+                const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+                const url = URL.createObjectURL(blob);
+                
+                document.getElementById('pdfPreviewFrame').src = url;
+                document.getElementById('pdfPreviewFrame').style.display = 'block';
+                document.getElementById('pdfLoading').style.display = 'none';
+                
+            } catch (error) {
+                console.error('Error generating PDF:', error);
+                alert('Error generating PDF: ' + error.message);
+                closePdfPreview();
+            }
+        }
+
+        async function downloadPdf() {
+            try {
+                let pdfBytes = generatedPdfBytes;
+                
+                if (!pdfBytes) {
+                    pdfBytes = await generatePdfDocument();
+                }
+                
+                // Create download
+                const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+                const url = URL.createObjectURL(blob);
+                const link = document.createElement('a');
+                link.href = url;
+                link.download = `SnapGrid-${Date.now()}.pdf`;
+                link.click();
+                URL.revokeObjectURL(url);
+                
+            } catch (error) {
+                console.error('Error downloading PDF:', error);
+                alert('Error downloading PDF: ' + error.message);
+            }
+        }
+
+        function closePdfPreview() {
+            document.getElementById('pdfModal').classList.remove('active');
+            document.getElementById('pdfPreviewFrame').src = '';
+            generatedPdfBytes = null;
+        }
+
+        async function generatePdfDocument() {
+            const { jsPDF } = window.jspdf;
+            
+            const artboard = document.getElementById('artboard');
+            if (!artboard) return null;
+            
+            // Unfocus active editable fields so outlines are not captured
+            if (document.activeElement && document.activeElement.contentEditable === "true") {
+                document.activeElement.blur();
+            }
+            
+            // Clean up inputs and hide empty captions to cancel out structural space
+            const editableInputs = artboard.querySelectorAll('.title-input, .grid-caption-input, .overview-caption-input');
+            const originalInputStyles = [];
+            
+            editableInputs.forEach(el => {
+                const text = el.innerText.trim();
+                originalInputStyles.push({
+                    el: el,
+                    display: el.style.display,
+                    border: el.style.border,
+                    parentMargin: el.parentElement ? el.parentElement.style.margin : null
+                });
+                
+                el.style.border = 'none'; // Clear dashed PDF boundary artifacts automatically
+                
+                // Hide empty tags to completely cancel out space!
+                if (!text && el.dataset.placeholder === el.innerText.trim()) {
+                    el.style.display = 'none';
+                    if (el.parentElement && el.classList.contains('grid-caption-input')) {
+                        el.parentElement.style.margin = '0px';
+                    }
+                } else if (!text || text === '') {
+                    el.style.display = 'none';
+                    if (el.parentElement && el.classList.contains('grid-caption-input')) {
+                        el.parentElement.style.margin = '0px';
+                    }
+                }
+            });
+            
+            // Hide specific UI elements briefly during capture
+            const slotControls = artboard.querySelectorAll('.slot-controls');
+            const originalControlsDisplay = [];
+            slotControls.forEach(el => {
+                originalControlsDisplay.push(el.style.opacity);
+                el.style.opacity = '0';
+            });
+            
+            const emptyPlaceholders = artboard.querySelectorAll('.grid-slot:not(.filled) .placeholder');
+            const originalEmptyDisplay = [];
+            emptyPlaceholders.forEach(el => {
+                originalEmptyDisplay.push(el.style.visibility);
+                el.style.visibility = 'hidden';
+            });
+            
+            // Cleanup PDF formatting artifacts for slots
+            const gridSlots = artboard.querySelectorAll('.grid-slot');
+            const originalSlotBorders = [];
+            gridSlots.forEach(el => {
+                originalSlotBorders.push({ border: el.style.border, background: el.style.background });
+                el.style.border = 'none';
+                el.style.background = 'transparent';
+            });
+            
+            const slotIndexes = artboard.querySelectorAll('.slot-index');
+            const originalSlotIndexDisplay = [];
+            slotIndexes.forEach(el => {
+                originalSlotIndexDisplay.push(el.style.display);
+                el.style.display = 'none';
+            });
+            
+            // Save scaling
+            const originalTransform = artboard.style.transform;
+            artboard.style.transform = 'none'; // Un-scale for 1:1 crisp capture
+            
+            const canvas = await html2canvas(artboard, {
+                scale: 3, // High quality render
+                useCORS: true,
+                allowTaint: true,
+                backgroundColor: '#ffffff'
+            });
+            
+            // Restore scaling and elements
+            artboard.style.transform = originalTransform;
+            
+            originalInputStyles.forEach(item => {
+                item.el.style.display = item.display;
+                item.el.style.border = item.border;
+                if (item.el.parentElement && item.parentMargin !== null && item.el.classList.contains('grid-caption-input')) {
+                    item.el.parentElement.style.margin = item.parentMargin;
+                }
+            });
+            
+            slotControls.forEach((el, index) => { el.style.opacity = originalControlsDisplay[index]; });
+            emptyPlaceholders.forEach((el, index) => { el.style.visibility = originalEmptyDisplay[index]; });
+            
+            gridSlots.forEach((el, index) => { 
+                el.style.border = originalSlotBorders[index].border;
+                el.style.background = originalSlotBorders[index].background;
+            });
+            slotIndexes.forEach((el, index) => { el.style.display = originalSlotIndexDisplay[index]; });
+            
+            const imgData = canvas.toDataURL('image/jpeg', 0.98);
+            
+            // Generate PDF Map to A4 Bounds
+            const a4WidthMm = 210;
+            const a4HeightMm = 297;
+            let orientation = 'p';
+            let pdfWidth = a4WidthMm;
+            let pdfHeight = a4HeightMm;
+            
+            if (state.orientation === 'landscape') {
+                orientation = 'l';
+                pdfWidth = a4HeightMm;
+                pdfHeight = a4WidthMm;
+            }
+            
+            const pdf = new jsPDF({ orientation: orientation, unit: 'mm', format: 'a4' });
+            pdf.addImage(imgData, 'JPEG', 0, 0, pdfWidth, pdfHeight);
+            
+            return new Uint8Array(pdf.output('arraybuffer'));
+        }
+    </script>
+</body>
+
+</html>
