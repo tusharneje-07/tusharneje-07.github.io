@@ -1,0 +1,201 @@
+\documentclass[9pt,a4paper]{extarticle}
+
+\usepackage[a4paper,top=0.40in,bottom=0.35in,left=0.5in,right=0.5in]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{parskip}
+\usepackage{titlesec}
+\usepackage{tabularx}
+\usepackage{array}
+\usepackage{graphicx}
+\usepackage[hidelinks,colorlinks=true,urlcolor=blue,linkcolor=blue]{hyperref}
+\usepackage{xcolor}
+\usepackage[absolute,overlay]{textpos}
+
+\definecolor{linkblue}{RGB}{0,70,160}
+\hypersetup{urlcolor=linkblue}
+\pagestyle{empty}
+
+\titleformat{\section}
+{\normalsize\bfseries}{}{0em}{}
+[\vspace{-4pt}\rule{\linewidth}{0.5pt}]
+\titlespacing{\section}{0pt}{4pt}{2pt}
+
+\setlength{\parskip}{0pt}
+\setlength{\parindent}{0pt}
+
+\newenvironment{dashlist}{%
+\begin{list}{--}{%
+\setlength{\leftmargin}{1.1em}
+\setlength{\itemsep}{0pt}
+\setlength{\parsep}{0pt}
+\setlength{\topsep}{0pt}
+\setlength{\labelsep}{0.3em}
+}}{\end{list}}
+
+\newcommand{\projentry}[2]{%
+\noindent\begin{tabularx}{\linewidth}{@{}X r@{}}
+\textbf{#1} & \textit{#2}
+\end{tabularx}\vspace{0pt}}
+
+\begin{document}
+
+% Header
+\begin{minipage}[c]{0.76\linewidth}
+{\bfseries\fontsize{18pt}{14pt}\selectfont Tushar Sadashiv Neje}\vspace{4pt}\\
+Pune, India \;|\; 7028573950 \;|\;
+\href{mailto:nejetushar07@gmail.com}{\underline{nejetushar07@gmail.com}}
+\;|\;
+\href{https://www.linkedin.com/in/tushar-neje}{\underline{LinkedIn}}
+\;|\;
+\href{https://tusharneje.in}{\underline{Portfolio Website}}
+\;|\;
+\href{https://github.com/tusharneje-07}{\underline{GitHub}}
+\end{minipage}%
+
+% Profile Image
+\begin{textblock*}{3.5cm}(16.5cm,1cm)
+\setlength{\fboxrule}{0.8pt}
+\setlength{\fboxsep}{-3pt}
+\fbox{
+\includegraphics[
+width=3.2cm,
+height=4.8cm,
+keepaspectratio
+]{profile.jpg}
+}
+\end{textblock*}
+
+\vspace{8pt}
+
+% Skills
+{\normalsize\bfseries SKILLS}\\[-4pt]
+\rule{0.8\linewidth}{0.5pt}
+\vspace{2pt} \\[-1pt]
+\begin{tabularx}{\linewidth}{@{} >{\bfseries}l X @{}}
+  Languages  & \textbf{Python}, SQL, C/C++ (Basics), Java (Basics) \\[0pt]
+  Frameworks & \textbf{Django}, FastAPI (Basics), Flask (Basics) \\[0pt]
+  Databases  & \textbf{MySQL}, PostgreSQL \\[0pt]
+  Backend    & REST APIs, Authentication (JWT/OAuth), API Integration \\[0pt]
+  AI/ML      & \textbf{LLM Integration}, \textbf{Prompt Engineering}, Computer Vision (Basics) \\[0pt]
+  Tools      & Git, GitHub, Docker (Basic), Postman \\[0pt]
+  Concepts   & \textbf{Backend Development}, Database Design, \textbf{MVC Architecture} \\
+\end{tabularx}
+
+% Projects
+\section{PROJECTS}
+
+\projentry{\href{https://github.com/tusharneje-07/acadx-erp}{\underline{ACADX -- Enterprise Resource Planning System}}}{Django, MySQL, ERP System} \\[-8pt]
+\begin{dashlist}
+\item Developed a Django-based ERP system with MySQL to manage attendance, academic records, and administrative workflows, including score management (MSBTE) and digital NOC processing
+\item Integrated AI-based reporting and export features with role-based modules to automate institutional operations and improve decision-making
+\end{dashlist}
+
+\vspace{1pt}
+
+\projentry{\href{https://github.com/tusharneje-07/synedra-ai}{\underline{Synedra AI}}}{Python, Flask, LLM APIs, Multi-Agent System} \\[-8pt]
+\begin{dashlist}
+\item Built a multi-agent AI system using Python (Flask) and LLM APIs to generate and optimize marketing strategies through agent-based workflows for trend analysis, risk evaluation, and engagement optimization
+\item Built a structured agent interaction and feedback loop using engagement analytics to improve AI-generated strategies.
+\end{dashlist}
+
+\vspace{1pt}
+
+\projentry{\href{https://github.com/tusharneje-07/respirex}{\underline{RespireX -- AI-Powered Lung Disease Detection}}}{Django, Deep Learning, Computer Vision, ML Integration} \\[-8pt]
+\begin{dashlist}
+\item Developed a Django-based platform for detecting lung diseases from chest X-ray images using deep learning models, enabling real-time prediction and result visualization
+\item Built an interactive dashboard for image upload, automated analysis, and basic diagnostic insights to support early detection
+\end{dashlist}
+
+\vspace{1pt}
+
+\projentry{\href{https://github.com/tusharneje-07/nyayasearch}{\underline{NyayaSearch -- AI-Powered Legal Search Platform}}}{Django, LLM, Search System, API Integration} \\[-8pt]
+\begin{dashlist}
+\item Developed a Django-based legal search system with keyword, court, and date-based filtering, integrating LLMs for context-aware and relevant search results
+\item Implemented a live legal news feed and structured search features to improve accessibility and real-time information retrieval
+\end{dashlist}
+
+% Experience
+\section{EXPERIENCE}
+
+\noindent
+{\textbf{Jun 2022 -- Jul 2022}
+\hfill
+\textbf{SVL Automations, Kolhapur}
+
+\textbf{Full Stack Web Development Intern}
+
+\begin{dashlist}
+\item Developed and maintained web applications using PHP and MySQL
+\end{dashlist}
+
+\vspace{4pt}
+
+\noindent
+{\textbf{Jun 2025 -- Mar 2026}
+\hfill
+\textbf{The Tann Mann Foundation, Bangalore}
+
+\textbf{Product Operations Volunteering}
+
+\begin{dashlist}
+\item Built dashboards and reports to track product metrics and support data-driven decision making
+\item Analyzed user feedback and optimized workflows to improve product features and overall execution
+\end{dashlist}
+
+% Awards & Achievements
+\section{AWARDS \& ACHIEVEMENTS}
+
+\noindent
+\begin{tabularx}{\linewidth}{@{} l X r @{}}
+\textbf{2024} & \textbf{Student of The Year} (Best Outgoing Student) & \textbf{DKTE's YCP, Ichalkaranji} \\[-1pt]
+\textbf{2023} & Secured 1\textsuperscript{st} Rank in National \& Inter-College Technical Competitions & \textbf{JJMCOE, SIT, DKTE, Kolhapur} \\
+\end{tabularx}
+
+% Education
+\section{EDUCATION}
+
+\noindent
+\begin{tabularx}{\linewidth}{@{} p{2.4cm} X @{}}
+2024--Present &
+\textbf{Bachelor of Technology (Final Year)}
+Vishwakarma Institute of Information Technology, Pune\\
+& \textit{Pursuing a B.Tech in Computer Engineering at VIIT, Pune, with a current \textbf{CGPA of 9.1}}\\
+2021--2024 &
+\textbf{Diploma in Computer Science and Engineering}
+DKTE's Yashwantrao Chavan Polytechnic, Ichalkaranji\\
+& \textit{Completed Diploma in Computer Science and Engineering with \textbf{Aggregate of 94.00\% (91.15 \& 97.06)}}\\
+\end{tabularx}
+
+% Research & Publications
+\section{RESEARCH \& PUBLICATIONS}
+
+\noindent
+\begin{tabularx}{\linewidth}{@{} X r @{}}
+\textbf{\href{https://ijircce.com/admin/main/storage/app/pdf/NFeWUCxFGWKnEKH0UdJMokxx8BUEL5Bn3IK2BPB6.pdf}{\underline{ACADX -- Enterprise Resource Planning System}}} & Published on IJIRCCE \\
+\end{tabularx}
+
+\noindent\textbf{Auto Sentinel} -- \hfill \textit{Co-authored (Publication Pending)}
+\begin{dashlist}
+\item Developed a system for sensitive document detection using metadata analysis with driver behavior and facial emotions.
+\end{dashlist}
+
+\noindent\textbf{Acrobatic Spider Robot} \hfill \textit{(Patent in Process)}
+\begin{dashlist}
+\item Developed prototype of an IoT robot for video streaming, location tracking, and remote monitoring in hazardous environments.
+\end{dashlist}
+
+\noindent\textbf{Secure Data Wiping} \hfill \textit{(Patent in Process)}
+\begin{dashlist}
+\item A secure data wiping system ensuring safe, verifiable data erasure for trustworthy IT asset recycling and e-waste management.
+\end{dashlist}
+
+% Certifications
+\section{CERTIFICATIONS}
+
+\begin{dashlist}
+\item \textbf{NPTEL} -- Python for Data Science (IIT Madras), Ethical Hacking (IIT Kharagpur), Systems and Usable Security (IIT Indore)
+\item \textbf{SAP Technology Consultant} (Coursera)
+\end{dashlist}
+
+\end{document}
