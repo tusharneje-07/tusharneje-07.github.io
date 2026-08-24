@@ -12,7 +12,7 @@
     "email_college": "tushar.22420085@viit.ac.in",
     "phone": "+91 7028573950",
     "phone_alt": "+91 7028573950",
-    "avatar": "assets/me.webp",
+    "avatar": "assets/me_2.jpg",
     "resume": "assets/resume.pdf",
     "social": [
       {
@@ -56,7 +56,11 @@
         "handle": "@tushar_neje_07"
       }
     ],
-    "languages": ["Marathi", "English", "Hindi"],
+    "languages": [
+      "Marathi",
+      "English",
+      "Hindi"
+    ],
     "whatsapp_url": "https://wa.me/917028573950?text=Hey%20Tushar%2C%20%0AI%20just%20explored%20your%20portfolio%20and%20I%27m%20excited%20to%20team%20up%20on%20something%20awesome.%0ALet%27s%20connect%21",
     "maps_url": "https://www.google.com/maps/place/Pune,+Maharashtra/@18.5038344,73.7098091,49018m/data=!3m2!1e3!4b1!4m6!3m5!1s0x3bc2bf2e67461101:0x828d43bf9d9ee343!8m2!3d18.5246091!4d73.8786239!16zL20vMDE1eTJx!5m1!1e1?entry=ttu&g_ep=EgoyMDI2MDMxMS4wIKXMDSoASAFQAw%3D%3D",
     "hero_cipher": {
@@ -81,16 +85,56 @@
         "label": "Languages",
         "icon": "code",
         "skills": [
-          { "name": "Python", "proficiency": 90, "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" },
-          { "name": "JavaScript", "proficiency": 85, "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" },
-          { "name": "TypeScript", "proficiency": 75, "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg" },
-          { "name": "HTML5", "proficiency": 90, "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" },
-          { "name": "CSS3", "proficiency": 85, "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg" },
-          { "name": "C", "proficiency": 70, "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/c/c-original.svg" },
-          { "name": "C++", "proficiency": 65, "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/cplusplus/cplusplus-original.svg" },
-          { "name": "Java", "proficiency": 60, "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg" },
-          { "name": "PHP", "proficiency": 60, "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/php/php-original.svg" },
-          { "name": "VB.NET", "proficiency": 55, "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/dot-net/dot-net-original.svg" }
+          {
+            "name": "Python",
+            "proficiency": 90,
+            "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg"
+          },
+          {
+            "name": "JavaScript",
+            "proficiency": 85,
+            "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg"
+          },
+          {
+            "name": "TypeScript",
+            "proficiency": 75,
+            "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg"
+          },
+          {
+            "name": "HTML5",
+            "proficiency": 90,
+            "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg"
+          },
+          {
+            "name": "CSS3",
+            "proficiency": 85,
+            "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg"
+          },
+          {
+            "name": "C",
+            "proficiency": 70,
+            "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/c/c-original.svg"
+          },
+          {
+            "name": "C++",
+            "proficiency": 65,
+            "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/cplusplus/cplusplus-original.svg"
+          },
+          {
+            "name": "Java",
+            "proficiency": 60,
+            "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg"
+          },
+          {
+            "name": "PHP",
+            "proficiency": 60,
+            "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/php/php-original.svg"
+          },
+          {
+            "name": "VB.NET",
+            "proficiency": 55,
+            "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/dot-net/dot-net-original.svg"
+          }
         ]
       },
       {
@@ -98,13 +142,41 @@
         "label": "Frameworks & Libraries",
         "icon": "layers",
         "skills": [
-          { "name": "Django", "proficiency": 90, "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/django/django-plain.svg" },
-          { "name": "FastAPI", "proficiency": 80, "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/fastapi/fastapi-original.svg" },
-          { "name": "Flask", "proficiency": 75, "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/flask/flask-original.svg" },
-          { "name": "React.js", "proficiency": 80, "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" },
-          { "name": "Tailwind CSS", "proficiency": 90, "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tailwindcss/tailwindcss-original.svg" },
-          { "name": "Bootstrap", "proficiency": 80, "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/bootstrap/bootstrap-original.svg" },
-          { "name": "Tkinter", "proficiency": 65, "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" }
+          {
+            "name": "Django",
+            "proficiency": 90,
+            "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/django/django-plain.svg"
+          },
+          {
+            "name": "FastAPI",
+            "proficiency": 80,
+            "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/fastapi/fastapi-original.svg"
+          },
+          {
+            "name": "Flask",
+            "proficiency": 75,
+            "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/flask/flask-original.svg"
+          },
+          {
+            "name": "React.js",
+            "proficiency": 80,
+            "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg"
+          },
+          {
+            "name": "Tailwind CSS",
+            "proficiency": 90,
+            "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tailwindcss/tailwindcss-original.svg"
+          },
+          {
+            "name": "Bootstrap",
+            "proficiency": 80,
+            "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/bootstrap/bootstrap-original.svg"
+          },
+          {
+            "name": "Tkinter",
+            "proficiency": 65,
+            "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg"
+          }
         ]
       },
       {
@@ -112,10 +184,26 @@
         "label": "Databases",
         "icon": "database",
         "skills": [
-          { "name": "MySQL", "proficiency": 85, "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg" },
-          { "name": "MariaDB", "proficiency": 80, "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mariadb/mariadb-original.svg" },
-          { "name": "SQLite", "proficiency": 80, "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/sqlite/sqlite-original.svg" },
-          { "name": "PostgreSQL", "proficiency": 60, "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg" }
+          {
+            "name": "MySQL",
+            "proficiency": 85,
+            "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg"
+          },
+          {
+            "name": "MariaDB",
+            "proficiency": 80,
+            "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mariadb/mariadb-original.svg"
+          },
+          {
+            "name": "SQLite",
+            "proficiency": 80,
+            "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/sqlite/sqlite-original.svg"
+          },
+          {
+            "name": "PostgreSQL",
+            "proficiency": 60,
+            "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg"
+          }
         ]
       },
       {
@@ -123,13 +211,41 @@
         "label": "AI / ML",
         "icon": "cpu",
         "skills": [
-          { "name": "AI/ML Model Integration", "proficiency": 80, "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tensorflow/tensorflow-original.svg" },
-          { "name": "LLM Integration", "proficiency": 85, "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/pytorch/pytorch-original.svg" },
-          { "name": "Computer Vision", "proficiency": 75, "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/opencv/opencv-original.svg" },
-          { "name": "Deep Learning (Keras/TF)", "proficiency": 70, "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tensorflow/tensorflow-original.svg" },
-          { "name": "Scikit-Learn", "proficiency": 75, "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/scikitlearn/scikitlearn-original.svg" },
-          { "name": "Pandas / NumPy", "proficiency": 80, "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/pandas/pandas-original.svg" },
-          { "name": "Prompt Engineering", "proficiency": 85, "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/jupyter/jupyter-original.svg" }
+          {
+            "name": "AI/ML Model Integration",
+            "proficiency": 80,
+            "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tensorflow/tensorflow-original.svg"
+          },
+          {
+            "name": "LLM Integration",
+            "proficiency": 85,
+            "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/pytorch/pytorch-original.svg"
+          },
+          {
+            "name": "Computer Vision",
+            "proficiency": 75,
+            "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/opencv/opencv-original.svg"
+          },
+          {
+            "name": "Deep Learning (Keras/TF)",
+            "proficiency": 70,
+            "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tensorflow/tensorflow-original.svg"
+          },
+          {
+            "name": "Scikit-Learn",
+            "proficiency": 75,
+            "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/scikitlearn/scikitlearn-original.svg"
+          },
+          {
+            "name": "Pandas / NumPy",
+            "proficiency": 80,
+            "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/pandas/pandas-original.svg"
+          },
+          {
+            "name": "Prompt Engineering",
+            "proficiency": 85,
+            "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/jupyter/jupyter-original.svg"
+          }
         ]
       },
       {
@@ -137,11 +253,31 @@
         "label": "Tools & DevOps",
         "icon": "tool",
         "skills": [
-          { "name": "Git / GitHub", "proficiency": 90, "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg" },
-          { "name": "REST API Development", "proficiency": 85, "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/fastapi/fastapi-original.svg" },
-          { "name": "Docker (Basics)", "proficiency": 55, "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg" },
-          { "name": "Postman", "proficiency": 80, "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postman/postman-original.svg" },
-          { "name": "VS Code", "proficiency": 90, "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vscode/vscode-original.svg" }
+          {
+            "name": "Git / GitHub",
+            "proficiency": 90,
+            "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg"
+          },
+          {
+            "name": "REST API Development",
+            "proficiency": 85,
+            "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/fastapi/fastapi-original.svg"
+          },
+          {
+            "name": "Docker (Basics)",
+            "proficiency": 55,
+            "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg"
+          },
+          {
+            "name": "Postman",
+            "proficiency": 80,
+            "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postman/postman-original.svg"
+          },
+          {
+            "name": "VS Code",
+            "proficiency": 90,
+            "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vscode/vscode-original.svg"
+          }
         ]
       },
       {
@@ -149,22 +285,70 @@
         "label": "Concepts & Practices",
         "icon": "book-open",
         "skills": [
-          { "name": "Full-Stack Web Architecture", "proficiency": 85, "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg" },
-          { "name": "System Design & Architecture Planning", "proficiency": 75, "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/kubernetes/kubernetes-original.svg" },
-          { "name": "ERP System Development", "proficiency": 80, "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/oracle/oracle-original.svg" },
-          { "name": "UI/UX Development", "proficiency": 80, "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/figma/figma-original.svg" },
-          { "name": "Database Design", "proficiency": 80, "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg" },
-          { "name": "Feature Planning", "proficiency": 85, "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/jira/jira-original.svg" },
-          { "name": "API Testing & Debugging", "proficiency": 80, "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postman/postman-original.svg" },
-          { "name": "Requirement Analysis", "proficiency": 80, "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/notion/notion-original.svg" }
+          {
+            "name": "Full-Stack Web Architecture",
+            "proficiency": 85,
+            "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg"
+          },
+          {
+            "name": "System Design & Architecture Planning",
+            "proficiency": 75,
+            "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/kubernetes/kubernetes-original.svg"
+          },
+          {
+            "name": "ERP System Development",
+            "proficiency": 80,
+            "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/oracle/oracle-original.svg"
+          },
+          {
+            "name": "UI/UX Development",
+            "proficiency": 80,
+            "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/figma/figma-original.svg"
+          },
+          {
+            "name": "Database Design",
+            "proficiency": 80,
+            "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg"
+          },
+          {
+            "name": "Feature Planning",
+            "proficiency": 85,
+            "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/jira/jira-original.svg"
+          },
+          {
+            "name": "API Testing & Debugging",
+            "proficiency": 80,
+            "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postman/postman-original.svg"
+          },
+          {
+            "name": "Requirement Analysis",
+            "proficiency": 80,
+            "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/notion/notion-original.svg"
+          }
         ]
       }
     ],
     "competitive_coding": [
-      { "platform": "HackerRank", "url": "https://www.hackerrank.com/profile/nejetushar07", "label": "HackerRank" },
-      { "platform": "CodeChef", "url": "https://www.codechef.com/users/nejetushar07", "label": "CodeChef" },
-      { "platform": "HackerEarth", "url": "https://www.hackerearth.com/@nejetushar07", "label": "HackerEarth" },
-      { "platform": "LeetCode", "url": "https://leetcode.com/u/tusharneje/", "label": "LeetCode" }
+      {
+        "platform": "HackerRank",
+        "url": "https://www.hackerrank.com/profile/nejetushar07",
+        "label": "HackerRank"
+      },
+      {
+        "platform": "CodeChef",
+        "url": "https://www.codechef.com/users/nejetushar07",
+        "label": "CodeChef"
+      },
+      {
+        "platform": "HackerEarth",
+        "url": "https://www.hackerearth.com/@nejetushar07",
+        "label": "HackerEarth"
+      },
+      {
+        "platform": "LeetCode",
+        "url": "https://leetcode.com/u/tusharneje/",
+        "label": "LeetCode"
+      }
     ]
   },
   "projects": [
@@ -174,7 +358,22 @@
       "short_title": "ACADX ERP",
       "tag": "Seamless access to your enterprise's potential.",
       "description": "ACADX is an academic ERP system designed for Schools, Colleges, and Polytechnic institutions to manage attendance, academic scores, and administrative workflows efficiently. It provides modules for attendance tracking, MSBTE-compatible score management, and digital NOC processing, along with AI-powered reports and export features. The system improves transparency, reduces administrative workload, and enables seamless collaboration among students, faculty, HODs, and staff through a responsive web platform.",
-      "tech_stack": ["Python", "Django 5.0", "MySQL", "MariaDB", "Django ORM", "HTML5", "CSS3", "JavaScript", "Bootstrap", "ReportLab", "Pandas", "NumPy", "XlsxWriter", "Google AI"],
+      "tech_stack": [
+        "Python",
+        "Django 5.0",
+        "MySQL",
+        "MariaDB",
+        "Django ORM",
+        "HTML5",
+        "CSS3",
+        "JavaScript",
+        "Bootstrap",
+        "ReportLab",
+        "Pandas",
+        "NumPy",
+        "XlsxWriter",
+        "Google AI"
+      ],
       "screenshots": [
         "assets/projects/acadx-erp/01.png",
         "assets/projects/acadx-erp/02.png",
@@ -208,7 +407,16 @@
       "short_title": "Synedra AI",
       "tag": "Where ideas debate, decisions evolve.",
       "description": "Synedra AI is an agentic multi-AI marketing strategy system that autonomously debates, decides, and executes end-to-end marketing strategies. Instead of relying on a single AI model, it uses a council of specialized agents (such as Trend, Brand, Risk, Engagement, and CMO agents) that analyze trends, evaluate risks, and generate platform-specific content strategies. The system employs structured debate and reasoning between agents to reach strategic decisions and continuously improves through a feedback loop using real engagement analytics.",
-      "tech_stack": ["Python", "Flask", "HTML", "CSS", "JavaScript", "Tailwind CSS", "Groq API", "Llama-3.3-70B-Versatile"],
+      "tech_stack": [
+        "Python",
+        "Flask",
+        "HTML",
+        "CSS",
+        "JavaScript",
+        "Tailwind CSS",
+        "Groq API",
+        "Llama-3.3-70B-Versatile"
+      ],
       "screenshots": [
         "assets/projects/synedra-ai/01.png",
         "assets/projects/synedra-ai/02.png",
@@ -238,7 +446,18 @@
       "short_title": "RePlate",
       "tag": "Connecting surplus food to consumers while reducing carbon emissions and food waste.",
       "description": "RePlate is an AI-powered marketplace platform that connects restaurants, bakeries, and grocery stores with nearby consumers to redistribute surplus food before it expires. The system uses AI-driven demand forecasting, smart dynamic pricing, and location-based discovery to recommend discounted surplus food to users. If items remain unsold, the platform intelligently redirects them to nearby NGOs with optimized pickup routes, reducing food waste and improving food accessibility.",
-      "tech_stack": ["React.js", "TypeScript", "Tailwind CSS", "Python", "FastAPI", "Groq LLM", "Razorpay API", "Leaflet Maps", "Charts.js", "Relational Database"],
+      "tech_stack": [
+        "React.js",
+        "TypeScript",
+        "Tailwind CSS",
+        "Python",
+        "FastAPI",
+        "Groq LLM",
+        "Razorpay API",
+        "Leaflet Maps",
+        "Charts.js",
+        "Relational Database"
+      ],
       "screenshots": [
         "assets/projects/replate/01.png",
         "assets/projects/replate/02.png",
@@ -417,7 +636,12 @@
       "id": "research-acadx-erp",
       "title": "Acadx: An Departmental ERP System",
       "short_title": "Acadx ERP",
-      "authors": ["Tushar Neje", "Neha Patil", "Rushabh Zore", "Runali Ramdurge"],
+      "authors": [
+        "Tushar Neje",
+        "Neha Patil",
+        "Rushabh Zore",
+        "Runali Ramdurge"
+      ],
       "conference": "IJIRCCE",
       "conference_full": "International Journal of Innovative Research in Computer and Communication Engineering",
       "year": 2025,
@@ -425,7 +649,12 @@
       "abstract": "A departmental ERP system for academic institutions enabling automated attendance tracking, score management, digital NOC processing, and AI-powered reporting. Designed to reduce administrative overhead and improve transparency across institutional hierarchies.",
       "pdf_url": "https://ijircce.com/admin/main/storage/app/pdf/NFeWUCxFGWKnEKH0UdJMokxx8BUEL5Bn3IK2BPB6.pdf",
       "images": [],
-      "tags": ["ERP", "Django", "Academic Systems", "Web Application"]
+      "tags": [
+        "ERP",
+        "Django",
+        "Academic Systems",
+        "Web Application"
+      ]
     }
   ],
   "activities": {
