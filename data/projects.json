@@ -291,5 +291,23 @@
     "featured": false,
     "category": "tools",
     "color_accent": "#f59e0b"
+  },
+  {
+    "id": "open-keypool",
+    "title": "Open KeyPool – API Key Rotation & Rate Limit Library",
+    "short_title": "Open KeyPool",
+    "tag": "Minimal Python library for pooling and rotating API keys to avoid HTTP 429 rate-limit errors.",
+    "description": "Minimal Python library for pooling and rotating API keys to avoid HTTP 429 rate-limit errors. Provide a list of keys or pull from Doppler, choose round-robin or LRU rotation, with automatic HTTP response introspection and thread safety.",
+    "tech_stack": ["Python", "PyPI", "Doppler", "API Key Pool"],
+    "screenshots": [
+      "projects/open-keypool/open-keypool.svg"
+    ],
+    "cover": "projects/open-keypool/open-keypool.svg",
+    "github_url": "https://github.com/tusharneje-07/open-keypool",
+    "linkedin_post": null,
+    "live_url": "projects/redirect.html?url=https://github.com/tusharneje-07/open-keypool",
+    "featured": false,
+    "category": "tools",
+    "color_accent": "#3775a9"
   }
 ]
