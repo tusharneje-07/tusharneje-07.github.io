@@ -273,5 +273,23 @@
     "featured": false,
     "category": "web",
     "color_accent": "#ec4899"
+  },
+  {
+    "id": "agent-limit",
+    "title": "Agent Limit – Terminal Usage Limit Monitor",
+    "short_title": "Agent Limit",
+    "tag": "Terminal usage limit monitor for Claude Code, Codex, and OpenCode Go.",
+    "description": "agent-limits reports Claude Code, Codex, and OpenCode Go usage limits directly in the terminal with customizable views, bar graphs, and caching.",
+    "tech_stack": ["Rust", "Cargo", "CLI", "Terminal UI"],
+    "screenshots": [
+      "projects/agent-limit/agent-limit.png"
+    ],
+    "cover": "projects/agent-limit/agent-limit.png",
+    "github_url": "https://github.com/f4ah6o/agent-limits",
+    "linkedin_post": null,
+    "live_url": "projects/redirect.html?url=https://github.com/f4ah6o/agent-limits",
+    "featured": false,
+    "category": "tools",
+    "color_accent": "#f59e0b"
   }
 ]
