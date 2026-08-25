@@ -39,6 +39,27 @@
 
     * { box-sizing: border-box; }
     html { scroll-behavior: smooth; }
+
+    /* Custom Modern Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: var(--bg);
+    }
+    ::-webkit-scrollbar-thumb {
+      background: var(--surface3);
+      border-radius: 999px;
+      border: 2px solid var(--bg);
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--accent);
+    }
+    * {
+      scrollbar-width: thin;
+      scrollbar-color: var(--surface3) var(--bg);
+    }
     body {
       margin: 0;
       min-height: 100vh;
@@ -495,7 +516,7 @@
         </div>
       </a>
 
-      <a href="redirect.html?url=https://github.com/tusharneje-07/open-keypool" class="project-card">
+      <a href="open-keypool/index.html" class="project-card">
         <div class="project-img-wrapper" style="background: rgba(55, 117, 169, 0.08); display: flex; align-items: center; justify-content: center; padding: 2rem;">
           <img src="open-keypool/open-keypool.svg" alt="open-keypool PyPI Logo" class="project-img" style="object-fit: contain; max-height: 120px;" />
         </div>
@@ -506,8 +527,8 @@
           </div>
           <p class="project-desc">Minimal Python library for pooling and rotating API keys to avoid HTTP 429 rate-limit errors with Doppler support, LRU/Round-Robin rotation, and thread safety.</p>
           <span class="project-link-label">
-            View on GitHub
-            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+            View Documentation
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
           </span>
         </div>
       </a>

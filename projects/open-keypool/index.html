@@ -1,13 +1,1285 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
-  <meta charset="UTF-8">
-  <meta http-equiv="refresh" content="0; url=../redirect.html?url=https://github.com/tusharneje-07/open-keypool">
-  <title>Redirecting to open-keypool...</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>open_keypool Documentation — API Key Pooling & Rotation Library</title>
+  <meta name="description" content="Official documentation for open_keypool: A minimal, thread-safe Python library for pooling and rotating API keys with Doppler support, LRU/Round-Robin strategies, and automatic rate-limit cooldowns." />
+  <link rel="icon" type="image/svg+xml" href="../../assets/favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Space+Grotesk:wght@400;500;600;700&family=Syne:wght@600;700;800&display=swap" rel="stylesheet" />
+  
+  <style>
+    :root {
+      --bg: #0b0c10;
+      --surface: #12141c;
+      --surface2: #191c28;
+      --surface3: #222638;
+      --border: rgba(255, 255, 255, 0.08);
+      --border-hover: rgba(255, 255, 255, 0.18);
+      --text: #f1f5f9;
+      --muted: #94a3b8;
+      --accent: #f59e0b;
+      --accent-soft: rgba(245, 158, 11, 0.12);
+      --python-blue: #38bdf8;
+      --python-blue-soft: rgba(56, 189, 248, 0.12);
+      --good: #22c55e;
+      --good-soft: rgba(34, 197, 94, 0.12);
+      --warn: #eab308;
+      --warn-soft: rgba(234, 179, 8, 0.12);
+      --bad: #ef4444;
+      --bad-soft: rgba(239, 68, 68, 0.12);
+      --code-bg: #090a0f;
+      --sidebar-width: 280px;
+    }
+
+    [data-theme="light"] {
+      --bg: #f8fafc;
+      --surface: #ffffff;
+      --surface2: #f1f5f9;
+      --surface3: #e2e8f0;
+      --border: rgba(0, 0, 0, 0.08);
+      --border-hover: rgba(0, 0, 0, 0.18);
+      --text: #0f172a;
+      --muted: #64748b;
+      --accent: #d97706;
+      --accent-soft: rgba(217, 119, 6, 0.1);
+      --python-blue: #0284c7;
+      --python-blue-soft: rgba(2, 132, 199, 0.1);
+      --good: #16a34a;
+      --good-soft: rgba(22, 163, 74, 0.1);
+      --warn: #ca8a04;
+      --warn-soft: rgba(202, 138, 4, 0.1);
+      --bad: #dc2626;
+      --bad-soft: rgba(220, 38, 38, 0.1);
+      --code-bg: #f1f5f9;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    /* Custom Modern Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: var(--bg);
+    }
+    ::-webkit-scrollbar-thumb {
+      background: var(--surface3);
+      border-radius: 999px;
+      border: 2px solid var(--bg);
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--accent);
+    }
+    * {
+      scrollbar-width: thin;
+      scrollbar-color: var(--surface3) var(--bg);
+    }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: 'Space Grotesk', -apple-system, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(1000px 500px at 15% -10%, var(--accent-soft), transparent 60%),
+        radial-gradient(800px 400px at 85% 0%, var(--python-blue-soft), transparent 50%),
+        linear-gradient(180deg, var(--bg), var(--bg));
+      line-height: 1.6;
+    }
+
+    /* Top Navigation Bar */
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 12px 24px;
+      background: color-mix(in srgb, var(--bg) 85%, transparent);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .topbar-left {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 14px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--text);
+      font-family: 'Syne', sans-serif;
+      font-size: 0.82rem;
+      font-weight: 700;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    .back-btn:hover {
+      border-color: var(--accent);
+      transform: translateX(-2px);
+      background: var(--surface2);
+    }
+
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-family: 'Syne', sans-serif;
+      font-size: 1.05rem;
+      font-weight: 800;
+      color: var(--text);
+      text-decoration: none;
+    }
+
+    .nav-brand-badge {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: 6px;
+      background: var(--python-blue-soft);
+      color: var(--python-blue);
+      border: 1px solid color-mix(in srgb, var(--python-blue) 30%, transparent);
+    }
+
+    .topbar-right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .search-box {
+      position: relative;
+      width: 240px;
+    }
+
+    .search-input {
+      width: 100%;
+      padding: 8px 14px 8px 36px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--text);
+      font-size: 0.84rem;
+      outline: none;
+      transition: all 0.2s ease;
+    }
+
+    .search-input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--accent-soft);
+      width: 280px;
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--muted);
+      pointer-events: none;
+    }
+
+    .icon-btn {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--text);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-decoration: none;
+    }
+
+    .icon-btn:hover {
+      border-color: var(--accent);
+      transform: translateY(-1px);
+      background: var(--surface2);
+    }
+
+    /* Layout Structure */
+    .doc-container {
+      display: flex;
+      max-width: 1440px;
+      margin: 0 auto;
+      min-height: calc(100vh - 63px);
+    }
+
+    /* Sidebar Navigation */
+    .sidebar {
+      width: var(--sidebar-width);
+      flex-shrink: 0;
+      position: sticky;
+      top: 63px;
+      height: calc(100vh - 63px);
+      overflow-y: auto;
+      padding: 24px 16px;
+      border-right: 1px solid var(--border);
+      background: color-mix(in srgb, var(--surface) 50%, transparent);
+    }
+
+    .sidebar-section-title {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+      margin: 20px 0 10px 8px;
+    }
+
+    .sidebar-section-title:first-child {
+      margin-top: 0;
+    }
+
+    .nav-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .nav-item a {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 12px;
+      border-radius: 8px;
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.88rem;
+      font-weight: 500;
+      transition: all 0.15s ease;
+    }
+
+    .nav-item a:hover, .nav-item a.active {
+      color: var(--text);
+      background: var(--surface2);
+    }
+
+    .nav-item a.active {
+      color: var(--accent);
+      font-weight: 600;
+      border-left: 3px solid var(--accent);
+      border-radius: 0 8px 8px 0;
+    }
+
+    .nav-badge {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.65rem;
+      padding: 2px 6px;
+      border-radius: 4px;
+      background: var(--surface3);
+      color: var(--muted);
+    }
+
+    /* Main Doc Content */
+    .doc-main {
+      flex-grow: 1;
+      padding: 40px 48px 80px;
+      max-width: 980px;
+    }
+
+    /* Hero Banner */
+    .hero-box {
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 36px;
+      background: linear-gradient(135deg, color-mix(in srgb, var(--surface) 95%, transparent), color-mix(in srgb, var(--surface2) 80%, transparent));
+      box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+      margin-bottom: 48px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-box::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -20%;
+      width: 300px;
+      height: 300px;
+      background: radial-gradient(circle, var(--accent-soft) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .tag-chip {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      padding: 4px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: var(--surface2);
+      color: var(--muted);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .tag-chip.amber {
+      border-color: color-mix(in srgb, var(--accent) 40%, var(--border));
+      color: var(--accent);
+      background: var(--accent-soft);
+    }
+
+    .hero-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 2.8rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      margin: 0 0 12px;
+      background: linear-gradient(135deg, var(--text) 40%, var(--accent));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero-desc {
+      font-size: 1.1rem;
+      color: var(--muted);
+      margin: 0 0 28px;
+      max-width: 65ch;
+      line-height: 1.7;
+    }
+
+    /* Install Command Bar */
+    .install-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      background: var(--code-bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 12px 18px;
+      max-width: 500px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.9rem;
+    }
+
+    .install-cmd {
+      color: var(--python-blue);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .install-prompt {
+      color: var(--muted);
+      user-select: none;
+    }
+
+    .copy-btn {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      color: var(--text);
+      border-radius: 6px;
+      padding: 6px 12px;
+      font-family: 'Syne', sans-serif;
+      font-size: 0.76rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .copy-btn:hover {
+      background: var(--accent);
+      color: #000;
+      border-color: var(--accent);
+    }
+
+    /* Section Typography */
+    .doc-section {
+      margin-bottom: 56px;
+      scroll-margin-top: 80px;
+    }
+
+    .section-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.8rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin: 0 0 16px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .section-title a {
+      color: var(--muted);
+      opacity: 0.4;
+      font-size: 1.2rem;
+      text-decoration: none;
+      transition: opacity 0.2s;
+    }
+
+    .section-title:hover a { opacity: 1; color: var(--accent); }
+
+    /* Code Blocks */
+    .code-wrapper {
+      position: relative;
+      margin: 20px 0;
+      border-radius: 14px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      background: var(--code-bg);
+    }
+
+    .code-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 16px;
+      background: var(--surface2);
+      border-bottom: 1px solid var(--border);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.76rem;
+      color: var(--muted);
+    }
+
+    pre {
+      margin: 0;
+      padding: 20px;
+      overflow-x: auto;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.88rem;
+      line-height: 1.65;
+      color: #e2e8f0;
+    }
+
+    code {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.88em;
+      background: var(--surface2);
+      padding: 2px 6px;
+      border-radius: 4px;
+      border: 1px solid var(--border);
+    }
+
+    pre code {
+      background: transparent;
+      padding: 0;
+      border: none;
+    }
+
+    /* Syntax Highlighting */
+    .kw { color: #f472b6; font-weight: 600; }
+    .fn { color: #38bdf8; }
+    .str { color: #4ade80; }
+    .num { color: #fbbf24; }
+    .cm { color: #64748b; font-style: italic; }
+    .op { color: #94a3b8; }
+    .cls { color: #fb923c; font-weight: 600; }
+
+    /* Interactive Simulator */
+    .sim-card {
+      border: 1px solid color-mix(in srgb, var(--python-blue) 30%, var(--border));
+      border-radius: 18px;
+      background: var(--surface);
+      padding: 28px;
+      margin: 24px 0 40px;
+      box-shadow: 0 12px 40px rgba(0,0,0,0.1);
+    }
+
+    .sim-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .sim-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin: 0;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .sim-controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 24px;
+    }
+
+    .sim-btn {
+      padding: 8px 16px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: var(--surface2);
+      color: var(--text);
+      font-family: 'Syne', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .sim-btn:hover {
+      transform: translateY(-1px);
+      border-color: var(--accent);
+      background: var(--surface3);
+    }
+
+    .sim-btn.good { border-color: var(--good); color: var(--good); background: var(--good-soft); }
+    .sim-btn.warn { border-color: var(--warn); color: var(--warn); background: var(--warn-soft); }
+    .sim-btn.bad { border-color: var(--bad); color: var(--bad); background: var(--bad-soft); }
+
+    .keys-status-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 14px;
+      margin-bottom: 20px;
+    }
+
+    .key-badge-card {
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 14px;
+      background: var(--surface2);
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      transition: all 0.3s ease;
+    }
+
+    .key-badge-card.active { border-color: var(--good); background: var(--good-soft); }
+    .key-badge-card.cooldown { border-color: var(--warn); background: var(--warn-soft); }
+    .key-badge-card.disabled { border-color: var(--bad); background: var(--bad-soft); opacity: 0.6; }
+
+    .key-name {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+
+    .key-state-tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      font-weight: 700;
+    }
+
+    .sim-log-box {
+      background: var(--code-bg);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 12px 16px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem;
+      height: 100px;
+      overflow-y: auto;
+      color: var(--muted);
+    }
+
+    .sim-log-entry { margin-bottom: 4px; }
+    .sim-log-entry.info { color: var(--python-blue); }
+    .sim-log-entry.success { color: var(--good); }
+    .sim-log-entry.warn { color: var(--warn); }
+    .sim-log-entry.error { color: var(--bad); }
+
+    /* Class & API Spec Cards */
+    .api-card {
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      background: var(--surface);
+      margin-bottom: 32px;
+      overflow: hidden;
+    }
+
+    .api-card-header {
+      padding: 20px 24px;
+      background: var(--surface2);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .api-title {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin: 0;
+      color: var(--accent);
+    }
+
+    .api-type-badge {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      padding: 4px 8px;
+      border-radius: 6px;
+      background: var(--surface3);
+      color: var(--muted);
+      text-transform: uppercase;
+    }
+
+    .api-body { padding: 24px; }
+
+    .param-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 16px 0;
+      font-size: 0.88rem;
+    }
+
+    .param-table th, .param-table td {
+      padding: 10px 14px;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .param-table th {
+      font-family: 'Syne', sans-serif;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--muted);
+      background: var(--surface2);
+    }
+
+    .param-name {
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--python-blue);
+      font-weight: 600;
+    }
+
+    .param-type {
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--accent);
+      font-size: 0.82em;
+    }
+
+    /* Footer */
+    .doc-footer {
+      margin-top: 80px;
+      padding-top: 32px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: var(--muted);
+      font-size: 0.85rem;
+    }
+
+    @media (max-width: 900px) {
+      .doc-container { flex-direction: column; }
+      .sidebar {
+        width: 100%;
+        height: auto;
+        position: static;
+        border-right: none;
+        border-bottom: 1px solid var(--border);
+      }
+      .doc-main { padding: 24px 20px; }
+      .hero-title { font-size: 2.1rem; }
+      .search-box { width: 100%; }
+      .topbar { flex-wrap: wrap; }
+    }
+  </style>
 </head>
 <body>
+
+  <!-- Topbar -->
+  <header class="topbar">
+    <div class="topbar-left">
+      <a href="../index.html" class="back-btn">
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+        Projects
+      </a>
+      <a href="#" class="nav-brand">
+        open_keypool
+        <span class="nav-brand-badge">v0.1.0</span>
+      </a>
+    </div>
+
+    <div class="topbar-right">
+      <div class="search-box">
+        <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+        <input type="text" id="doc-search" class="search-field search-input" placeholder="Search API docs..." autocomplete="off">
+      </div>
+
+      <a href="https://github.com/tusharneje-07/open-keypool" target="_blank" class="icon-btn" title="View Source on GitHub">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+      </a>
+
+      <button id="theme-toggle" class="icon-btn" title="Toggle Theme" type="button">
+        <svg id="icon-sun" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+        <svg id="icon-moon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- Container -->
+  <div class="doc-container">
+    
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-section-title">Getting Started</div>
+      <ul class="nav-list">
+        <li class="nav-item"><a href="#overview" class="active">Overview</a></li>
+        <li class="nav-item"><a href="#install">Installation</a></li>
+        <li class="nav-item"><a href="#quickstart-local">Quickstart — Local Keys</a></li>
+        <li class="nav-item"><a href="#quickstart-doppler">Quickstart — Doppler</a></li>
+        <li class="nav-item"><a href="#simulator">Interactive Playground</a></li>
+      </ul>
+
+      <div class="sidebar-section-title">API Reference</div>
+      <ul class="nav-list">
+        <li class="nav-item"><a href="#KeyPool">KeyPool <span class="nav-badge">class</span></a></li>
+        <li class="nav-item"><a href="#KeyPool.__init__">KeyPool.__init__</a></li>
+        <li class="nav-item"><a href="#KeyPool.from_doppler">KeyPool.from_doppler</a></li>
+        <li class="nav-item"><a href="#KeyPool.from_env">KeyPool.from_env</a></li>
+        <li class="nav-item"><a href="#KeyPool.from_json">KeyPool.from_json</a></li>
+        <li class="nav-item"><a href="#KeyPool.get_key">KeyPool.get_key</a></li>
+        <li class="nav-item"><a href="#KeyPool.handle_response">KeyPool.handle_response</a></li>
+        <li class="nav-item"><a href="#KeyPool.mark_rate_limited">KeyPool.mark_rate_limited</a></li>
+        <li class="nav-item"><a href="#KeyPool.mark_invalid">KeyPool.mark_invalid</a></li>
+        <li class="nav-item"><a href="#KeyPool.mark_success">KeyPool.mark_success</a></li>
+        <li class="nav-item"><a href="#KeyPool.status">KeyPool.status</a></li>
+        <li class="nav-item"><a href="#KeyState">KeyState <span class="nav-badge">enum</span></a></li>
+        <li class="nav-item"><a href="#AllKeysExhaustedError">AllKeysExhaustedError <span class="nav-badge">error</span></a></li>
+      </ul>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="doc-main">
+      
+      <!-- Hero Box -->
+      <section id="overview" class="hero-box">
+        <div class="hero-tags">
+          <span class="tag-chip amber">PyPI Library</span>
+          <span class="tag-chip">Python 3.10+</span>
+          <span class="tag-chip">Thread-Safe</span>
+          <span class="tag-chip">Doppler Sync</span>
+        </div>
+        <h1 class="hero-title">open_keypool</h1>
+        <p class="hero-desc">
+          A lightweight, thread-safe Python library for pooling and rotating API keys to completely avoid HTTP 429 rate-limit errors. Automatically handles cooldown timers on rate limits and permanently disables invalid keys.
+        </p>
+
+        <div class="install-bar">
+          <div class="install-cmd">
+            <span class="install-prompt">$</span>
+            <span id="install-text">pip install open-keypool</span>
+          </div>
+          <button class="copy-btn" onclick="copyInstallCmd()">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+            <span id="copy-label">Copy</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- Installation -->
+      <section id="install" class="doc-section">
+        <h2 class="section-title">
+          Installation
+          <a href="#install">#</a>
+        </h2>
+        <p>Install the official package from PyPI using pip:</p>
+        <div class="code-wrapper">
+          <div class="code-header">bash</div>
+          <pre><code>pip install open-keypool</code></pre>
+        </div>
+      </section>
+
+      <!-- Quickstart Local -->
+      <section id="quickstart-local" class="doc-section">
+        <h2 class="section-title">
+          Quickstart — Local Keys Array
+          <a href="#quickstart-local">#</a>
+        </h2>
+        <p>Instantiate <code>KeyPool</code> with a list of API key strings and rotate through them inside your API call loop:</p>
+        
+        <div class="code-wrapper">
+          <div class="code-header">python</div>
+          <pre><code><span class="kw">from</span> open_keypool <span class="kw">import</span> <span class="cls">KeyPool</span>, <span class="cls">AllKeysExhaustedError</span>
+
+<span class="cm"># Initialize key pool with Round-Robin strategy</span>
+<span class="n">pool</span> = <span class="cls">KeyPool</span>(
+    keys=[<span class="str">"sk-key1"</span>, <span class="str">"sk-key2"</span>, <span class="str">"sk-key3"</span>], 
+    strategy=<span class="str">"round_robin"</span>,
+    cooldown_seconds=<span class="num">60</span>
+)
+
+<span class="kw">for</span> attempt <span class="kw">in</span> <span class="fn">range</span>(pool.max_retries):
+    <span class="kw">try</span>:
+        key = pool.<span class="fn">get_key</span>()
+        response = <span class="fn">call_your_api</span>(key)
+
+        <span class="kw">if</span> response.status_code == <span class="num">429</span>:
+            retry_after = <span class="fn">float</span>(response.headers.<span class="fn">get</span>(<span class="str">"Retry-After"</span>, <span class="num">0</span>))
+            pool.<span class="fn">mark_rate_limited</span>(key, retry_after=retry_after <span class="kw">or</span> <span class="kw">None</span>)
+        <span class="kw">elif</span> response.status_code <span class="kw">in</span> (<span class="num">401</span>, <span class="num">403</span>):
+            pool.<span class="fn">mark_invalid</span>(key)
+        <span class="kw">else</span>:
+            pool.<span class="fn">mark_success</span>(key)
+            <span class="kw">break</span>
+    <span class="kw">except</span> <span class="cls">AllKeysExhaustedError</span>:
+        <span class="fn">print</span>(<span class="str">"All API keys are currently cooling down or disabled!"</span>)
+        <span class="kw">break</span></code></pre>
+        </div>
+      </section>
+
+      <!-- Quickstart Doppler -->
+      <section id="quickstart-doppler" class="doc-section">
+        <h2 class="section-title">
+          Quickstart — Doppler Sync Integration
+          <a href="#quickstart-doppler">#</a>
+        </h2>
+        <p>Pull keys dynamically from Doppler secrets manager with in-memory TTL caching:</p>
+        
+        <div class="code-wrapper">
+          <div class="code-header">python</div>
+          <pre><code><span class="kw">import</span> os
+<span class="kw">from</span> open_keypool <span class="kw">import</span> <span class="cls">KeyPool</span>
+
+<span class="n">DOPPLER_TOKEN</span> = os.<span class="fn">getenv</span>(<span class="str">"DOPPLER_TOKEN"</span>, <span class="str">"dp.st.YOUR_SERVICE_TOKEN"</span>)
+
+<span class="cm"># Load all secrets matching prefix 'MY_APP_' into an LRU pool</span>
+<span class="n">pool</span> = <span class="cls">KeyPool</span>.<span class="fn">from_doppler</span>(
+    token=DOPPLER_TOKEN,
+    project=<span class="str">"refactor-ai"</span>,
+    config=<span class="str">"dev"</span>,
+    key_prefix=<span class="str">"MY_APP_"</span>,
+    strategy=<span class="str">"lru"</span>,
+)
+
+<span class="cm"># Get next active key</span>
+<span class="n">api_key</span> = pool.<span class="fn">get_key</span>()</code></pre>
+        </div>
+      </section>
+
+      <!-- Interactive Playground -->
+      <section id="simulator" class="doc-section">
+        <h2 class="section-title">
+          Interactive Live Playground
+          <a href="#simulator">#</a>
+        </h2>
+        <p>Test rotation strategies, simulate HTTP 429 rate-limits, invalid 401 credentials, and watch live state recovery:</p>
+
+        <div class="sim-card">
+          <div class="sim-header">
+            <h3 class="sim-title">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
+              Live KeyPool Simulator
+            </h3>
+            <span id="sim-strategy-tag" class="tag-chip amber">Strategy: Round-Robin</span>
+          </div>
+
+          <div class="sim-controls">
+            <button class="sim-btn good" onclick="simGetKey()">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+              get_key()
+            </button>
+            <button class="sim-btn warn" onclick="simRateLimit()">
+              Simulate 429 (Rate-Limit)
+            </button>
+            <button class="sim-btn bad" onclick="simInvalidKey()">
+              Simulate 401 (Invalid Key)
+            </button>
+            <button class="sim-btn" onclick="simSuccess()">
+              Simulate 200 (Success)
+            </button>
+            <button class="sim-btn" onclick="toggleStrategy()">
+              Toggle Strategy (RR / LRU)
+            </button>
+          </div>
+
+          <div class="keys-status-grid" id="sim-keys-container">
+            <!-- Key Badges populated dynamically -->
+          </div>
+
+          <div class="sim-log-box" id="sim-log">
+            <div class="sim-log-entry info">[System] Initialized KeyPool with 3 active keys ("sk-key1", "sk-key2", "sk-key3").</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- API Reference Header -->
+      <div id="api-reference" class="doc-section">
+        <h2 class="section-title">
+          API Reference Specification
+          <a href="#api-reference">#</a>
+        </h2>
+        <p>Complete class methods, signature details, parameters, and exceptions for <code>open_keypool</code>:</p>
+      </div>
+
+      <!-- Class KeyPool -->
+      <section id="KeyPool" class="api-card">
+        <div class="api-card-header">
+          <h3 class="api-title">class KeyPool</h3>
+          <span class="api-type-badge">Core Class</span>
+        </div>
+        <div class="api-body">
+          <p>A thread-safe pool of API keys with automatic cooldown and configurable rotation strategies (Round-Robin or LRU).</p>
+          
+          <h4 id="KeyPool.__init__" style="margin-top: 24px; font-family: 'JetBrains Mono', monospace; color: var(--python-blue);">
+            __init__(keys=None, max_retries=3, cooldown_seconds=60, strategy="round_robin")
+          </h4>
+          <p>Initializes a new KeyPool instance.</p>
+          
+          <table class="param-table">
+            <thead>
+              <tr>
+                <th>Parameter</th>
+                <th>Type</th>
+                <th>Default</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="param-name">keys</td>
+                <td class="param-type">list[str] | None</td>
+                <td>None</td>
+                <td>Initial list of API key strings. Must not be empty.</td>
+              </tr>
+              <tr>
+                <td class="param-name">max_retries</td>
+                <td class="param-type">int</td>
+                <td>3</td>
+                <td>Reference maximum retry count for caller.</td>
+              </tr>
+              <tr>
+                <td class="param-name">cooldown_seconds</td>
+                <td class="param-type">int</td>
+                <td>60</td>
+                <td>Duration in seconds a key stays in COOLDOWN state after rate limit.</td>
+              </tr>
+              <tr>
+                <td class="param-name">strategy</td>
+                <td class="param-type">str</td>
+                <td>"round_robin"</td>
+                <td>Rotation strategy: <code>"round_robin"</code> or <code>"lru"</code>.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Method from_doppler -->
+      <section id="KeyPool.from_doppler" class="api-card">
+        <div class="api-card-header">
+          <h3 class="api-title">@classmethod KeyPool.from_doppler(...)</h3>
+          <span class="api-type-badge">Factory Method</span>
+        </div>
+        <div class="api-body">
+          <p>Creates a <code>KeyPool</code> by fetching API keys from Doppler Secrets Manager via REST API. Caches keys in an in-memory 1-hour TTL cache.</p>
+          
+          <table class="param-table">
+            <thead>
+              <tr>
+                <th>Parameter</th>
+                <th>Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="param-name">token</td>
+                <td class="param-type">str</td>
+                <td>Doppler service token (e.g. <code>"dp.st.YOUR_TOKEN"</code>).</td>
+              </tr>
+              <tr>
+                <td class="param-name">project</td>
+                <td class="param-type">str</td>
+                <td>Doppler project name.</td>
+              </tr>
+              <tr>
+                <td class="param-name">config</td>
+                <td class="param-type">str</td>
+                <td>Doppler config name (e.g. <code>"dev"</code>, <code>"prd"</code>).</td>
+              </tr>
+              <tr>
+                <td class="param-name">key_prefix</td>
+                <td class="param-type">str | None</td>
+                <td>Optional prefix filter for secret names.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Method from_env -->
+      <section id="KeyPool.from_env" class="api-card">
+        <div class="api-card-header">
+          <h3 class="api-title">@classmethod KeyPool.from_env(suffix, env_file=None, ...)</h3>
+          <span class="api-type-badge">Factory Method</span>
+        </div>
+        <div class="api-body">
+          <p>Creates a <code>KeyPool</code> from environment variables ending with the specified <code>suffix</code>. Automatically calls <code>load_dotenv()</code> if a <code>.env</code> file is present.</p>
+        </div>
+      </section>
+
+      <!-- Method get_key -->
+      <section id="KeyPool.get_key" class="api-card">
+        <div class="api-card-header">
+          <h3 class="api-title">KeyPool.get_key() -> str</h3>
+          <span class="api-type-badge">Method</span>
+        </div>
+        <div class="api-body">
+          <p>Returns the next available <strong>ACTIVE</strong> API key. Automatically flips expired <strong>COOLDOWN</strong> keys back to <strong>ACTIVE</strong> before selection.</p>
+          <p>Raises <code>AllKeysExhaustedError</code> if no active keys are available in the pool.</p>
+        </div>
+      </section>
+
+      <!-- Method handle_response -->
+      <section id="KeyPool.handle_response" class="api-card">
+        <div class="api-card-header">
+          <h3 class="api-title">KeyPool.handle_response(key, response, retry_after=None)</h3>
+          <span class="api-type-badge">Method</span>
+        </div>
+        <div class="api-body">
+          <p>Convenience helper method that inspects an HTTP response object or integer status code and automatically marks the key status accordingly (429 -> Cooldown, 401/403 -> Invalid, 2xx -> Success).</p>
+        </div>
+      </section>
+
+      <!-- Enum KeyState -->
+      <section id="KeyState" class="api-card">
+        <div class="api-card-header">
+          <h3 class="api-title">enum KeyState</h3>
+          <span class="api-type-badge">Enum</span>
+        </div>
+        <div class="api-body">
+          <ul style="list-style: none; padding: 0;">
+            <li style="margin-bottom: 10px;">
+              <span class="tag-chip" style="border-color: var(--good); color: var(--good); background: var(--good-soft);">ACTIVE</span>
+              — Key is healthy and ready for requests.
+            </li>
+            <li style="margin-bottom: 10px;">
+              <span class="tag-chip" style="border-color: var(--warn); color: var(--warn); background: var(--warn-soft);">COOLDOWN</span>
+              — Key hit rate limit (429) and is temporarily paused.
+            </li>
+            <li>
+              <span class="tag-chip" style="border-color: var(--bad); color: var(--bad); background: var(--bad-soft);">DISABLED</span>
+              — Key failed authentication (401/403) and is permanently disabled.
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- Exception AllKeysExhaustedError -->
+      <section id="AllKeysExhaustedError" class="api-card">
+        <div class="api-card-header">
+          <h3 class="api-title">class AllKeysExhaustedError(Exception)</h3>
+          <span class="api-type-badge">Exception</span>
+        </div>
+        <div class="api-body">
+          <p>Raised when <code>get_key()</code> is invoked but all keys in the pool are either on COOLDOWN or DISABLED.</p>
+        </div>
+      </section>
+
+      <!-- Footer -->
+      <footer class="doc-footer">
+        <div>
+          Created with care for <strong>open_keypool</strong>.
+        </div>
+        <div>
+          <a href="../index.html" style="color: var(--accent); text-decoration: none; font-weight: 600;">← Back to Projects Gallery</a>
+        </div>
+      </footer>
+
+    </main>
+  </div>
+
+  <!-- JavaScript -->
   <script>
-    window.location.href = "../redirect.html?url=https://github.com/tusharneje-07/open-keypool";
+    // Theme toggle logic
+    const themeToggle = document.getElementById('theme-toggle');
+    const iconSun = document.getElementById('icon-sun');
+    const iconMoon = document.getElementById('icon-moon');
+    const html = document.documentElement;
+
+    function applyTheme(theme) {
+      html.setAttribute('data-theme', theme);
+      localStorage.setItem('route36-theme', theme);
+      iconSun.style.display = theme === 'dark' ? '' : 'none';
+      iconMoon.style.display = theme === 'dark' ? 'none' : '';
+    }
+
+    applyTheme(localStorage.getItem('route36-theme') || 'dark');
+    themeToggle.addEventListener('click', () => {
+      applyTheme(html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
+    });
+
+    // Copy Install Command
+    function copyInstallCmd() {
+      const text = document.getElementById('install-text').textContent;
+      navigator.clipboard.writeText(text).then(() => {
+        const copyLabel = document.getElementById('copy-label');
+        copyLabel.textContent = 'Copied!';
+        setTimeout(() => { copyLabel.textContent = 'Copy'; }, 2000);
+      });
+    }
+
+    // Live Simulator Logic
+    const keysData = [
+      { name: 'sk-key1', state: 'ACTIVE', lastUsed: 0 },
+      { name: 'sk-key2', state: 'ACTIVE', lastUsed: 0 },
+      { name: 'sk-key3', state: 'ACTIVE', lastUsed: 0 },
+    ];
+    let currentStrategy = 'round_robin';
+    let rrIndex = 0;
+    let lastFetchedKey = null;
+
+    function renderSimKeys() {
+      const container = document.getElementById('sim-keys-container');
+      container.innerHTML = '';
+      keysData.forEach((k, idx) => {
+        const card = document.createElement('div');
+        card.className = `key-badge-card ${k.state.toLowerCase()}`;
+        card.innerHTML = `
+          <div class="key-name">${k.name}</div>
+          <div class="key-state-tag">${k.state}</div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    function addLog(msg, type = 'info') {
+      const logBox = document.getElementById('sim-log');
+      const entry = document.createElement('div');
+      entry.className = `sim-log-entry ${type}`;
+      entry.textContent = `[${new Date().toLocaleTimeString()}] ${msg}`;
+      logBox.appendChild(entry);
+      logBox.scrollTop = logBox.scrollHeight;
+    }
+
+    function simGetKey() {
+      const activeKeys = keysData.filter(k => k.state === 'ACTIVE');
+      if (activeKeys.length === 0) {
+        addLog('AllKeysExhaustedError: No ACTIVE keys available in pool!', 'error');
+        lastFetchedKey = null;
+        return;
+      }
+
+      let selectedKey = null;
+      if (currentStrategy === 'round_robin') {
+        let attempts = 0;
+        while (attempts < keysData.length) {
+          const candidate = keysData[rrIndex % keysData.length];
+          rrIndex++;
+          if (candidate.state === 'ACTIVE') {
+            selectedKey = candidate;
+            break;
+          }
+          attempts++;
+        }
+      } else {
+        // LRU
+        selectedKey = activeKeys.reduce((oldest, k) => k.lastUsed < oldest.lastUsed ? k : oldest, activeKeys[0]);
+      }
+
+      if (selectedKey) {
+        selectedKey.lastUsed = Date.now();
+        lastFetchedKey = selectedKey.name;
+        addLog(`get_key() returned key "${selectedKey.name}" (${currentStrategy.toUpperCase()})`, 'info');
+      }
+      renderSimKeys();
+    }
+
+    function simRateLimit() {
+      if (!lastFetchedKey) {
+        addLog('Call get_key() first before marking rate limited!', 'warn');
+        return;
+      }
+      const keyObj = keysData.find(k => k.name === lastFetchedKey);
+      if (keyObj) {
+        keyObj.state = 'COOLDOWN';
+        addLog(`mark_rate_limited("${keyObj.name}") → Moved to COOLDOWN for 10s`, 'warn');
+        renderSimKeys();
+
+        // Auto recover after 10s for interactive demo
+        setTimeout(() => {
+          if (keyObj.state === 'COOLDOWN') {
+            keyObj.state = 'ACTIVE';
+            addLog(`[Cooldown Expired] "${keyObj.name}" automatically recovered to ACTIVE`, 'success');
+            renderSimKeys();
+          }
+        }, 10000);
+      }
+    }
+
+    function simInvalidKey() {
+      if (!lastFetchedKey) {
+        addLog('Call get_key() first before marking invalid!', 'warn');
+        return;
+      }
+      const keyObj = keysData.find(k => k.name === lastFetchedKey);
+      if (keyObj) {
+        keyObj.state = 'DISABLED';
+        addLog(`mark_invalid("${keyObj.name}") → Key permanently DISABLED (401/403)`, 'error');
+        renderSimKeys();
+      }
+    }
+
+    function simSuccess() {
+      if (!lastFetchedKey) {
+        addLog('Call get_key() first!', 'info');
+        return;
+      }
+      addLog(`mark_success("${lastFetchedKey}") → Key request succeeded (HTTP 200)`, 'success');
+    }
+
+    function toggleStrategy() {
+      currentStrategy = currentStrategy === 'round_robin' ? 'lru' : 'round_robin';
+      document.getElementById('sim-strategy-tag').textContent = `Strategy: ${currentStrategy === 'round_robin' ? 'Round-Robin' : 'Least-Recently-Used (LRU)'}`;
+      addLog(`Switched rotation strategy to ${currentStrategy.toUpperCase()}`, 'info');
+    }
+
+    // Search filter for API docs
+    const searchInput = document.getElementById('doc-search');
+    searchInput.addEventListener('input', (e) => {
+      const q = e.target.value.toLowerCase().trim();
+      const apiCards = document.querySelectorAll('.api-card, .doc-section');
+      apiCards.forEach(card => {
+        const text = card.textContent.toLowerCase();
+        if (text.includes(q)) {
+          card.style.display = '';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    });
+
+    // Initialize Simulator
+    renderSimKeys();
   </script>
 </body>
 </html>
