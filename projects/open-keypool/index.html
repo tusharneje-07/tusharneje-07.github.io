@@ -724,7 +724,7 @@
       </a>
       <a href="#" class="nav-brand">
         open_keypool
-        <span class="nav-brand-badge">v0.1.0</span>
+        <span class="nav-brand-badge">v0.3.0</span>
       </a>
     </div>
 
@@ -754,18 +754,26 @@
       <ul class="nav-list">
         <li class="nav-item"><a href="#overview" class="active">Overview</a></li>
         <li class="nav-item"><a href="#install">Installation</a></li>
+        <li class="nav-item"><a href="#quickstart-call">Quickstart — pool.call()</a></li>
+        <li class="nav-item"><a href="#quickstart-async">Quickstart — Async Usage</a></li>
+        <li class="nav-item"><a href="#quickstart-presets">Provider Presets</a></li>
         <li class="nav-item"><a href="#quickstart-local">Quickstart — Local Keys</a></li>
-        <li class="nav-item"><a href="#quickstart-doppler">Quickstart — Doppler</a></li>
+        <li class="nav-item"><a href="#quickstart-doppler">Quickstart — Doppler Sync</a></li>
+        <li class="nav-item"><a href="#quickstart-cloud">Cloud Secrets (AWS / GCP)</a></li>
         <li class="nav-item"><a href="#simulator">Interactive Playground</a></li>
       </ul>
 
       <div class="sidebar-section-title">API Reference</div>
       <ul class="nav-list">
+        <li class="nav-item"><a href="#pool.call">pool.call <span class="nav-badge">method</span></a></li>
+        <li class="nav-item"><a href="#AsyncKeyPool">AsyncKeyPool <span class="nav-badge">class</span></a></li>
         <li class="nav-item"><a href="#KeyPool">KeyPool <span class="nav-badge">class</span></a></li>
         <li class="nav-item"><a href="#KeyPool.__init__">KeyPool.__init__</a></li>
         <li class="nav-item"><a href="#KeyPool.from_doppler">KeyPool.from_doppler</a></li>
         <li class="nav-item"><a href="#KeyPool.from_env">KeyPool.from_env</a></li>
         <li class="nav-item"><a href="#KeyPool.from_json">KeyPool.from_json</a></li>
+        <li class="nav-item"><a href="#KeyPool.from_aws_secrets">KeyPool.from_aws_secrets</a></li>
+        <li class="nav-item"><a href="#KeyPool.from_gcp_secrets">KeyPool.from_gcp_secrets</a></li>
         <li class="nav-item"><a href="#KeyPool.get_key">KeyPool.get_key</a></li>
         <li class="nav-item"><a href="#KeyPool.handle_response">KeyPool.handle_response</a></li>
         <li class="nav-item"><a href="#KeyPool.mark_rate_limited">KeyPool.mark_rate_limited</a></li>
@@ -783,14 +791,15 @@
       <!-- Hero Box -->
       <section id="overview" class="hero-box">
         <div class="hero-tags">
-          <span class="tag-chip amber">PyPI Library</span>
-          <span class="tag-chip">Python 3.10+</span>
-          <span class="tag-chip">Thread-Safe</span>
-          <span class="tag-chip">Doppler Sync</span>
+          <span class="tag-chip amber">PyPI v0.3.0</span>
+          <span class="tag-chip">Python 3.9+</span>
+          <span class="tag-chip">Async & Thread-Safe</span>
+          <span class="tag-chip">Provider Presets</span>
+          <span class="tag-chip">Doppler / AWS / GCP</span>
         </div>
         <h1 class="hero-title">open_keypool</h1>
         <p class="hero-desc">
-          A lightweight, thread-safe Python library for pooling and rotating API keys to completely avoid HTTP 429 rate-limit errors. Automatically handles cooldown timers on rate limits and permanently disables invalid keys.
+          A lightweight, thread-safe and async-compatible Python library for pooling and rotating API keys to completely avoid HTTP 429 rate-limit errors. Features <code>AsyncKeyPool</code>, high-level <code>pool.call()</code>, provider presets (Groq, OpenAI, Gemini, Together), automatic rate-limit cooldowns, and cloud secret manager integration.
         </p>
 
         <div class="install-bar">
@@ -815,6 +824,90 @@
         <div class="code-wrapper">
           <div class="code-header">bash</div>
           <pre><code>pip install open-keypool</code></pre>
+        </div>
+      </section>
+
+      <!-- Quickstart call -->
+      <section id="quickstart-call" class="doc-section">
+        <h2 class="section-title">
+          Quickstart — High-Level pool.call() (Recommended)
+          <a href="#quickstart-call">#</a>
+        </h2>
+        <p>Runs the <code>get_key → fn → handle_response</code> retry loop automatically, collapsing your API integration down to 3 lines:</p>
+        
+        <div class="code-wrapper">
+          <div class="code-header">python</div>
+          <pre><code><span class="kw">import</span> httpx
+<span class="kw">from</span> open_keypool <span class="kw">import</span> <span class="cls">KeyPool</span>
+
+<span class="n">pool</span> = <span class="cls">KeyPool</span>(keys=[<span class="str">"sk-key1"</span>, <span class="str">"sk-key2"</span>], provider=<span class="str">"groq"</span>)
+
+<span class="kw">def</span> <span class="fn">fetch_models</span>(key):
+    <span class="kw">return</span> httpx.<span class="fn">get</span>(<span class="str">"https://api.groq.com/v1/models"</span>, headers={<span class="str">"Authorization"</span>: f<span class="str">"Bearer {key}"</span>})
+
+<span class="cm"># Automatically handles rotation and retries internally up to max_retries</span>
+<span class="n">response</span> = pool.<span class="fn">call</span>(fetch_models)</code></pre>
+        </div>
+      </section>
+
+      <!-- Quickstart Async -->
+      <section id="quickstart-async" class="doc-section">
+        <h2 class="section-title">
+          Quickstart — Async Usage (AsyncKeyPool)
+          <a href="#quickstart-async">#</a>
+        </h2>
+        <p>Full asyncio compatibility using <code>AsyncKeyPool</code> and <code>httpx.AsyncClient</code>:</p>
+        
+        <div class="code-wrapper">
+          <div class="code-header">python</div>
+          <pre><code><span class="kw">import</span> httpx
+<span class="kw">import</span> asyncio
+<span class="kw">from</span> open_keypool <span class="kw">import</span> <span class="cls">AsyncKeyPool</span>
+
+<span class="kw">async def</span> <span class="fn">main</span>():
+    <span class="n">pool</span> = <span class="cls">AsyncKeyPool</span>(keys=[<span class="str">"sk-key1"</span>, <span class="str">"sk-key2"</span>], provider=<span class="str">"openai"</span>)
+
+    <span class="kw">async def</span> <span class="fn">fetch_models</span>(key):
+        <span class="kw">async with</span> httpx.<span class="cls">AsyncClient</span>() <span class="kw">as</span> client:
+            <span class="kw">return await</span> client.<span class="fn">get</span>(<span class="str">"https://api.openai.com/v1/models"</span>, headers={<span class="str">"Authorization"</span>: f<span class="str">"Bearer {key}"</span>})
+
+    <span class="n">response</span> = <span class="kw">await</span> pool.<span class="fn">call</span>(fetch_models)
+
+asyncio.<span class="fn">run</span>(main())</code></pre>
+        </div>
+      </section>
+
+      <!-- Quickstart Provider Presets -->
+      <section id="quickstart-presets" class="doc-section">
+        <h2 class="section-title">
+          Provider Presets
+          <a href="#quickstart-presets">#</a>
+        </h2>
+        <p>Pass <code>provider="groq"</code>, <code>"openai"</code>, <code>"gemini"</code>, or <code>"together"</code> to automatically parse provider-specific headers (e.g. <code>x-ratelimit-reset-requests</code>, <code>retry-after-ms</code>) and error codes (<code>RESOURCE_EXHAUSTED</code>, <code>rate_limit_error</code>):</p>
+        
+        <div class="code-wrapper">
+          <div class="code-header">python</div>
+          <pre><code><span class="n">pool</span> = <span class="cls">KeyPool</span>(keys=[<span class="str">"sk-1"</span>, <span class="str">"sk-2"</span>], provider=<span class="str">"groq"</span>)</code></pre>
+        </div>
+      </section>
+
+      <!-- Quickstart Cloud Secrets -->
+      <section id="quickstart-cloud" class="doc-section">
+        <h2 class="section-title">
+          Cloud Secret Managers (AWS & GCP)
+          <a href="#quickstart-cloud">#</a>
+        </h2>
+        <p>Pull keys directly from AWS Secrets Manager or GCP Secret Manager:</p>
+        
+        <div class="code-wrapper">
+          <div class="code-header">python</div>
+          <pre><code><span class="kw">from</span> open_keypool <span class="kw">import</span> <span class="cls">KeyPool</span>
+
+<span class="cm"># AWS Secrets Manager (pip install open-keypool[aws])</span>
+<span class="n">aws_pool</span> = <span class="cls">KeyPool</span>.<span class="fn">from_aws_secrets</span>(<span class="str">"my-secret-name"</span>, key_prefix=<span class="str">"GROQ_"</span>)
+
+<span class="cm"># GCP Secret Manager (pip install open-keypool[gcp])</span>
+<span class="n">gcp_pool</span> = <span class="cls">KeyPool</span>.<span class="fn">from_gcp_secrets</span>(<span class="str">"my-secret-id"</span>, project_id=<span class="str">"my-project"</span>, key_prefix=<span class="str">"GROQ_"</span>)</code></pre>
         </div>
       </section>
 
@@ -940,6 +1033,28 @@
         <p>Complete class methods, signature details, parameters, and exceptions for <code>open_keypool</code>:</p>
       </div>
 
+      <!-- Method pool.call -->
+      <section id="pool.call" class="api-card">
+        <div class="api-card-header">
+          <h3 class="api-title">pool.call(fn, *args, **kwargs) -> Any</h3>
+          <span class="api-type-badge">High-Level Runner</span>
+        </div>
+        <div class="api-body">
+          <p>Executes <code>fn(key, *args, **kwargs)</code> with an active key from the pool, handling rotation, response introspection, and automatic retries up to <code>max_retries</code> internally.</p>
+        </div>
+      </section>
+
+      <!-- Class AsyncKeyPool -->
+      <section id="AsyncKeyPool" class="api-card">
+        <div class="api-card-header">
+          <h3 class="api-title">class AsyncKeyPool</h3>
+          <span class="api-type-badge">Async Class</span>
+        </div>
+        <div class="api-body">
+          <p>An <code>asyncio</code>-compatible version of <code>KeyPool</code> offering <code>async get_key()</code>, <code>async_get_key()</code>, <code>async call()</code>, and async Doppler loading via <code>httpx.AsyncClient</code>.</p>
+        </div>
+      </section>
+
       <!-- Class KeyPool -->
       <section id="KeyPool" class="api-card">
         <div class="api-card-header">
@@ -950,7 +1065,7 @@
           <p>A thread-safe pool of API keys with automatic cooldown and configurable rotation strategies (Round-Robin or LRU).</p>
           
           <h4 id="KeyPool.__init__" style="margin-top: 24px; font-family: 'JetBrains Mono', monospace; color: var(--python-blue);">
-            __init__(keys=None, max_retries=3, cooldown_seconds=60, strategy="round_robin")
+            __init__(keys=None, max_retries=3, cooldown_seconds=60, strategy="round_robin", provider=None)
           </h4>
           <p>Initializes a new KeyPool instance.</p>
           
@@ -987,6 +1102,12 @@
                 <td class="param-type">str</td>
                 <td>"round_robin"</td>
                 <td>Rotation strategy: <code>"round_robin"</code> or <code>"lru"</code>.</td>
+              </tr>
+              <tr>
+                <td class="param-name">provider</td>
+                <td class="param-type">str | None</td>
+                <td>None</td>
+                <td>Provider preset: <code>"groq"</code>, <code>"openai"</code>, <code>"gemini"</code>, <code>"together"</code>.</td>
               </tr>
             </tbody>
           </table>
@@ -1044,6 +1165,28 @@
         </div>
         <div class="api-body">
           <p>Creates a <code>KeyPool</code> from environment variables ending with the specified <code>suffix</code>. Automatically calls <code>load_dotenv()</code> if a <code>.env</code> file is present.</p>
+        </div>
+      </section>
+
+      <!-- Method from_aws_secrets -->
+      <section id="KeyPool.from_aws_secrets" class="api-card">
+        <div class="api-card-header">
+          <h3 class="api-title">@classmethod KeyPool.from_aws_secrets(secret_name, region_name="us-east-1", ...)</h3>
+          <span class="api-type-badge">Factory Method</span>
+        </div>
+        <div class="api-body">
+          <p>Fetches API keys from AWS Secrets Manager using <code>boto3</code>. Supports JSON dict parsing and line/prefix filtering.</p>
+        </div>
+      </section>
+
+      <!-- Method from_gcp_secrets -->
+      <section id="KeyPool.from_gcp_secrets" class="api-card">
+        <div class="api-card-header">
+          <h3 class="api-title">@classmethod KeyPool.from_gcp_secrets(secret_id, project_id=None, ...)</h3>
+          <span class="api-type-badge">Factory Method</span>
+        </div>
+        <div class="api-body">
+          <p>Fetches API keys from GCP Secret Manager using <code>google-cloud-secret-manager</code>. Supports JSON dict parsing and prefix filtering.</p>
         </div>
       </section>
 

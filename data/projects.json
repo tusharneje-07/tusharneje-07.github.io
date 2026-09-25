@@ -296,9 +296,9 @@
     "id": "open-keypool",
     "title": "Open KeyPool – API Key Rotation & Rate Limit Library",
     "short_title": "Open KeyPool",
-    "tag": "Minimal Python library for pooling and rotating API keys to avoid HTTP 429 rate-limit errors.",
-    "description": "Minimal Python library for pooling and rotating API keys to avoid HTTP 429 rate-limit errors. Provide a list of keys or pull from Doppler, choose round-robin or LRU rotation, with automatic HTTP response introspection and thread safety.",
-    "tech_stack": ["Python", "PyPI", "Doppler", "API Key Pool"],
+    "tag": "Minimal Python library for pooling and rotating API keys with Async, Provider Presets & Cloud Secrets support.",
+    "description": "Minimal Python library for pooling and rotating API keys to avoid HTTP 429 rate-limit errors. Features AsyncKeyPool, provider presets (Groq, OpenAI, Gemini, Together), high-level pool.call(), Doppler/AWS/GCP loaders, round-robin or LRU rotation, and automatic rate-limit cooldowns.",
+    "tech_stack": ["Python", "PyPI", "AsyncIO", "Doppler", "AWS Secrets", "GCP Secrets", "API Key Pool"],
     "screenshots": [
       "projects/open-keypool/open-keypool.svg"
     ],
