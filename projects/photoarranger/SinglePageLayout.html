@@ -1035,6 +1035,157 @@
             margin-bottom: 16px;
         }
 
+        /* ===================== MULTI-PAGE: PAGE RAIL ===================== */
+        .page-rail {
+            width: 156px;
+            min-width: 156px;
+            background: #171717;
+            border-left: 1px solid #2E2E2E;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            flex-shrink: 0;
+        }
+        .page-rail-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 12px 8px;
+        }
+        .page-rail-header .sg-label { color: #FAFAFA; }
+        .page-rail-list {
+            position: relative;
+            flex: 1;
+            overflow-y: auto;
+            padding: 4px 10px 14px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+        .page-item {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 6px;
+            border: 1px solid transparent;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.15s, border-color 0.15s;
+        }
+        .page-item:hover { background: #1F1F1F; }
+        .page-item.active { border-color: #3ECF8E; background: #041B10; }
+        .page-item.dragging { opacity: 0.4; }
+        .page-item.drag-over { border-color: #3ECF8E; border-style: dashed; background: rgba(62,207,142,0.08); }
+        .page-thumb {
+            position: relative;
+            background: #ffffff;
+            border-radius: 3px;
+            box-shadow: 0 1px 5px rgba(0,0,0,0.55);
+            overflow: hidden;
+            padding: 7%;
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+            flex-shrink: 0;
+            pointer-events: none;
+        }
+        .page-thumb.landscape { width: 124px; aspect-ratio: 297 / 210; }
+        .page-thumb.portrait { width: 92px; aspect-ratio: 210 / 297; }
+        .page-thumb-title { height: 5px; width: 60%; background: #9ca3af; border-radius: 2px; align-self: center; flex-shrink: 0; }
+        .page-thumb-grid { display: grid; gap: 2px; width: 100%; align-content: start; }
+        .page-thumb-cell { background: #e5e7eb; background-size: cover; background-position: center; border-radius: 1px; min-width: 0; }
+        .page-badge {
+            position: absolute;
+            top: 3px; left: 3px;
+            background: rgba(0,0,0,0.65);
+            color: #fff;
+            font-size: 10px;
+            font-weight: 600;
+            padding: 1px 6px;
+            border-radius: 3px;
+            z-index: 2;
+        }
+        .page-item-actions { display: flex; gap: 3px; }
+        .page-act {
+            width: 22px; height: 22px;
+            padding: 0;
+            border: 1px solid #2E2E2E;
+            background: #1F1F1F;
+            color: #898989;
+            border-radius: 4px;
+            font-size: 11px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .page-act:hover:not(:disabled) { border-color: #3ECF8E; color: #3ECF8E; }
+        .page-act.danger:hover:not(:disabled) { border-color: #E54D2E; color: #E54D2E; }
+        .page-act:disabled { opacity: 0.3; cursor: not-allowed; }
+        .page-add-card {
+            width: 100%;
+            border: 1px dashed #454545;
+            border-radius: 8px;
+            padding: 12px 6px;
+            background: transparent;
+            color: #898989;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            font-size: 12px;
+            flex-shrink: 0;
+            transition: border-color 0.15s, color 0.15s;
+        }
+        .page-add-card:hover { border-color: #3ECF8E; color: #3ECF8E; }
+        .page-add-card i { font-size: 1.2rem; }
+
+        .page-nav-btn {
+            width: 24px; height: 24px;
+            padding: 0;
+            border-radius: 6px;
+            border: 1px solid #2E2E2E;
+            background: #171717;
+            color: #B4B4B4;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 12px;
+        }
+        .page-nav-btn:hover:not(:disabled) { border-color: #3ECF8E; color: #3ECF8E; }
+        .page-nav-btn:disabled { opacity: 0.35; cursor: not-allowed; }
+
+        /* ===================== IMAGE EXPORT DIALOG ===================== */
+        .dpi-chip { padding: 5px 12px; font-size: 12px; font-family: 'Source Code Pro', monospace; }
+        .dpi-chip.active { border-color: #3ECF8E; color: #3ECF8E; background: #15593B; }
+        .export-info {
+            background: #171717;
+            border: 1px solid #2E2E2E;
+            border-radius: 6px;
+            padding: 10px 12px;
+            font-family: 'Source Code Pro', monospace;
+            font-size: 12px;
+            color: #B4B4B4;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            margin-bottom: 16px;
+        }
+        .export-info i { color: #3ECF8E; margin-right: 4px; }
+        .export-progress-bar { width: 100%; height: 6px; background: #2E2E2E; border-radius: 3px; overflow: hidden; margin: 4px 0 16px; }
+        .export-progress-bar > div { height: 100%; width: 0; background: #3ECF8E; transition: width 0.2s; }
+
+        @media (max-width: 992px) {
+            .page-rail { width: 100%; min-width: 100%; height: auto; border-left: none; border-top: 1px solid #2E2E2E; }
+            .page-rail-list { flex-direction: row; overflow-x: auto; overflow-y: hidden; align-items: flex-start; padding-bottom: 10px; }
+            .page-item { width: auto; flex-shrink: 0; }
+            .page-add-card { width: 110px; align-self: stretch; }
+        }
         @media (max-width: 992px) {
             .control-panel { width: 100%; min-width: 100%; max-height: 50vh; }
             #editorView .editor-layout { flex-direction: column; }
@@ -1056,12 +1207,12 @@
             </div>
             <div class="flex items-center gap-3">
                 <button class="sg-btn sg-btn-secondary" id="importProjectBtn">
-                    <i class="bi bi-upload"></i> Import .projectlayout.json
+                    <i class="bi bi-upload"></i> Import .sg Project
                 </button>
                 <button class="sg-btn sg-btn-primary" id="newProjectBtn">
                     <i class="bi bi-plus-lg"></i> New Project
                 </button>
-                <input type="file" id="importProjectFile" accept=".json,.projectlayout.json" class="hidden">
+                <input type="file" id="importProjectFile" accept=".sg,.json" class="hidden">
             </div>
         </header>
         <main class="flex-1 overflow-y-auto p-6 bg-canvas">
@@ -1094,8 +1245,11 @@
                     <i class="bi bi-cloud-check"></i>
                     <span>Saved</span>
                 </div>
-                <button class="sg-btn sg-btn-secondary" id="downloadJsonBtn" title="Download layout JSON">
-                    <i class="bi bi-filetype-json"></i> Download Layout JSON
+                <button class="sg-btn sg-btn-secondary" id="downloadJsonBtn" title="Save encrypted .sg project file">
+                    <i class="bi bi-file-earmark-lock2"></i> Save Layout (.sg)
+                </button>
+                <button class="sg-btn sg-btn-secondary" id="downloadJsonWithImagesBtn" title="Save encrypted .sg project file (with images)">
+                    <i class="bi bi-images"></i> Save Layout + Images (.sg)
                 </button>
             </div>
         </header>
@@ -1104,6 +1258,23 @@
         <div class="editor-layout flex flex-1 overflow-hidden">
             <!-- Control Panel -->
             <div class="control-panel" id="controlPanel">
+                <!-- Pages (multi-page) -->
+                <div class="sg-section">
+                    <div class="sg-section-title">
+                        <i class="bi bi-files"></i> Pages
+                        <span class="photo-count-badge" id="pagesBadge">1 page</span>
+                    </div>
+                    <p class="text-muted text-xs mb-3" id="pagesInfo">Editing page 1 of 1</p>
+                    <div class="grid grid-cols-3 gap-2 mb-2">
+                        <button class="sg-btn sg-btn-primary" id="pagesAddBtn" title="Add a new page after this one"><i class="bi bi-plus-lg"></i> Add</button>
+                        <button class="sg-btn sg-btn-secondary" id="pagesDuplicateBtn" title="Duplicate this page"><i class="bi bi-copy"></i> Copy</button>
+                        <button class="sg-btn sg-btn-secondary" id="pagesDeleteBtn" title="Delete this page" style="color:#E54D2E;border-color:#E54D2E"><i class="bi bi-trash"></i> Delete</button>
+                    </div>
+                    <button class="sg-btn sg-btn-secondary w-full" id="pagesApplyAllBtn" title="Copy this page's layout and text styles to every page (content is kept)">
+                        <i class="bi bi-layers"></i> Apply layout to all pages
+                    </button>
+                    <p class="text-muted mt-2" style="font-size:11px;line-height:1.4">Each page has its own layout, title and captions. New pages inherit this page's layout. The image pool is shared by all pages.</p>
+                </div>
                 <!-- Page Settings -->
                 <div class="sg-section">
                     <div class="sg-section-title"><i class="bi bi-file-earmark"></i> Page Settings</div>
@@ -1505,6 +1676,9 @@
                         <button class="sg-btn sg-btn-secondary w-full" id="downloadPdfBtn" style="border-color:#3ECF8E;color:#3ECF8E">
                             <i class="bi bi-file-pdf"></i> Download PDF
                         </button>
+                        <button class="sg-btn sg-btn-secondary w-full" id="exportImageBtn" style="border-color:#3ECF8E;color:#3ECF8E">
+                            <i class="bi bi-file-earmark-image"></i> Export Image (PNG / JPG)
+                        </button>
                     </div>
                 </div>
             </div>
@@ -1519,6 +1693,11 @@
                         <span><i class="bi bi-file-earmark"></i> A4</span>
                         <span id="artboardDimensions">297 × 210 mm</span>
                         <span id="artboardOrientation">Landscape</span>
+                        <span class="flex items-center gap-1.5">
+                            <button class="page-nav-btn" id="prevPageBtn" title="Previous page"><i class="bi bi-chevron-left"></i></button>
+                            <span id="artboardPageLabel">Page 1 / 1</span>
+                            <button class="page-nav-btn" id="nextPageBtn" title="Next page"><i class="bi bi-chevron-right"></i></button>
+                        </span>
                     </div>
                     <div class="artboard landscape" id="artboard">
                         <div class="artboard-content" id="artboardContent">
@@ -1530,6 +1709,15 @@
                         </div>
                     </div>
                 </div>
+            </div>
+
+            <!-- Page rail (multi-page) -->
+            <div class="page-rail" id="pageRail">
+                <div class="page-rail-header">
+                    <span class="sg-label">Pages</span>
+                    <span class="photo-count-badge" id="pageRailCount" style="margin-left:0">1</span>
+                </div>
+                <div class="page-rail-list" id="pageRailList"></div>
             </div>
         </div>
     </div>
@@ -1706,11 +1894,73 @@
         </div>
     </div>
 
+    <!-- ==================== IMAGE EXPORT DIALOG ==================== -->
+    <div class="dialog-overlay" id="exportImageDialog">
+        <div class="dialog-box" style="max-width:480px;max-height:92vh;overflow-y:auto">
+            <h3><i class="bi bi-file-earmark-image" style="color:#3ECF8E"></i> Export Images</h3>
+            <p>Choose the file format and resolution. Multiple pages are bundled into a single ZIP.</p>
+
+            <div class="mb-4">
+                <label class="field-label">Format</label>
+                <div class="orient-toggle">
+                    <button type="button" class="orient-btn active" id="exportFmtPng"><i class="bi bi-file-earmark-image"></i> PNG</button>
+                    <button type="button" class="orient-btn" id="exportFmtJpg"><i class="bi bi-file-earmark-image"></i> JPG</button>
+                </div>
+                <small id="exportFmtHint" style="color:#898989;font-size:11px;display:block;margin-top:6px"></small>
+            </div>
+
+            <div class="mb-4" id="exportQualityRow" style="display:none">
+                <div class="control-label"><span>JPG Quality</span><span class="control-value" id="exportQualityValue">95%</span></div>
+                <input type="range" class="sg-range" id="exportQuality" min="50" max="100" value="95">
+            </div>
+
+            <div class="mb-4">
+                <label class="field-label">Resolution (DPI)</label>
+                <div class="flex items-center gap-2 mb-2 flex-wrap" id="exportDpiChips">
+                    <button type="button" class="sg-btn sg-btn-secondary dpi-chip" data-dpi="72">72</button>
+                    <button type="button" class="sg-btn sg-btn-secondary dpi-chip" data-dpi="96">96</button>
+                    <button type="button" class="sg-btn sg-btn-secondary dpi-chip" data-dpi="150">150</button>
+                    <button type="button" class="sg-btn sg-btn-secondary dpi-chip" data-dpi="300">300</button>
+                    <button type="button" class="sg-btn sg-btn-secondary dpi-chip" data-dpi="450">450</button>
+                    <button type="button" class="sg-btn sg-btn-secondary dpi-chip" data-dpi="600">600</button>
+                </div>
+                <input type="number" class="sg-input" id="exportDpi" min="36" max="600" value="300" placeholder="Custom DPI (36 - 600)">
+                <small style="color:#898989;font-size:11px;display:block;margin-top:6px">72 = screen &middot; 150 = draft print &middot; 300 = high-quality print</small>
+            </div>
+
+            <div class="mb-4" id="exportScopeRow" style="display:none">
+                <label class="field-label">Pages to export</label>
+                <div class="orient-toggle">
+                    <button type="button" class="orient-btn active" id="exportScopeAll"><i class="bi bi-files"></i> All pages (ZIP)</button>
+                    <button type="button" class="orient-btn" id="exportScopeCurrent"><i class="bi bi-file-earmark"></i> Current page</button>
+                </div>
+            </div>
+
+            <div class="export-info" id="exportInfo"></div>
+
+            <div class="flex gap-2 justify-end">
+                <button class="sg-btn sg-btn-ghost" id="exportCancelDialogBtn">Cancel</button>
+                <button class="sg-btn sg-btn-primary" id="exportConfirmBtn"><i class="bi bi-download"></i> Export</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== EXPORT PROGRESS OVERLAY ==================== -->
+    <div class="dialog-overlay" id="exportProgressOverlay">
+        <div class="dialog-box" style="max-width:380px;text-align:center">
+            <i class="bi bi-arrow-repeat" style="font-size:2.2rem;color:#3ECF8E;display:inline-block;animation:spin 1s linear infinite"></i>
+            <h3 id="exportProgressTitle" style="margin-top:8px">Exporting&hellip;</h3>
+            <p id="exportProgressText" style="margin-bottom:10px">Preparing&hellip;</p>
+            <div class="export-progress-bar"><div id="exportProgressFill"></div></div>
+            <button class="sg-btn sg-btn-secondary" id="exportCancelBtn">Cancel</button>
+        </div>
+    </div>
     <!-- Toast -->
     <div class="toast" id="toast"><i class="bi bi-info-circle"></i><span id="toastMsg"></span></div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.1/cropper.min.js"></script>
     <script>
     // =====================================================================
@@ -1799,6 +2049,20 @@
 
     let state = createDefaultState();
 
+    // ==================== MULTI-PAGE MODEL ====================
+    // `state` always holds the ACTIVE page's settings (so every existing control and renderer keeps
+    // working unchanged) plus project-level data (uploadedImages pool, thumbnail).
+    // `pages` holds one settings snapshot per page; the active one is synced back by commitCurrentPage().
+    const PROJECT_LEVEL_KEYS = ['uploadedImages', 'thumbnail', 'pages', 'currentPageIndex'];
+    const PAGE_KEYS = Object.keys(createDefaultState()).filter(k => !PROJECT_LEVEL_KEYS.includes(k));
+    let pages = [];
+    let currentPageIndex = 0;
+    let exportBusy = false;
+    let exportAbort = false;
+    let savePendingAfterExport = false;
+    let stripRefreshTimer = null;
+    let draggedPageIndex = null;
+
     // ==================== TOAST ====================
     function showToast(msg, type = 'info') {
         const toast = document.getElementById('toast');
@@ -1858,14 +2122,19 @@
     }
 
     function serializeStateForSave() {
-        // Deep clone state, exclude image data and File objects
-        const s = JSON.parse(JSON.stringify(state, (key, value) => {
-            if (key === 'file') return undefined;
-            if (key === 'uploadedImages') return [];  // Don't store base64 images
-            if (key === 'gridImages') return [];       // Don't store grid image data
-            return value;
-        }));
-        return s;
+        // Deep clone, preserving image data while excluding File objects.
+        const replacer = (key, value) => (key === 'file' ? undefined : value);
+        if (!pages.length) {
+            return JSON.parse(JSON.stringify(state, replacer));
+        }
+        // Multi-page project: pool + thumbnail are project-level, everything else lives in pages[]
+        commitCurrentPage();
+        return JSON.parse(JSON.stringify({
+            uploadedImages: state.uploadedImages,
+            thumbnail: state.thumbnail,
+            pages: pages,
+            currentPageIndex: currentPageIndex
+        }, replacer));
     }
 
     function autoSaveProject() {
@@ -1913,8 +2182,10 @@
     }
 
     function scheduleAutoSave() {
+        if (exportBusy) { savePendingAfterExport = true; return; }
         clearTimeout(autoSaveTimer);
         autoSaveTimer = setTimeout(autoSaveProject, 500);
+        schedulePageStripRefresh();
     }
 
     function createProject(name) {
@@ -2019,10 +2290,12 @@
                 ? `<img src="${project.state.thumbnail}" alt="preview">`
                 : `<div class="no-thumb"><i class="bi bi-image"></i></div>`;
 
-            // Count images
-            const imgCount = (project.state && project.state.uploadedImages) ? project.state.uploadedImages.length : 0;
-            const gridFilled = (project.state && project.state.gridImages)
-                ? project.state.gridImages.filter(Boolean).length : 0;
+            // Count images (across all pages for multi-page projects)
+            const st = project.state || {};
+            const imgCount = st.uploadedImages ? st.uploadedImages.length : 0;
+            const pageList = (Array.isArray(st.pages) && st.pages.length) ? st.pages : [st];
+            const pageCount = pageList.length;
+            const gridFilled = pageList.reduce((n, pg) => n + ((pg && pg.gridImages) ? pg.gridImages.filter(Boolean).length : 0), 0);
 
             card.innerHTML = `
                 <div class="project-card-thumb">${thumb}</div>
@@ -2030,11 +2303,12 @@
                     <div class="project-card-name">${escapeHtml(project.name)}</div>
                     <div class="project-card-meta">
                         Updated ${formatDate(project.updatedAt)}
+                        · ${pageCount} page${pageCount !== 1 ? 's' : ''}
                         · ${imgCount} img${imgCount !== 1 ? 's' : ''}
                         · ${gridFilled} placed
                     </div>
                     <div class="project-card-actions">
-                        <button class="sg-btn sg-btn-secondary text-xs py-1 px-2" data-action="export" title="Export JSON">
+                        <button class="sg-btn sg-btn-secondary text-xs py-1 px-2" data-action="export" title="Export .sg">
                             <i class="bi bi-download"></i>
                         </button>
                         <button class="sg-btn sg-btn-secondary text-xs py-1 px-2" data-action="duplicate" title="Duplicate">
@@ -2085,7 +2359,71 @@
         return d.innerHTML;
     }
 
-    function downloadProjectJson(project) {
+    // ==================== .SG ENCRYPTED PROJECT FORMAT ====================
+    // File layout: "SGX" 0x01 | flags(1) | salt(16) | iv(12) | AES-256-GCM ciphertext (+16-byte auth tag)
+    // flags bit0 = payload gzip-compressed before encryption. Header is bound in as GCM additional data,
+    // so any tampering (or a wrong key / corrupted file) makes decryption fail.
+    const SG_MAGIC = [0x53, 0x47, 0x58, 0x01];
+    const SG_SECRET = 'SnapGrid::sg-container::v1::7f3a9c1e-b2d4-4e8a-9a61-5d0c8e2f4b17';
+    const SG_PBKDF2_ITERS = 150000;
+
+    function sgCheckCrypto() {
+        if (!window.crypto || !window.crypto.subtle) {
+            throw new Error('Encryption needs a secure context (https:// or a local file). Not available here.');
+        }
+    }
+    async function sgDeriveKey(salt) {
+        const enc = new TextEncoder();
+        const base = await crypto.subtle.importKey('raw', enc.encode(SG_SECRET), 'PBKDF2', false, ['deriveKey']);
+        return crypto.subtle.deriveKey(
+            { name: 'PBKDF2', salt: salt, iterations: SG_PBKDF2_ITERS, hash: 'SHA-256' },
+            base, { name: 'AES-GCM', length: 256 }, false, ['encrypt', 'decrypt']);
+    }
+    async function sgPipe(bytes, transform) {
+        const stream = new Blob([bytes]).stream().pipeThrough(transform);
+        return new Uint8Array(await new Response(stream).arrayBuffer());
+    }
+    async function sgEncrypt(obj) {
+        sgCheckCrypto();
+        let payload = new TextEncoder().encode(JSON.stringify(obj));
+        let flags = 0;
+        if (typeof CompressionStream !== 'undefined') {
+            try { payload = await sgPipe(payload, new CompressionStream('gzip')); flags = 1; } catch (_) { flags = 0; }
+        }
+        const salt = crypto.getRandomValues(new Uint8Array(16));
+        const iv = crypto.getRandomValues(new Uint8Array(12));
+        const header = new Uint8Array(SG_MAGIC.length + 1);
+        header.set(SG_MAGIC, 0); header[SG_MAGIC.length] = flags;
+        const key = await sgDeriveKey(salt);
+        const ct = new Uint8Array(await crypto.subtle.encrypt({ name: 'AES-GCM', iv: iv, additionalData: header }, key, payload));
+        const out = new Uint8Array(header.length + 16 + 12 + ct.length);
+        out.set(header, 0); out.set(salt, header.length); out.set(iv, header.length + 16); out.set(ct, header.length + 28);
+        return out;
+    }
+    function sgIsSgFile(bytes) {
+        return bytes.length > 33 && SG_MAGIC.every((b, i) => bytes[i] === b);
+    }
+    async function sgDecrypt(buffer) {
+        sgCheckCrypto();
+        const bytes = new Uint8Array(buffer);
+        if (!sgIsSgFile(bytes)) throw new Error('Not a valid SnapGrid (.sg) file');
+        const hl = SG_MAGIC.length + 1;
+        const header = bytes.slice(0, hl);
+        const salt = bytes.slice(hl, hl + 16);
+        const iv = bytes.slice(hl + 16, hl + 28);
+        const ct = bytes.slice(hl + 28);
+        let plain;
+        try {
+            const key = await sgDeriveKey(salt);
+            plain = new Uint8Array(await crypto.subtle.decrypt({ name: 'AES-GCM', iv: iv, additionalData: header }, key, ct));
+        } catch (_) {
+            throw new Error('File is corrupted or was not created by SnapGrid');
+        }
+        if (header[SG_MAGIC.length] & 1) plain = await sgPipe(plain, new DecompressionStream('gzip'));
+        return JSON.parse(new TextDecoder().decode(plain));
+    }
+
+    function buildProjectExport(project) {
         const data = {
             id: project.id,
             name: project.name,
@@ -2093,22 +2431,40 @@
             updatedAt: project.updatedAt || Date.now(),
             state: project.state || serializeStateForSave()
         };
-        // If exporting current project, use live state
         if (currentProjectId && String(project.id) === String(currentProjectId)) {
             data.state = serializeStateForSave();
             data.name = document.getElementById('projectNameDisplay').value || project.name;
             data.updatedAt = Date.now();
+        } else {
+            data.state = JSON.parse(JSON.stringify(data.state, (key, value) => (key === 'file' ? undefined : value)));
         }
-        const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        const safeName = (data.name || 'layout').replace(/[^a-zA-Z0-9_\-\s]/g, '').trim().replace(/\s+/g, '_') || 'layout';
-        a.download = safeName + '.projectlayout.json';
-        a.click();
-        URL.revokeObjectURL(url);
-        showToast('Layout JSON downloaded', 'success');
+        return data;
     }
+
+    async function saveProjectAsSg(project, suffix, toastMsg) {
+        try {
+            const data = buildProjectExport(project);
+            const bytes = await sgEncrypt(data);
+            const blob = new Blob([bytes], { type: 'application/octet-stream' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            const safeName = (data.name || 'layout').replace(/[^a-zA-Z0-9_\-\s]/g, '').trim().replace(/\s+/g, '_') || 'layout';
+            a.download = safeName + suffix + '.sg';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            setTimeout(() => URL.revokeObjectURL(url), 15000);
+            showToast(toastMsg, 'success');
+        } catch (err) {
+            console.error('Save .sg failed:', err);
+            showToast('Could not save .sg file: ' + err.message, 'error');
+        }
+    }
+
+    // Both buttons keep working; every .sg contains the full project (all pages + images)
+    function downloadProjectJson(project) { return saveProjectAsSg(project, '', 'Project saved as .sg (encrypted)'); }
+    function downloadProjectJsonWithImages(project) { return saveProjectAsSg(project, '.with-images', 'Project with images saved as .sg (encrypted)'); }
 
     // ==================== LOAD PROJECT INTO EDITOR ====================
     function loadProjectIntoEditor(id) {
@@ -2134,15 +2490,15 @@
 
     function applyProject(project) {
         currentProjectId = project.id;
-        state = Object.assign(createDefaultState(), project.state || {});
-        // Ensure nested objects
-        state.title = Object.assign(createDefaultState().title, (project.state && project.state.title) || {});
-        state.caption = Object.assign(createDefaultState().caption, (project.state && project.state.caption) || {});
-        state.overview = Object.assign(createDefaultState().overview, (project.state && project.state.overview) || {});
-        state.date = Object.assign(createDefaultState().date, (project.state && project.state.date) || {});
-        state.uploadedImages = (project.state && project.state.uploadedImages) || [];
-        state.gridImages = (project.state && project.state.gridImages) || [];
-        state.gridCaptions = (project.state && project.state.gridCaptions) || [];
+        const ps = project.state || {};
+        // Multi-page projects store `pages`; older single-page projects load as one page
+        const rawPages = (Array.isArray(ps.pages) && ps.pages.length) ? ps.pages : [ps];
+        pages = rawPages.map(normalizePage);
+        currentPageIndex = Math.max(0, Math.min(pages.length - 1, parseInt(ps.currentPageIndex, 10) || 0));
+        state = createDefaultState();
+        state.uploadedImages = ps.uploadedImages || [];
+        if (ps.thumbnail) state.thumbnail = ps.thumbnail;
+        loadPageIntoState(currentPageIndex);
 
         document.getElementById('projectNameDisplay').value = project.name || 'Untitled';
         sessionOnlyMode = sessionStorage.getItem(SESSION_MODE_KEY) === '1';
@@ -2151,6 +2507,8 @@
         setOrientation(state.orientation);
         updatePhotoCount();
         renderPhotoPool();
+        renderPageStrip(true);
+        updatePageNav();
         setSaveIndicator('saved');
     }
 
@@ -2595,7 +2953,7 @@
             return;
         }
         photoPoolEmpty.style.display = 'none';
-        const usedSrcs = state.gridImages.filter(img => img).map(img => img.src);
+        const usedSrcs = getAllUsedSrcs();
 
         state.uploadedImages.forEach((imageData, index) => {
             const item = document.createElement('div');
@@ -2627,6 +2985,7 @@
         if (confirm('Clear all images from the pool and grid?')) {
             state.uploadedImages = [];
             state.gridImages = [];
+            pages.forEach((p, i) => { if (i !== currentPageIndex) p.gridImages = []; });
             updatePhotoCount();
             renderPhotoPool();
             buildArtboard();
@@ -2884,8 +3243,7 @@
         });
         slot.addEventListener('click', () => {
             if (!state.gridImages[index] && state.uploadedImages.length > 0) {
-                const usedSrcs = state.gridImages.filter(img => img).map(img => img.src);
-                const availableImg = state.uploadedImages.find(img => !usedSrcs.includes(img.src));
+                const availableImg = findAvailablePoolImage();
                 if (availableImg) addImageToSlot(index, availableImg);
             }
         });
@@ -2914,8 +3272,13 @@
             return;
         }
         const totalSlots = state.rows * state.cols;
-        for (let i = 0; i < totalSlots && i < state.uploadedImages.length; i++) {
-            const img = state.uploadedImages[i];
+        // On multi-page projects, prefer photos that are not already placed on other pages
+        const usedElsewhere = getUsedSrcsOnOtherPages();
+        const ordered = usedElsewhere.size
+            ? state.uploadedImages.filter(im => !usedElsewhere.has(im.src)).concat(state.uploadedImages.filter(im => usedElsewhere.has(im.src)))
+            : state.uploadedImages;
+        for (let i = 0; i < totalSlots && i < ordered.length; i++) {
+            const img = ordered[i];
             state.gridImages[i] = { id: img.id, src: img.src, name: img.name };
         }
         buildArtboard();
@@ -3318,63 +3681,431 @@
         });
     }
 
-    // ==================== PDF GENERATION ====================
-    elements.previewPdfBtn.addEventListener('click', generatePdfPreview);
-    elements.downloadPdfBtn.addEventListener('click', downloadPdf);
-    document.getElementById('downloadFromPreview').addEventListener('click', downloadPdf);
+    // =====================================================================
+    // MULTI-PAGE SUPPORT
+    // `state` is always the ACTIVE page (all existing controls keep working).
+    // `pages[]` holds one snapshot per page; commitCurrentPage() syncs state -> pages[current].
+    // =====================================================================
+    const LAYOUT_KEYS = ['orientation', 'pageMarginTop', 'pageMarginBottom', 'pageMarginLeft', 'pageMarginRight',
+        'gridRowSpacing', 'gridColSpacing', 'rows', 'cols', 'boxAspectRatio', 'imageFitMode',
+        'imageBorderSize', 'imageBorderColor', 'textMarginTB', 'textMarginLR',
+        'cellSizePercent', 'cellAlignment', 'contentAlignment'];
+    const TEXT_BLOCK_KEYS = ['title', 'caption', 'overview', 'date'];
 
-    async function generatePdfPreview() {
-        try {
-            document.getElementById('pdfModal').classList.add('active');
-            document.getElementById('pdfLoading').style.display = 'flex';
-            document.getElementById('pdfPreviewFrame').style.display = 'none';
-            const pdfBytes = await generatePdfDocument();
-            generatedPdfBytes = pdfBytes;
-            const blob = new Blob([pdfBytes], { type: 'application/pdf' });
-            const url = URL.createObjectURL(blob);
-            document.getElementById('pdfPreviewFrame').src = url;
-            document.getElementById('pdfPreviewFrame').style.display = 'block';
-            document.getElementById('pdfLoading').style.display = 'none';
-        } catch (error) {
-            console.error('Error generating PDF:', error);
-            showToast('Error generating PDF: ' + error.message, 'error');
-            closePdfPreview();
+    // Build a complete, independent page object from raw (possibly partial / legacy) data
+    function normalizePage(raw) {
+        const d = createDefaultState();
+        const r = raw || {};
+        const p = {};
+        PAGE_KEYS.forEach(k => { p[k] = (r[k] !== undefined && r[k] !== null) ? r[k] : d[k]; });
+        TEXT_BLOCK_KEYS.forEach(k => {
+            p[k] = Object.assign({}, d[k], (r[k] && typeof r[k] === 'object') ? r[k] : {});
+        });
+        p.gridImages = Array.isArray(r.gridImages) ? r.gridImages : [];
+        p.gridCaptions = Array.isArray(r.gridCaptions) ? r.gridCaptions : [];
+        return p;
+    }
+
+    // Copy layout + text styling from src into target, keeping target's own text content / images
+    function copyLayoutInto(target, src) {
+        LAYOUT_KEYS.forEach(k => { target[k] = src[k]; });
+        TEXT_BLOCK_KEYS.forEach(k => {
+            if (k === 'caption') {
+                target[k] = Object.assign({}, src[k]);
+            } else {
+                const keepText = (target[k] && target[k].text) || '';
+                target[k] = Object.assign({}, src[k], { text: keepText });
+            }
+        });
+    }
+
+    // Mirror buildArtboard()'s grid resize behaviour for pages that are not on screen
+    function resizePageGrid(p) {
+        const total = p.rows * p.cols;
+        if (p.gridImages.length === total) return;
+        const oldImages = p.gridImages.slice();
+        const oldCaptions = p.gridCaptions.slice();
+        p.gridImages = new Array(total).fill(null);
+        p.gridCaptions = new Array(total).fill('');
+        for (let i = 0; i < Math.min(total, oldImages.length); i++) {
+            p.gridImages[i] = oldImages[i] || null;
+            p.gridCaptions[i] = oldCaptions[i] || '';
         }
     }
 
-    async function downloadPdf() {
-        try {
-            let pdfBytes = generatedPdfBytes;
-            if (!pdfBytes) pdfBytes = await generatePdfDocument();
-            const blob = new Blob([pdfBytes], { type: 'application/pdf' });
-            const url = URL.createObjectURL(blob);
-            const link = document.createElement('a');
-            link.href = url;
-            const name = (document.getElementById('projectNameDisplay').value || 'SnapGrid').replace(/[^a-zA-Z0-9_\-\s]/g, '').trim() || 'SnapGrid';
-            link.download = name + '-' + Date.now() + '.pdf';
-            link.click();
-            URL.revokeObjectURL(url);
-            showToast('PDF downloaded', 'success');
-        } catch (error) {
-            console.error('Error downloading PDF:', error);
-            showToast('Error downloading PDF: ' + error.message, 'error');
+    function createPageInheritingLayout(src) {
+        const p = normalizePage(null);
+        copyLayoutInto(p, src);
+        const total = p.rows * p.cols;
+        p.gridImages = new Array(total).fill(null);
+        p.gridCaptions = new Array(total).fill('');
+        return p;
+    }
+
+    function commitCurrentPage() {
+        if (!pages.length) return;
+        if (currentPageIndex < 0 || currentPageIndex >= pages.length) currentPageIndex = pages.length - 1;
+        const p = pages[currentPageIndex];
+        PAGE_KEYS.forEach(k => { p[k] = state[k]; });
+    }
+
+    function loadPageIntoState(i) {
+        const p = pages[i];
+        PAGE_KEYS.forEach(k => { state[k] = p[k]; });
+    }
+
+    // ---- Photo usage across pages ----
+    function getUsedSrcsOnCurrentPage() {
+        return state.gridImages.filter(img => img).map(img => img.src);
+    }
+    function getUsedSrcsOnOtherPages() {
+        const set = new Set();
+        pages.forEach((p, i) => {
+            if (i === currentPageIndex) return;
+            (p.gridImages || []).forEach(img => { if (img && img.src) set.add(img.src); });
+        });
+        return set;
+    }
+    function getAllUsedSrcs() {
+        const arr = getUsedSrcsOnCurrentPage();
+        getUsedSrcsOnOtherPages().forEach(s => arr.push(s));
+        return arr;
+    }
+    // Prefer photos not used anywhere yet; otherwise any photo not used on this page
+    function findAvailablePoolImage() {
+        const here = getUsedSrcsOnCurrentPage();
+        const elsewhere = getUsedSrcsOnOtherPages();
+        return state.uploadedImages.find(img => !here.includes(img.src) && !elsewhere.has(img.src))
+            || state.uploadedImages.find(img => !here.includes(img.src));
+    }
+
+    // ---- Tiny cached thumbnails for the page rail ----
+    const tinyThumbCache = new Map();
+    function applyTinyThumb(el, imageData) {
+        const key = (imageData.id || '') + ':' + imageData.src.length;
+        const cached = tinyThumbCache.get(key);
+        if (typeof cached === 'string') { el.style.backgroundImage = 'url("' + cached + '")'; return; }
+        if (Array.isArray(cached)) { cached.push(el); return; }
+        const waiting = [el];
+        tinyThumbCache.set(key, waiting);
+        const img = new Image();
+        img.onload = () => {
+            try {
+                const r = Math.min(1, 120 / Math.max(img.naturalWidth, img.naturalHeight));
+                const c = document.createElement('canvas');
+                c.width = Math.max(1, Math.round(img.naturalWidth * r));
+                c.height = Math.max(1, Math.round(img.naturalHeight * r));
+                c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
+                const url = c.toDataURL('image/jpeg', 0.7);
+                tinyThumbCache.set(key, url);
+                waiting.forEach(w => { w.style.backgroundImage = 'url("' + url + '")'; });
+            } catch (_) { tinyThumbCache.delete(key); }
+        };
+        img.onerror = () => { tinyThumbCache.delete(key); };
+        img.src = imageData.src;
+    }
+
+    // ---- Page rail rendering ----
+    function schedulePageStripRefresh() {
+        if (exportBusy) return;
+        clearTimeout(stripRefreshTimer);
+        stripRefreshTimer = setTimeout(() => renderPageStrip(), 400);
+    }
+
+    function buildPageItem(p, i) {
+        const item = document.createElement('div');
+        item.className = 'page-item' + (i === currentPageIndex ? ' active' : '');
+        item.draggable = true;
+        item.dataset.pageIndex = i;
+        item.title = 'Page ' + (i + 1) + ' — click to edit, drag to reorder';
+
+        const orient = p.orientation === 'portrait' ? 'portrait' : 'landscape';
+        const thumb = document.createElement('div');
+        thumb.className = 'page-thumb ' + orient;
+
+        const titleText = ((p.title && p.title.text) || '').replace(/<[^>]*>/g, '').trim();
+        if (titleText) {
+            const bar = document.createElement('div');
+            bar.className = 'page-thumb-title';
+            thumb.appendChild(bar);
+        }
+
+        const rows = Math.max(1, parseInt(p.rows, 10) || 1);
+        const cols = Math.max(1, parseInt(p.cols, 10) || 1);
+        const grid = document.createElement('div');
+        grid.className = 'page-thumb-grid';
+        grid.style.gridTemplateColumns = 'repeat(' + cols + ', minmax(0, 1fr))';
+        const ratio = (p.boxAspectRatio && p.boxAspectRatio !== 'free') ? String(p.boxAspectRatio).replace('-', ' / ') : '4 / 3';
+        for (let s = 0; s < rows * cols; s++) {
+            const cell = document.createElement('div');
+            cell.className = 'page-thumb-cell';
+            cell.style.aspectRatio = ratio;
+            const imgData = p.gridImages && p.gridImages[s];
+            if (imgData && imgData.src) applyTinyThumb(cell, imgData);
+            grid.appendChild(cell);
+        }
+        thumb.appendChild(grid);
+
+        const badge = document.createElement('div');
+        badge.className = 'page-badge';
+        badge.textContent = i + 1;
+        thumb.appendChild(badge);
+        item.appendChild(thumb);
+
+        const actions = document.createElement('div');
+        actions.className = 'page-item-actions';
+        const mk = (icon, title, handler, disabled, extra) => {
+            const b = document.createElement('button');
+            b.type = 'button';
+            b.className = 'page-act' + (extra ? ' ' + extra : '');
+            b.title = title;
+            b.innerHTML = '<i class="bi ' + icon + '"></i>';
+            b.disabled = !!disabled;
+            b.addEventListener('click', (e) => { e.stopPropagation(); handler(); });
+            return b;
+        };
+        actions.appendChild(mk('bi-arrow-up', 'Move up', () => movePage(i, i - 1), i === 0));
+        actions.appendChild(mk('bi-arrow-down', 'Move down', () => movePage(i, i + 1), i === pages.length - 1));
+        actions.appendChild(mk('bi-copy', 'Duplicate page', () => duplicatePage(i)));
+        actions.appendChild(mk('bi-trash', 'Delete page', () => deletePage(i), pages.length <= 1, 'danger'));
+        item.appendChild(actions);
+
+        item.addEventListener('click', () => switchToPage(i));
+
+        // Drag & drop reordering
+        item.addEventListener('dragstart', (e) => {
+            draggedPageIndex = i;
+            item.classList.add('dragging');
+            e.dataTransfer.effectAllowed = 'move';
+            try { e.dataTransfer.setData('text/plain', 'page:' + i); } catch (_) {}
+        });
+        item.addEventListener('dragend', () => {
+            draggedPageIndex = null;
+            document.querySelectorAll('#pageRailList .page-item').forEach(el => el.classList.remove('dragging', 'drag-over'));
+        });
+        item.addEventListener('dragover', (e) => {
+            if (draggedPageIndex === null) return;
+            e.preventDefault();
+            e.dataTransfer.dropEffect = 'move';
+            item.classList.add('drag-over');
+        });
+        item.addEventListener('dragleave', () => item.classList.remove('drag-over'));
+        item.addEventListener('drop', (e) => {
+            if (draggedPageIndex === null) return;
+            e.preventDefault();
+            item.classList.remove('drag-over');
+            const from = draggedPageIndex;
+            draggedPageIndex = null;
+            movePage(from, i);
+        });
+        return item;
+    }
+
+    function renderPageStrip(scrollToActive) {
+        const list = document.getElementById('pageRailList');
+        if (!list) return;
+        commitCurrentPage();
+        const countEl = document.getElementById('pageRailCount');
+        if (countEl) countEl.textContent = pages.length;
+        list.innerHTML = '';
+        pages.forEach((p, i) => list.appendChild(buildPageItem(p, i)));
+
+        const addCard = document.createElement('button');
+        addCard.type = 'button';
+        addCard.className = 'page-add-card';
+        addCard.innerHTML = '<i class="bi bi-plus-square"></i><span>Add page</span>';
+        addCard.addEventListener('click', addPage);
+        list.appendChild(addCard);
+
+        if (scrollToActive) {
+            const active = list.querySelector('.page-item.active');
+            if (active) {
+                const top = active.offsetTop;
+                if (top < list.scrollTop || top + active.offsetHeight > list.scrollTop + list.clientHeight) {
+                    list.scrollTop = Math.max(0, top - 8);
+                }
+            }
         }
     }
 
-    function closePdfPreview() {
-        document.getElementById('pdfModal').classList.remove('active');
-        document.getElementById('pdfPreviewFrame').src = '';
-        generatedPdfBytes = null;
+    function updatePageNav() {
+        const n = pages.length || 1;
+        const label = document.getElementById('artboardPageLabel');
+        if (label) label.textContent = 'Page ' + (currentPageIndex + 1) + ' / ' + n;
+        const prev = document.getElementById('prevPageBtn');
+        const next = document.getElementById('nextPageBtn');
+        if (prev) prev.disabled = currentPageIndex <= 0;
+        if (next) next.disabled = currentPageIndex >= n - 1;
+        const info = document.getElementById('pagesInfo');
+        if (info) info.textContent = 'Editing page ' + (currentPageIndex + 1) + ' of ' + n;
+        const badge = document.getElementById('pagesBadge');
+        if (badge) badge.textContent = n + (n === 1 ? ' page' : ' pages');
+        ['pagesDeleteBtn', 'pagesApplyAllBtn'].forEach(id => {
+            const b = document.getElementById(id);
+            if (!b) return;
+            b.disabled = n <= 1;
+            b.style.opacity = n <= 1 ? '0.4' : '';
+            b.style.cursor = n <= 1 ? 'not-allowed' : '';
+        });
     }
 
-    async function generatePdfDocument() {
-        const { jsPDF } = window.jspdf;
+    // ---- Page operations ----
+    function switchToPage(i) {
+        if (exportBusy) return;
+        if (!pages.length || i < 0 || i >= pages.length || i === currentPageIndex) return;
+        if (document.activeElement && document.activeElement.isContentEditable) document.activeElement.blur();
+        commitCurrentPage();
+        currentPageIndex = i;
+        loadPageIntoState(i);
+        applySettingsToUI();
+        setOrientation(state.orientation);
+        renderPhotoPool();
+        renderPageStrip(true);
+        updatePageNav();
+        scheduleAutoSave();
+    }
+
+    function addPage() {
+        if (exportBusy || !pages.length) return;
+        commitCurrentPage();
+        const np = createPageInheritingLayout(pages[currentPageIndex]);
+        const at = currentPageIndex + 1;
+        pages.splice(at, 0, np);
+        switchToPage(at);
+        showToast('Page ' + (at + 1) + ' added', 'success');
+    }
+
+    function duplicatePage(i) {
+        if (exportBusy || i < 0 || i >= pages.length) return;
+        commitCurrentPage();
+        const copy = JSON.parse(JSON.stringify(pages[i]));
+        pages.splice(i + 1, 0, copy);
+        if (i + 1 <= currentPageIndex) currentPageIndex++;
+        switchToPage(i + 1);
+        showToast('Page duplicated', 'success');
+    }
+
+    function deletePage(i) {
+        if (exportBusy || i < 0 || i >= pages.length) return;
+        if (pages.length <= 1) {
+            showToast('A project needs at least one page', 'warning');
+            return;
+        }
+        if (!confirm('Delete page ' + (i + 1) + '? This cannot be undone.')) return;
+        if (document.activeElement && document.activeElement.isContentEditable) document.activeElement.blur();
+        commitCurrentPage();
+        const wasCurrent = (i === currentPageIndex);
+        pages.splice(i, 1);
+        if (wasCurrent) {
+            currentPageIndex = Math.min(i, pages.length - 1);
+            loadPageIntoState(currentPageIndex);
+            applySettingsToUI();
+            setOrientation(state.orientation);
+        } else if (i < currentPageIndex) {
+            currentPageIndex--;
+        }
+        renderPhotoPool();
+        renderPageStrip(true);
+        updatePageNav();
+        scheduleAutoSave();
+        showToast('Page deleted', 'success');
+    }
+
+    function movePage(from, to) {
+        if (exportBusy || to < 0 || to >= pages.length || from === to || from < 0 || from >= pages.length) return;
+        commitCurrentPage();
+        const activePage = pages[currentPageIndex];
+        const moved = pages.splice(from, 1)[0];
+        pages.splice(to, 0, moved);
+        currentPageIndex = pages.indexOf(activePage);
+        renderPageStrip(true);
+        updatePageNav();
+        scheduleAutoSave();
+    }
+
+    function applyLayoutToAllPages() {
+        if (pages.length < 2) {
+            showToast('Add more pages first', 'warning');
+            return;
+        }
+        if (!confirm('Apply this page\'s layout and text styles to ALL pages?\n\nImages, titles, captions and dates on the other pages are kept.')) return;
+        commitCurrentPage();
+        const src = pages[currentPageIndex];
+        pages.forEach((p, i) => {
+            if (i === currentPageIndex) return;
+            copyLayoutInto(p, src);
+            resizePageGrid(p);
+        });
+        renderPageStrip();
+        scheduleAutoSave();
+        showToast('Layout applied to all pages', 'success');
+    }
+
+    document.getElementById('prevPageBtn').addEventListener('click', () => switchToPage(currentPageIndex - 1));
+    document.getElementById('nextPageBtn').addEventListener('click', () => switchToPage(currentPageIndex + 1));
+    document.getElementById('pagesAddBtn').addEventListener('click', addPage);
+    document.getElementById('pagesDuplicateBtn').addEventListener('click', () => duplicatePage(currentPageIndex));
+    document.getElementById('pagesDeleteBtn').addEventListener('click', () => deletePage(currentPageIndex));
+    document.getElementById('pagesApplyAllBtn').addEventListener('click', applyLayoutToAllPages);
+
+    // =====================================================================
+    // EXPORT ENGINE (shared by PDF + image export)
+    // =====================================================================
+    function makeCancelError() { const e = new Error('Export cancelled'); e.name = 'ExportCancelled'; return e; }
+    function isCancelError(e) { return !!e && e.name === 'ExportCancelled'; }
+
+    function showExportProgress(title) {
+        document.getElementById('exportProgressTitle').textContent = title || 'Exporting…';
+        document.getElementById('exportProgressText').textContent = 'Preparing…';
+        document.getElementById('exportProgressFill').style.width = '0%';
+        document.getElementById('exportCancelBtn').disabled = false;
+        document.getElementById('exportProgressOverlay').classList.add('active');
+    }
+    function hideExportProgress() {
+        document.getElementById('exportProgressOverlay').classList.remove('active');
+    }
+    function setExportProgress(done, total, text) {
+        const fill = document.getElementById('exportProgressFill');
+        const t = document.getElementById('exportProgressText');
+        if (fill) fill.style.width = (total ? Math.round(done / total * 100) : 0) + '%';
+        if (text && t) t.textContent = text;
+    }
+    async function runWithProgress(title, task) {
+        exportAbort = false;
+        showExportProgress(title);
+        try { return await task(); }
+        finally { hideExportProgress(); }
+    }
+    document.getElementById('exportCancelBtn').addEventListener('click', () => {
+        exportAbort = true;
+        document.getElementById('exportCancelBtn').disabled = true;
+        document.getElementById('exportProgressText').textContent = 'Cancelling…';
+    });
+
+    function nextFrame() {
+        return new Promise(resolve => {
+            let done = false;
+            const finish = () => { if (!done) { done = true; resolve(); } };
+            requestAnimationFrame(finish);
+            setTimeout(finish, 80); // rAF is paused in background tabs
+        });
+    }
+
+    async function waitForArtboardReady() {
+        await nextFrame();
+        await nextFrame();
+        if (document.fonts && document.fonts.ready) { try { await document.fonts.ready; } catch (_) {} }
+        const imgs = Array.from(document.querySelectorAll('#artboard img'));
+        await Promise.all(imgs.map(img => img.complete ? null : new Promise(res => {
+            img.addEventListener('load', res, { once: true });
+            img.addEventListener('error', res, { once: true });
+        })));
+        await Promise.all(imgs.map(img => (img.decode ? img.decode().catch(() => {}) : null)));
+    }
+
+    // Renders the live artboard to a canvas (hides editing chrome, then restores it)
+    async function captureArtboardCanvas(scale) {
         const artboard = document.getElementById('artboard');
-        if (!artboard) return null;
-
-        if (document.activeElement && document.activeElement.contentEditable === 'true') {
-            document.activeElement.blur();
-        }
 
         const editableInputs = artboard.querySelectorAll('.title-input, .grid-caption-input, .overview-caption-input, .date-input');
         const originalInputStyles = [];
@@ -3427,52 +4158,462 @@
         const originalTransform = artboard.style.transform;
         artboard.style.transform = 'none';
 
-        const canvas = await html2canvas(artboard, {
-            scale: 3,
-            useCORS: true,
-            allowTaint: true,
-            backgroundColor: '#ffffff'
-        });
-
-        // Restore
-        artboard.style.transform = originalTransform;
-
-        originalInputStyles.forEach(item => {
-            item.el.style.display = item.display;
-            item.el.style.border = item.border;
-            if (item.el.parentElement && item.parentMargin !== null && item.el.classList.contains('grid-caption-input')) {
-                item.el.parentElement.style.margin = item.parentMargin;
-            }
-        });
-        slotControls.forEach((el, i) => { el.style.opacity = originalControlsDisplay[i]; });
-        emptyPlaceholders.forEach((el, i) => { el.style.visibility = originalEmptyDisplay[i]; });
-        gridSlots.forEach((el, i) => {
-            el.style.border = originalSlotBorders[i].border;
-            el.style.background = originalSlotBorders[i].background;
-        });
-        slotIndexes.forEach((el, i) => { el.style.display = originalSlotIndexDisplay[i]; });
-
-        // Capture thumbnail for project card
+        let canvas;
         try {
-            const thumbCanvas = document.createElement('canvas');
-            const tw = 320, th = Math.round(320 * (canvas.height / canvas.width));
-            thumbCanvas.width = tw;
-            thumbCanvas.height = th;
-            thumbCanvas.getContext('2d').drawImage(canvas, 0, 0, tw, th);
-            state.thumbnail = thumbCanvas.toDataURL('image/jpeg', 0.6);
-            scheduleAutoSave();
-        } catch (_) {}
-
-        const imgData = canvas.toDataURL('image/jpeg', 0.98);
-        const a4WidthMm = 210, a4HeightMm = 297;
-        let orientation = 'p', pdfWidth = a4WidthMm, pdfHeight = a4HeightMm;
-        if (state.orientation === 'landscape') {
-            orientation = 'l';
-            pdfWidth = a4HeightMm;
-            pdfHeight = a4WidthMm;
+            canvas = await html2canvas(artboard, {
+                scale: scale,
+                useCORS: true,
+                allowTaint: true,
+                backgroundColor: '#ffffff'
+            });
+        } finally {
+            artboard.style.transform = originalTransform;
+            originalInputStyles.forEach(item => {
+                item.el.style.display = item.display;
+                item.el.style.border = item.border;
+                if (item.el.parentElement && item.parentMargin !== null && item.el.classList.contains('grid-caption-input')) {
+                    item.el.parentElement.style.margin = item.parentMargin;
+                }
+            });
+            slotControls.forEach((el, i) => { el.style.opacity = originalControlsDisplay[i]; });
+            emptyPlaceholders.forEach((el, i) => { el.style.visibility = originalEmptyDisplay[i]; });
+            gridSlots.forEach((el, i) => {
+                el.style.border = originalSlotBorders[i].border;
+                el.style.background = originalSlotBorders[i].background;
+            });
+            slotIndexes.forEach((el, i) => { el.style.display = originalSlotIndexDisplay[i]; });
         }
-        const pdf = new jsPDF({ orientation: orientation, unit: 'mm', format: 'a4' });
-        pdf.addImage(imgData, 'JPEG', 0, 0, pdfWidth, pdfHeight);
+        return canvas;
+    }
+
+    // Renders the given pages one by one (switching the live artboard), passing each canvas to onCanvas.
+    // The page that was open is restored afterwards.
+    async function renderPages(indices, scale, onCanvas) {
+        const artboard = document.getElementById('artboard');
+        if (!artboard) return;
+        if (document.activeElement && document.activeElement.isContentEditable) document.activeElement.blur();
+        commitCurrentPage();
+        const origIndex = currentPageIndex;
+        exportBusy = true;
+        try {
+            for (let n = 0; n < indices.length; n++) {
+                if (exportAbort) throw makeCancelError();
+                const idx = indices[n];
+                setExportProgress(n, indices.length, 'Rendering page ' + (idx + 1) + ' of ' + Math.max(pages.length, 1) + '…');
+                if (idx !== currentPageIndex) {
+                    commitCurrentPage();
+                    currentPageIndex = idx;
+                    loadPageIntoState(idx);
+                    setOrientation(state.orientation);
+                }
+                await waitForArtboardReady();
+                const canvas = await captureArtboardCanvas(scale);
+                try { await onCanvas(canvas, idx, n); }
+                finally { canvas.width = 0; canvas.height = 0; }
+                setExportProgress(n + 1, indices.length);
+            }
+        } finally {
+            try {
+                if (currentPageIndex !== origIndex) {
+                    commitCurrentPage();
+                    currentPageIndex = origIndex;
+                    loadPageIntoState(origIndex);
+                    applySettingsToUI();
+                    setOrientation(state.orientation);
+                    renderPhotoPool();
+                }
+            } finally {
+                exportBusy = false;
+                renderPageStrip();
+                updatePageNav();
+                if (savePendingAfterExport) { savePendingAfterExport = false; scheduleAutoSave(); }
+            }
+        }
+    }
+
+    // =====================================================================
+    // IMAGE EXPORT (PNG / JPG, custom DPI, ZIP for multi-page)
+    // =====================================================================
+    const CRC_TABLE = (() => {
+        const t = new Uint32Array(256);
+        for (let n = 0; n < 256; n++) {
+            let c = n;
+            for (let k = 0; k < 8; k++) c = (c & 1) ? (0xEDB88320 ^ (c >>> 1)) : (c >>> 1);
+            t[n] = c >>> 0;
+        }
+        return t;
+    })();
+    function crc32(bytes) {
+        let c = 0xFFFFFFFF;
+        for (let i = 0; i < bytes.length; i++) c = CRC_TABLE[(c ^ bytes[i]) & 0xFF] ^ (c >>> 8);
+        return (c ^ 0xFFFFFFFF) >>> 0;
+    }
+
+    // Embed print resolution so editors / printers know the physical size (pHYs chunk)
+    function setPngDpi(buf, dpi) {
+        const sig = [0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A];
+        for (let i = 0; i < 8; i++) if (buf[i] !== sig[i]) return buf;
+        const ppm = Math.round(dpi / 0.0254);
+        let off = 8;
+        while (off + 12 <= buf.length) {
+            const dv = new DataView(buf.buffer, buf.byteOffset + off);
+            const len = dv.getUint32(0);
+            const type = String.fromCharCode(buf[off + 4], buf[off + 5], buf[off + 6], buf[off + 7]);
+            if (type === 'pHYs' && len === 9) {
+                dv.setUint32(8, ppm); dv.setUint32(12, ppm); buf[off + 16] = 1;
+                dv.setUint32(17, crc32(buf.subarray(off + 4, off + 17)));
+                return buf;
+            }
+            if (type === 'IDAT' || type === 'IEND') break;
+            off += 12 + len;
+        }
+        const chunk = new Uint8Array(21);
+        const cdv = new DataView(chunk.buffer);
+        cdv.setUint32(0, 9);
+        chunk.set([0x70, 0x48, 0x59, 0x73], 4); // 'pHYs'
+        cdv.setUint32(8, ppm); cdv.setUint32(12, ppm); chunk[16] = 1; // pixels per metre
+        cdv.setUint32(17, crc32(chunk.subarray(4, 17)));
+        const out = new Uint8Array(buf.length + 21);
+        out.set(buf.subarray(0, 33), 0); // signature + IHDR
+        out.set(chunk, 33);
+        out.set(buf.subarray(33), 54);
+        return out;
+    }
+
+    // Embed density in the JFIF header of a JPEG
+    function setJpegDpi(buf, dpi) {
+        if (buf[0] !== 0xFF || buf[1] !== 0xD8) return buf;
+        const hi = (dpi >> 8) & 0xFF, lo = dpi & 0xFF;
+        if (buf[2] === 0xFF && buf[3] === 0xE0 && buf[6] === 0x4A && buf[7] === 0x46 && buf[8] === 0x49 && buf[9] === 0x46 && buf[10] === 0x00) {
+            buf[13] = 1; buf[14] = hi; buf[15] = lo; buf[16] = hi; buf[17] = lo;
+            return buf;
+        }
+        const seg = new Uint8Array([0xFF, 0xE0, 0x00, 0x10, 0x4A, 0x46, 0x49, 0x46, 0x00, 0x01, 0x01, 0x01, hi, lo, hi, lo, 0x00, 0x00]);
+        const out = new Uint8Array(buf.length + seg.length);
+        out.set(buf.subarray(0, 2), 0);
+        out.set(seg, 2);
+        out.set(buf.subarray(2), 2 + seg.length);
+        return out;
+    }
+
+    async function embedDpiInBlob(blob, format, dpi) {
+        try {
+            const buf = new Uint8Array(await blob.arrayBuffer());
+            const out = format === 'png' ? setPngDpi(buf, dpi) : setJpegDpi(buf, dpi);
+            return new Blob([out], { type: blob.type });
+        } catch (_) {
+            return blob;
+        }
+    }
+
+    function canvasToBlob(canvas, type, quality) {
+        return new Promise(resolve => canvas.toBlob(resolve, type, quality));
+    }
+
+    function triggerDownload(blob, filename) {
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        setTimeout(() => URL.revokeObjectURL(url), 15000);
+    }
+
+    function getSafeProjectName() {
+        return (document.getElementById('projectNameDisplay').value || 'SnapGrid')
+            .replace(/[^a-zA-Z0-9_\-\s]/g, '').trim().replace(/\s+/g, '_') || 'SnapGrid';
+    }
+
+    function pageCssSize(p) {
+        return p.orientation === 'portrait' ? { w: 595, h: 842 } : { w: 842, h: 595 };
+    }
+
+    function getExportTargetIndices(scope) {
+        if (scope === 'all' && pages.length > 1) return pages.map((_, i) => i);
+        return [currentPageIndex];
+    }
+
+    async function runImageExport(opts) {
+        commitCurrentPage();
+        const scale = opts.dpi / 72; // artboard CSS size is A4 @ 72 DPI (595 x 842)
+        const indices = getExportTargetIndices(opts.scope);
+        const mime = opts.format === 'png' ? 'image/png' : 'image/jpeg';
+        const ext = opts.format === 'png' ? 'png' : 'jpg';
+        const base = getSafeProjectName();
+        const pad = Math.max(2, String(pages.length).length);
+        const singlePageProject = pages.length <= 1;
+        const files = [];
+
+        await runWithProgress('Exporting ' + ext.toUpperCase() + ' · ' + opts.dpi + ' DPI', async () => {
+            await renderPages(indices, scale, async (canvas, idx) => {
+                let blob = await canvasToBlob(canvas, mime, opts.format === 'jpg' ? opts.quality / 100 : undefined);
+                if (!blob) throw new Error('Your browser could not create an image this large. Try a lower DPI.');
+                blob = await embedDpiInBlob(blob, opts.format, opts.dpi);
+                const name = singlePageProject
+                    ? base + '_' + opts.dpi + 'dpi.' + ext
+                    : base + '_page-' + String(idx + 1).padStart(pad, '0') + '_' + opts.dpi + 'dpi.' + ext;
+                files.push({ name: name, blob: blob });
+            });
+
+            if (exportAbort) throw makeCancelError();
+
+            if (files.length === 1) {
+                triggerDownload(files[0].blob, files[0].name);
+                return;
+            }
+            if (typeof JSZip === 'undefined') {
+                showToast('ZIP library could not load — downloading images one by one', 'warning');
+                files.forEach((f, i) => setTimeout(() => triggerDownload(f.blob, f.name), i * 400));
+                return;
+            }
+            setExportProgress(1, 1, 'Creating ZIP…');
+            const zip = new JSZip();
+            files.forEach(f => zip.file(f.name, f.blob));
+            const zipBlob = await zip.generateAsync({ type: 'blob', compression: 'STORE' }, meta => {
+                document.getElementById('exportProgressFill').style.width = Math.round(meta.percent) + '%';
+            });
+            triggerDownload(zipBlob, base + '_' + opts.dpi + 'dpi_' + ext + '.zip');
+        });
+
+        showToast(files.length === 1
+            ? 'Image exported (' + opts.dpi + ' DPI)'
+            : files.length + ' images exported as ZIP (' + opts.dpi + ' DPI)', 'success');
+    }
+
+    // ---- Export dialog ----
+    const EXPORT_PREFS_KEY = 'snapgrid_export_prefs';
+    const exportPrefs = { format: 'png', dpi: 300, quality: 95, scope: 'all' };
+
+    function loadExportPrefs() {
+        try {
+            const raw = JSON.parse(localStorage.getItem(EXPORT_PREFS_KEY) || 'null');
+            if (raw && typeof raw === 'object') {
+                if (raw.format === 'png' || raw.format === 'jpg') exportPrefs.format = raw.format;
+                const dpi = parseInt(raw.dpi, 10);
+                if (dpi >= 36 && dpi <= 600) exportPrefs.dpi = dpi;
+                const q = parseInt(raw.quality, 10);
+                if (q >= 50 && q <= 100) exportPrefs.quality = q;
+                if (raw.scope === 'all' || raw.scope === 'current') exportPrefs.scope = raw.scope;
+            }
+        } catch (_) {}
+    }
+    function saveExportPrefs() {
+        try { localStorage.setItem(EXPORT_PREFS_KEY, JSON.stringify(exportPrefs)); } catch (_) {}
+    }
+
+    function refreshExportDialog(syncDpiInput) {
+        const multi = pages.length > 1;
+        const scope = multi ? exportPrefs.scope : 'current';
+        const fmt = exportPrefs.format;
+
+        document.getElementById('exportFmtPng').classList.toggle('active', fmt === 'png');
+        document.getElementById('exportFmtJpg').classList.toggle('active', fmt === 'jpg');
+        document.getElementById('exportFmtHint').textContent = fmt === 'png'
+            ? 'PNG: lossless, sharpest text and edges, larger files.'
+            : 'JPG: much smaller files with slight compression.';
+        document.getElementById('exportQualityRow').style.display = fmt === 'jpg' ? 'block' : 'none';
+        document.getElementById('exportQuality').value = exportPrefs.quality;
+        document.getElementById('exportQualityValue').textContent = exportPrefs.quality + '%';
+
+        document.getElementById('exportScopeRow').style.display = multi ? 'block' : 'none';
+        document.getElementById('exportScopeAll').classList.toggle('active', scope === 'all');
+        document.getElementById('exportScopeCurrent').classList.toggle('active', scope === 'current');
+        document.getElementById('exportScopeAll').innerHTML = '<i class="bi bi-files"></i> All pages (' + pages.length + ') · ZIP';
+
+        document.querySelectorAll('#exportDpiChips .dpi-chip').forEach(chip => {
+            chip.classList.toggle('active', parseInt(chip.dataset.dpi, 10) === exportPrefs.dpi);
+        });
+        if (syncDpiInput) document.getElementById('exportDpi').value = exportPrefs.dpi;
+
+        commitCurrentPage();
+        const indices = getExportTargetIndices(scope);
+        const scale = exportPrefs.dpi / 72;
+        const sizes = {};
+        let maxMp = 0;
+        indices.forEach(i => {
+            const s = pageCssSize(pages[i] || state);
+            const w = Math.floor(s.w * scale), h = Math.floor(s.h * scale);
+            sizes[w + ' × ' + h + ' px'] = true;
+            maxMp = Math.max(maxMp, w * h / 1e6);
+        });
+        let html = '<div><i class="bi bi-aspect-ratio"></i>' + Object.keys(sizes).join('  /  ') +
+            ' <span style="color:#898989">(' + maxMp.toFixed(1) + ' MP · A4 @ ' + exportPrefs.dpi + ' DPI)</span></div>';
+        html += '<div><i class="bi bi-box-seam"></i>' + (indices.length > 1
+            ? indices.length + ' ' + fmt.toUpperCase() + ' images → 1 ZIP file'
+            : '1 ' + fmt.toUpperCase() + ' image') + '</div>';
+        if (exportPrefs.dpi >= 450) {
+            html += '<div style="color:#DB8900"><i class="bi bi-exclamation-triangle" style="color:#DB8900"></i>Very high resolution: rendering can be slow and use a lot of memory.</div>';
+        }
+        document.getElementById('exportInfo').innerHTML = html;
+    }
+
+    function openImageExportDialog() {
+        if (!currentProjectId) return;
+        loadExportPrefs();
+        refreshExportDialog(true);
+        document.getElementById('exportImageDialog').classList.add('active');
+    }
+    function closeImageExportDialog() {
+        document.getElementById('exportImageDialog').classList.remove('active');
+    }
+
+    async function confirmImageExport() {
+        const dpi = Math.max(36, Math.min(600, parseInt(document.getElementById('exportDpi').value, 10) || 300));
+        exportPrefs.dpi = dpi;
+        saveExportPrefs();
+        closeImageExportDialog();
+        try {
+            await runImageExport({
+                format: exportPrefs.format,
+                dpi: dpi,
+                quality: exportPrefs.quality,
+                scope: pages.length > 1 ? exportPrefs.scope : 'current'
+            });
+        } catch (err) {
+            if (isCancelError(err)) {
+                showToast('Export cancelled', 'info');
+            } else {
+                console.error('Image export failed:', err);
+                showToast('Export failed: ' + err.message, 'error');
+            }
+        }
+    }
+
+    document.getElementById('exportImageBtn').addEventListener('click', openImageExportDialog);
+    document.getElementById('exportCancelDialogBtn').addEventListener('click', closeImageExportDialog);
+    document.getElementById('exportConfirmBtn').addEventListener('click', confirmImageExport);
+    document.getElementById('exportFmtPng').addEventListener('click', () => { exportPrefs.format = 'png'; refreshExportDialog(false); });
+    document.getElementById('exportFmtJpg').addEventListener('click', () => { exportPrefs.format = 'jpg'; refreshExportDialog(false); });
+    document.getElementById('exportScopeAll').addEventListener('click', () => { exportPrefs.scope = 'all'; refreshExportDialog(false); });
+    document.getElementById('exportScopeCurrent').addEventListener('click', () => { exportPrefs.scope = 'current'; refreshExportDialog(false); });
+    document.getElementById('exportQuality').addEventListener('input', (e) => {
+        exportPrefs.quality = parseInt(e.target.value, 10) || 95;
+        document.getElementById('exportQualityValue').textContent = exportPrefs.quality + '%';
+    });
+    document.querySelectorAll('#exportDpiChips .dpi-chip').forEach(chip => {
+        chip.addEventListener('click', () => {
+            exportPrefs.dpi = parseInt(chip.dataset.dpi, 10);
+            refreshExportDialog(true);
+        });
+    });
+    document.getElementById('exportDpi').addEventListener('input', (e) => {
+        const v = parseInt(e.target.value, 10);
+        if (v >= 36 && v <= 600) { exportPrefs.dpi = v; refreshExportDialog(false); }
+    });
+    document.getElementById('exportDpi').addEventListener('change', (e) => {
+        const v = Math.max(36, Math.min(600, parseInt(e.target.value, 10) || 300));
+        exportPrefs.dpi = v;
+        refreshExportDialog(true);
+    });
+    document.getElementById('exportImageDialog').addEventListener('mousedown', (e) => {
+        if (e.target.id === 'exportImageDialog') closeImageExportDialog();
+    });
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && document.getElementById('exportImageDialog').classList.contains('active')) closeImageExportDialog();
+    });
+
+    // ==================== PDF GENERATION ====================
+    elements.previewPdfBtn.addEventListener('click', generatePdfPreview);
+    elements.downloadPdfBtn.addEventListener('click', downloadPdf);
+    document.getElementById('downloadFromPreview').addEventListener('click', downloadPdf);
+
+    async function generatePdfPreview() {
+        try {
+            document.getElementById('pdfModal').classList.add('active');
+            document.getElementById('pdfLoading').style.display = 'flex';
+            document.getElementById('pdfPreviewFrame').style.display = 'none';
+            const pdfBytes = pages.length > 1
+                ? await runWithProgress('Rendering PDF…', () => generatePdfDocument())
+                : await generatePdfDocument();
+            generatedPdfBytes = pdfBytes;
+            const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+            const url = URL.createObjectURL(blob);
+            document.getElementById('pdfPreviewFrame').src = url;
+            document.getElementById('pdfPreviewFrame').style.display = 'block';
+            document.getElementById('pdfLoading').style.display = 'none';
+        } catch (error) {
+            if (isCancelError(error)) {
+                showToast('PDF generation cancelled', 'info');
+            } else {
+                console.error('Error generating PDF:', error);
+                showToast('Error generating PDF: ' + error.message, 'error');
+            }
+            closePdfPreview();
+        }
+    }
+
+    async function downloadPdf() {
+        try {
+            let pdfBytes = generatedPdfBytes;
+            if (!pdfBytes) {
+                pdfBytes = pages.length > 1
+                    ? await runWithProgress('Rendering PDF…', () => generatePdfDocument())
+                    : await generatePdfDocument();
+            }
+            const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            const name = (document.getElementById('projectNameDisplay').value || 'SnapGrid').replace(/[^a-zA-Z0-9_\-\s]/g, '').trim() || 'SnapGrid';
+            link.download = name + '-' + Date.now() + '.pdf';
+            link.click();
+            URL.revokeObjectURL(url);
+            showToast('PDF downloaded', 'success');
+        } catch (error) {
+            if (isCancelError(error)) {
+                showToast('PDF download cancelled', 'info');
+            } else {
+                console.error('Error downloading PDF:', error);
+                showToast('Error downloading PDF: ' + error.message, 'error');
+            }
+        }
+    }
+
+    function closePdfPreview() {
+        document.getElementById('pdfModal').classList.remove('active');
+        document.getElementById('pdfPreviewFrame').src = '';
+        generatedPdfBytes = null;
+    }
+
+    async function generatePdfDocument() {
+        const { jsPDF } = window.jspdf;
+        const artboard = document.getElementById('artboard');
+        if (!artboard) return null;
+
+        commitCurrentPage();
+        // One PDF page per project page (a single-page project behaves exactly as before)
+        const indices = pages.length ? pages.map((_, i) => i) : [0];
+        let pdf = null;
+
+        await renderPages(indices, 3, async (canvas, idx, n) => {
+            // Capture thumbnail for project card (from the first page)
+            if (n === 0) {
+                try {
+                    const thumbCanvas = document.createElement('canvas');
+                    const tw = 320, th = Math.round(320 * (canvas.height / canvas.width));
+                    thumbCanvas.width = tw;
+                    thumbCanvas.height = th;
+                    thumbCanvas.getContext('2d').drawImage(canvas, 0, 0, tw, th);
+                    state.thumbnail = thumbCanvas.toDataURL('image/jpeg', 0.6);
+                    scheduleAutoSave();
+                } catch (_) {}
+            }
+
+            const imgData = canvas.toDataURL('image/jpeg', 0.98);
+            const a4WidthMm = 210, a4HeightMm = 297;
+            let orientation = 'p', pdfWidth = a4WidthMm, pdfHeight = a4HeightMm;
+            if (state.orientation === 'landscape') {
+                orientation = 'l';
+                pdfWidth = a4HeightMm;
+                pdfHeight = a4WidthMm;
+            }
+            if (!pdf) pdf = new jsPDF({ orientation: orientation, unit: 'mm', format: 'a4' });
+            else pdf.addPage('a4', orientation);
+            pdf.addImage(imgData, 'JPEG', 0, 0, pdfWidth, pdfHeight);
+        });
+
         return new Uint8Array(pdf.output('arraybuffer'));
     }
 
@@ -3504,6 +4645,18 @@
             state: serializeStateForSave()
         };
         downloadProjectJson(project);
+    });
+
+    document.getElementById('downloadJsonWithImagesBtn').addEventListener('click', () => {
+        if (!currentProjectId) return;
+        const project = getProjectById(currentProjectId) || {
+            id: currentProjectId,
+            name: document.getElementById('projectNameDisplay').value,
+            createdAt: Date.now(),
+            updatedAt: Date.now(),
+            state: state
+        };
+        downloadProjectJsonWithImages(project);
     });
 
     // New project
@@ -3541,43 +4694,46 @@
     document.getElementById('importProjectBtn').addEventListener('click', () => {
         document.getElementById('importProjectFile').click();
     });
-    document.getElementById('importProjectFile').addEventListener('change', (e) => {
+    document.getElementById('importProjectFile').addEventListener('change', async (e) => {
         const file = e.target.files[0];
-        if (!file) return;
-        const reader = new FileReader();
-        reader.onload = (ev) => {
-            try {
-                const data = JSON.parse(ev.target.result);
-                if (!data.state && !data.orientation) {
-                    throw new Error('Invalid project layout file');
-                }
-                // Support both full project objects and raw state
-                const project = {
-                    id: Date.now(),
-                    name: data.name || file.name.replace(/\.projectlayout\.json$/i, '').replace(/\.json$/i, '') || 'Imported Project',
-                    createdAt: data.createdAt || Date.now(),
-                    updatedAt: Date.now(),
-                    state: data.state || data
-                };
-                // Ensure state shape
-                project.state = Object.assign(createDefaultState(), project.state);
-                const projects = getAllProjects();
-                projects.unshift(project);
-                const ok = saveAllProjects(projects);
-                if (!ok) {
-                    showToast('Imported but could not persist (quota). Opening in session.', 'warning');
-                    sessionOnlyMode = true;
-                    try { sessionStorage.setItem('snapgrid_current_session', JSON.stringify(project)); } catch (_) {}
-                }
-                renderProjectList();
-                showToast('Project imported: ' + project.name, 'success');
-                navigate('#/editor/' + project.id);
-            } catch (err) {
-                showToast('Failed to import: ' + err.message, 'error');
-            }
-        };
-        reader.readAsText(file);
         e.target.value = '';
+        if (!file) return;
+        try {
+            const buf = await file.arrayBuffer();
+            let data;
+            if (sgIsSgFile(new Uint8Array(buf))) {
+                data = await sgDecrypt(buf);                       // encrypted .sg
+            } else {
+                try { data = JSON.parse(new TextDecoder().decode(buf)); }   // legacy plain JSON
+                catch (_) { throw new Error('Not a valid SnapGrid (.sg) file'); }
+            }
+            if (!data || (!data.state && !data.orientation && !data.pages)) {
+                throw new Error('Invalid project layout file');
+            }
+            // Support both full project objects and raw state
+            const project = {
+                id: Date.now(),
+                name: data.name || file.name.replace(/\.with-images\.sg$/i, '').replace(/\.sg$/i, '').replace(/\.projectlayout\.json$/i, '').replace(/\.json$/i, '') || 'Imported Project',
+                createdAt: data.createdAt || Date.now(),
+                updatedAt: Date.now(),
+                state: data.state || data
+            };
+            // Ensure state shape
+            project.state = Object.assign(createDefaultState(), project.state);
+            const projects = getAllProjects();
+            projects.unshift(project);
+            const ok = saveAllProjects(projects);
+            if (!ok) {
+                showToast('Imported but could not persist (quota). Opening in session.', 'warning');
+                sessionOnlyMode = true;
+                try { sessionStorage.setItem('snapgrid_current_session', JSON.stringify(project)); } catch (_) {}
+            }
+            renderProjectList();
+            showToast('Project imported: ' + project.name, 'success');
+            navigate('#/editor/' + project.id);
+        } catch (err) {
+            showToast('Failed to import: ' + err.message, 'error');
+        }
     });
 
     // ==================== INIT ====================
