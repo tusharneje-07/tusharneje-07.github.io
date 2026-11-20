@@ -724,7 +724,7 @@
       </a>
       <a href="#" class="nav-brand">
         open_keypool
-        <span class="nav-brand-badge">v0.3.0</span>
+        <span class="nav-brand-badge">v0.4.0</span>
       </a>
     </div>
 
@@ -757,6 +757,8 @@
         <li class="nav-item"><a href="#quickstart-call">Quickstart — pool.call()</a></li>
         <li class="nav-item"><a href="#quickstart-async">Quickstart — Async Usage</a></li>
         <li class="nav-item"><a href="#quickstart-presets">Provider Presets</a></li>
+        <li class="nav-item"><a href="#quickstart-httpx">httpx Authentication</a></li>
+        <li class="nav-item"><a href="#quickstart-recovery">Recovery & Callbacks</a></li>
         <li class="nav-item"><a href="#quickstart-local">Quickstart — Local Keys</a></li>
         <li class="nav-item"><a href="#quickstart-doppler">Quickstart — Doppler Sync</a></li>
         <li class="nav-item"><a href="#quickstart-cloud">Cloud Secrets (AWS / GCP)</a></li>
@@ -780,6 +782,7 @@
         <li class="nav-item"><a href="#KeyPool.mark_invalid">KeyPool.mark_invalid</a></li>
         <li class="nav-item"><a href="#KeyPool.mark_success">KeyPool.mark_success</a></li>
         <li class="nav-item"><a href="#KeyPool.status">KeyPool.status</a></li>
+        <li class="nav-item"><a href="#KeyPoolAuth">KeyPoolAuth <span class="nav-badge">class</span></a></li>
         <li class="nav-item"><a href="#KeyState">KeyState <span class="nav-badge">enum</span></a></li>
         <li class="nav-item"><a href="#AllKeysExhaustedError">AllKeysExhaustedError <span class="nav-badge">error</span></a></li>
       </ul>
@@ -791,7 +794,7 @@
       <!-- Hero Box -->
       <section id="overview" class="hero-box">
         <div class="hero-tags">
-          <span class="tag-chip amber">PyPI v0.3.0</span>
+          <span class="tag-chip amber">PyPI v0.4.0</span>
           <span class="tag-chip">Python 3.9+</span>
           <span class="tag-chip">Async & Thread-Safe</span>
           <span class="tag-chip">Provider Presets</span>
@@ -799,7 +802,7 @@
         </div>
         <h1 class="hero-title">open_keypool</h1>
         <p class="hero-desc">
-          A lightweight, thread-safe and async-compatible Python library for pooling and rotating API keys to completely avoid HTTP 429 rate-limit errors. Features <code>AsyncKeyPool</code>, high-level <code>pool.call()</code>, provider presets (Groq, OpenAI, Gemini, Together), automatic rate-limit cooldowns, and cloud secret manager integration.
+          A lightweight, thread-safe and async-compatible Python library for pooling and rotating API keys. Features <code>AsyncKeyPool</code>, high-level <code>pool.call()</code>, automatic recovery waiting, safe lifecycle callbacks, <code>httpx</code> authentication, provider presets, and cloud secret manager integration.
         </p>
 
         <div class="install-bar">
@@ -883,12 +886,50 @@ asyncio.<span class="fn">run</span>(main())</code></pre>
           Provider Presets
           <a href="#quickstart-presets">#</a>
         </h2>
-        <p>Pass <code>provider="groq"</code>, <code>"openai"</code>, <code>"gemini"</code>, or <code>"together"</code> to automatically parse provider-specific headers (e.g. <code>x-ratelimit-reset-requests</code>, <code>retry-after-ms</code>) and error codes (<code>RESOURCE_EXHAUSTED</code>, <code>rate_limit_error</code>):</p>
+        <p>Pass <code>provider="groq"</code>, <code>"openai"</code>, <code>"gemini"</code>, <code>"together"</code>, <code>"openrouter"</code>, <code>"cerebras"</code>, <code>"mistral"</code>, or <code>"anthropic"</code> to parse documented provider signals such as <code>x-ratelimit-reset-requests</code>, <code>retry-after-ms</code>, <code>RESOURCE_EXHAUSTED</code>, and <code>overloaded_error</code>:</p>
         
         <div class="code-wrapper">
           <div class="code-header">python</div>
           <pre><code><span class="n">pool</span> = <span class="cls">KeyPool</span>(keys=[<span class="str">"sk-1"</span>, <span class="str">"sk-2"</span>], provider=<span class="str">"groq"</span>)</code></pre>
         </div>
+      </section>
+
+      <!-- Quickstart httpx Authentication -->
+      <section id="quickstart-httpx" class="doc-section">
+        <h2 class="section-title">
+          httpx Authentication
+          <a href="#quickstart-httpx">#</a>
+        </h2>
+        <p><code>KeyPoolAuth</code> integrates key rotation with any client that accepts a custom <code>httpx</code> authentication class. It retries rate-limited or disabled keys and returns caller errors immediately.</p>
+        <div class="code-wrapper">
+          <div class="code-header">python</div>
+          <pre><code><span class="kw">import</span> httpx
+<span class="kw">from</span> open_keypool <span class="kw">import</span> <span class="cls">KeyPool</span>, <span class="cls">KeyPoolAuth</span>
+
+<span class="n">pool</span> = <span class="cls">KeyPool</span>([<span class="str">"key-one"</span>, <span class="str">"key-two"</span>], provider=<span class="str">"openai"</span>)
+<span class="kw">with</span> httpx.<span class="cls">Client</span>(auth=<span class="cls">KeyPoolAuth</span>(pool)) <span class="kw">as</span> client:
+    <span class="n">response</span> = client.<span class="fn">get</span>(<span class="str">"https://api.openai.com/v1/models"</span>)</code></pre>
+        </div>
+        <p>Set <code>scheme=None</code> for raw-key headers such as <code>x-goog-api-key</code>. Use <code>AsyncKeyPool</code> with <code>httpx.AsyncClient</code>.</p>
+      </section>
+
+      <!-- Quickstart Recovery & Callbacks -->
+      <section id="quickstart-recovery" class="doc-section">
+        <h2 class="section-title">
+          Recovery &amp; Callbacks
+          <a href="#quickstart-recovery">#</a>
+        </h2>
+        <p>Opt into waiting for the soonest cooling-down key, with a per-call budget. Lifecycle callbacks receive masked keys only.</p>
+        <div class="code-wrapper">
+          <div class="code-header">python</div>
+          <pre><code><span class="n">pool</span> = <span class="cls">KeyPool</span>(
+    [<span class="str">"key-one"</span>, <span class="str">"key-two"</span>],
+    wait_for_recovery=<span class="kw">True</span>,
+    max_wait_seconds=<span class="num">30</span>,
+    on_cooldown=<span class="kw">lambda</span> key, seconds, reason: print(key, seconds),
+)</code></pre>
+        </div>
+        <p>Client errors such as 400, 404, and 422 leave a key active and are returned immediately. 408 and 5xx responses use a short transient cooldown.</p>
       </section>
 
       <!-- Quickstart Cloud Secrets -->
@@ -1107,7 +1148,31 @@ asyncio.<span class="fn">run</span>(main())</code></pre>
                 <td class="param-name">provider</td>
                 <td class="param-type">str | None</td>
                 <td>None</td>
-                <td>Provider preset: <code>"groq"</code>, <code>"openai"</code>, <code>"gemini"</code>, <code>"together"</code>.</td>
+                <td>Provider preset: Groq, OpenAI, Gemini, Together, OpenRouter, Cerebras, Mistral, or Anthropic.</td>
+              </tr>
+              <tr>
+                <td class="param-name">transient_cooldown_seconds</td>
+                <td class="param-type">float</td>
+                <td>5</td>
+                <td>Cooldown for 408 and 5xx responses.</td>
+              </tr>
+              <tr>
+                <td class="param-name">wait_for_recovery</td>
+                <td class="param-type">bool</td>
+                <td>False</td>
+                <td>Allow <code>call()</code> to wait for a cooling-down key.</td>
+              </tr>
+              <tr>
+                <td class="param-name">max_wait_seconds</td>
+                <td class="param-type">float</td>
+                <td>30.0</td>
+                <td>Maximum recovery wait budget for one call.</td>
+              </tr>
+              <tr>
+                <td class="param-name">callbacks</td>
+                <td class="param-type">callable | None</td>
+                <td>None</td>
+                <td><code>on_cooldown</code>, <code>on_disabled</code>, and <code>on_exhausted</code>; keys are masked.</td>
               </tr>
             </tbody>
           </table>
@@ -1205,11 +1270,23 @@ asyncio.<span class="fn">run</span>(main())</code></pre>
       <!-- Method handle_response -->
       <section id="KeyPool.handle_response" class="api-card">
         <div class="api-card-header">
-          <h3 class="api-title">KeyPool.handle_response(key, response, retry_after=None)</h3>
+          <h3 class="api-title">KeyPool.handle_response(key, status_code, headers=None, body=None)</h3>
           <span class="api-type-badge">Method</span>
         </div>
         <div class="api-body">
-          <p>Convenience helper method that inspects an HTTP response object or integer status code and automatically marks the key status accordingly (429 -> Cooldown, 401/403 -> Invalid, 2xx -> Success).</p>
+          <p>Inspects response metadata and returns the resulting <code>KeyState</code>. 429/413 and documented rate-limit signals enter COOLDOWN; 401/403 and invalid-key signals become DISABLED; 408 and 5xx use a short transient cooldown; other 4xx responses stay ACTIVE and are surfaced to the caller.</p>
+        </div>
+      </section>
+
+      <!-- Class KeyPoolAuth -->
+      <section id="KeyPoolAuth" class="api-card">
+        <div class="api-card-header">
+          <h3 class="api-title">class KeyPoolAuth</h3>
+          <span class="api-type-badge">httpx Auth</span>
+        </div>
+        <div class="api-body">
+          <p>Authentication adapter for <code>httpx.Client</code> and <code>httpx.AsyncClient</code>. It selects a key, injects the configured header, feeds the response back to the pool, and retries cooldown or disabled keys up to <code>max_retries</code>.</p>
+          <p>Use <code>KeyPoolAuth(pool, header="x-goog-api-key", scheme=None)</code> when the provider expects a raw key instead of a Bearer token.</p>
         </div>
       </section>
 
