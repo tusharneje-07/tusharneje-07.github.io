@@ -724,7 +724,7 @@
       </a>
       <a href="#" class="nav-brand">
         open_keypool
-        <span class="nav-brand-badge">v0.4.0</span>
+        <span class="nav-brand-badge">v0.4.1</span>
       </a>
     </div>
 
@@ -794,7 +794,7 @@
       <!-- Hero Box -->
       <section id="overview" class="hero-box">
         <div class="hero-tags">
-          <span class="tag-chip amber">PyPI v0.4.0</span>
+          <span class="tag-chip amber">PyPI v0.4.1</span>
           <span class="tag-chip">Python 3.9+</span>
           <span class="tag-chip">Async & Thread-Safe</span>
           <span class="tag-chip">Provider Presets</span>
@@ -1130,7 +1130,7 @@ asyncio.<span class="fn">run</span>(main())</code></pre>
                 <td class="param-name">max_retries</td>
                 <td class="param-type">int</td>
                 <td>3</td>
-                <td>Reference maximum retry count for caller.</td>
+                <td>Maximum attempts made by <code>call()</code> and <code>KeyPoolAuth</code> when rotating keys.</td>
               </tr>
               <tr>
                 <td class="param-name">cooldown_seconds</td>
@@ -1169,10 +1169,22 @@ asyncio.<span class="fn">run</span>(main())</code></pre>
                 <td>Maximum recovery wait budget for one call.</td>
               </tr>
               <tr>
-                <td class="param-name">callbacks</td>
+                <td class="param-name">on_cooldown</td>
                 <td class="param-type">callable | None</td>
                 <td>None</td>
-                <td><code>on_cooldown</code>, <code>on_disabled</code>, and <code>on_exhausted</code>; keys are masked.</td>
+                <td>Called with <code>(masked_key, seconds, reason)</code>; keys are masked.</td>
+              </tr>
+              <tr>
+                <td class="param-name">on_disabled</td>
+                <td class="param-type">callable | None</td>
+                <td>None</td>
+                <td>Called with <code>(masked_key, reason)</code>; keys are masked.</td>
+              </tr>
+              <tr>
+                <td class="param-name">on_exhausted</td>
+                <td class="param-type">callable | None</td>
+                <td>None</td>
+                <td>Called with the safe exhaustion message.</td>
               </tr>
             </tbody>
           </table>
